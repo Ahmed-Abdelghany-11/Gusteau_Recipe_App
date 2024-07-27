@@ -5,4 +5,16 @@
     <string name="get_cooking">Get Cooking</string>
     <string name="simple_way_to_find_tasty_recipe">Simple way to find Tasty Recipe</string>
     <string name="chef_image">chef image</string>
+    <string name="email">Enter Email</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="sign_up_help_text">Let’s help you set up your account, it won’t take long.</string>
+    <string name="name">Enter Name</string>
+    <string name="password">Enter Password</string>
+    <string name="retype_password">Retype Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="already_a_member">Already a member? </string>
+    <string name="sign_in"> Sign In</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="hello">Hello,</string>
+    <string name="don_t_have_an_account">Don’t have an account?</string>
 </resources>
