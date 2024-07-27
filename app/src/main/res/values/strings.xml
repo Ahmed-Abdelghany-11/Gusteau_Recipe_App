@@ -5,4 +5,6 @@
     <string name="get_cooking">Get Cooking</string>
     <string name="simple_way_to_find_tasty_recipe">Simple way to find Tasty Recipe</string>
     <string name="chef_image">chef image</string>
+    <string name="favourites">Favourites</string>
+    <string name="traditional_spare_ribs_baked">Traditional spare ribs baked</string>
 </resources>
