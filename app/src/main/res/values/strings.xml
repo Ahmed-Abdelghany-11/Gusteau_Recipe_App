@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">RecipeApp</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="_100k_premium_recipe">100K+ Premium Recipe</string>
+    <string name="get_cooking">Get Cooking</string>
+    <string name="simple_way_to_find_tasty_recipe">Simple way to find Tasty Recipe</string>
+    <string name="chef_image">chef image</string>
 </resources>
