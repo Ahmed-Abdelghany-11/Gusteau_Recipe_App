@@ -39,7 +39,11 @@ class RecipeActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         NavigationUI.setupWithNavController(toolbar,navController)
 
-//        val homeFabButton= findViewById<FloatingActionButton>(R.id.floating)
+        val homeFabButton= findViewById<FloatingActionButton>(R.id.floating)
+
+        homeFabButton.setOnClickListener {
+            navController.navigate(R.id.action_global_to_homeFragment)
+        }
 
     }
 
