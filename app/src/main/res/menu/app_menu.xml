@@ -2,12 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:icon="@drawable/baseline_home_24"
-        android:title="Home" />
-    <item
         android:icon="@drawable/baseline_search_24"
-        android:title="Search" />
+        android:title="@string/search" />
     <item
-        android:icon="@drawable/baseline_favorite_24"
-        android:title="Favourite" />
+        android:icon="@drawable/baseline_favorite_border_24"
+        android:title="@string/favourite" />
 </menu>
