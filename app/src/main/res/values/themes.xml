@@ -7,10 +7,26 @@
 
     <style name="Theme.RecipeApp" parent="Base.Theme.RecipeApp" />
 
+    <style name="BarTheme" parent="Widget.MaterialComponents.BottomAppBar">
+        <item name="backgroundTint">@color/white</item>
+    </style>
+
+    <style name="NavTheme" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="backgroundTint">@color/white</item>
+        <item name="itemIconTint">@color/lightGreen</item> // icon color
+        <item name="itemTextColor">@color/gray</item> // text color
+    </style>
+
+    <style name="FloatTheme" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/lightGreen</item>
+        <item name="rippleColor">@color/white</item>
+    </style>
+
     <style name="CustomButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="cornerRadius">8dp</item>
         <item name="android:backgroundTint">@color/lightGreen</item>
         <item name="android:padding">20dp</item>
         <item name="android:textSize">20sp</item>
     </style>
+
 </resources>
