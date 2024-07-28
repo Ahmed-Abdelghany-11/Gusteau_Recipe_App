@@ -42,4 +42,14 @@
         <item name="android:textColorHint">@color/black</item>
     </style>
 
+    <style name="AppBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:colorControlNormal">@color/white</item>
+    </style>
+
+    <style name="OptionMenu" parent="android:TextAppearance.Widget.PopupMenu.Small">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
+
 </resources>

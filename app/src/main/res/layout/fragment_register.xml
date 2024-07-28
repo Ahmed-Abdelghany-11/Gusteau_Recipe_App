@@ -197,7 +197,7 @@
         app:layout_constraintVertical_bias="0.179" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/Recipes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingEnd="4dp"
@@ -219,10 +219,10 @@
         android:text="@string/sign_in"
         android:textSize="18sp"
         android:textColor="@color/light_brown"
-        app:layout_constraintBottom_toBottomOf="@id/textView"
+        app:layout_constraintBottom_toBottomOf="@id/Recipes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@id/textView" />
+        app:layout_constraintStart_toEndOf="@+id/Recipes"
+        app:layout_constraintTop_toTopOf="@id/Recipes" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

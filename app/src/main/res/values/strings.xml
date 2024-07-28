@@ -37,4 +37,7 @@
     <string name="member_name">Name</string>
     <string name="member_email">Email</string>
     <string name="search_recipes">Search recipes</string>
+    <string name="new_recipes">New Recipes</string>
+    <string name="recipe_of_the_day">Recipe of the Day</string>
+    <string name="recipe_title">Recipe Title</string>
 </resources>
