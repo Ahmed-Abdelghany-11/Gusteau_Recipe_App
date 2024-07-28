@@ -33,4 +33,7 @@
     <string name="add_to_favorite_icon">add to favorite icon</string>
     <string name="vegetarian">Vegetarian</string>
     <string name="category">Category :</string>
+    <string name="about_us">About Us</string>
+    <string name="member_name">Name</string>
+    <string name="member_email">Email</string>
 </resources>
