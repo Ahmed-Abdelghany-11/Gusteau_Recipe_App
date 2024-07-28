@@ -36,4 +36,5 @@
     <string name="about_us">About Us</string>
     <string name="member_name">Name</string>
     <string name="member_email">Email</string>
+    <string name="search_recipes">Search recipes</string>
 </resources>
