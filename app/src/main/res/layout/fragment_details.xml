@@ -91,7 +91,7 @@
                 app:layout_constraintHorizontal_bias="0.949"
                 app:layout_constraintStart_toStartOf="@+id/cardView"
                 app:layout_constraintTop_toBottomOf="@+id/cardView"
-                app:srcCompat="@drawable/baseline_favorite_24" />
+                app:srcCompat="@drawable/baseline_favorite_border_24" />
 
             <TextView
                 android:id="@+id/txtdetails"
