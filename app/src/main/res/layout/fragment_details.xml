@@ -8,116 +8,116 @@
     android:textAlignment="center"
     tools:ignore="MissingClass,MissingConstraints">
 
-        <ScrollView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="20dp"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/image"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/meal_image"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/product_details" />
 
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/cardView"
-                            android:layout_width="match_parent"
-                            android:layout_height="200dp"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="40dp"
-                            android:layout_marginEnd="20dp"
-                            app:cardCornerRadius="10dp"
-                            app:cardUseCompatPadding="true"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                                <ImageView
-                                    android:id="@+id/image"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:adjustViewBounds="true"
-                                    android:contentDescription="@string/meal_image"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/product_details" />
-
-                        </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
 
-                        <TextView
-                            android:id="@+id/txtTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:text="@string/spicy_arrabiata_penne"
-                            android:textSize="24sp"
-                            app:layout_constraintEnd_toStartOf="@+id/addToFav"
-                            app:layout_constraintHorizontal_bias="0.086"
-                            app:layout_constraintStart_toStartOf="@+id/cardView"
-                            app:layout_constraintTop_toBottomOf="@+id/cardView" />
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/spicy_arrabiata_penne"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@+id/addToFav"
+                app:layout_constraintHorizontal_bias="0.086"
+                app:layout_constraintStart_toStartOf="@+id/cardView"
+                app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-                        <TextView
-                            android:id="@+id/category"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="@string/category"
-                            android:textSize="20sp"
-                            app:layout_constraintEnd_toEndOf="@+id/txtTitle"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="@+id/txtTitle"
-                            app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
+            <TextView
+                android:id="@+id/category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/category"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@+id/txtTitle"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/txtTitle"
+                app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
 
-                        <TextView
-                            android:id="@+id/txtCategory"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/vegetarian"
-                            android:textSize="20sp"
-                            app:layout_constraintBaseline_toBaselineOf="@+id/category"
-                            app:layout_constraintEnd_toEndOf="@+id/txtTitle"
-                            app:layout_constraintHorizontal_bias="0.788"
-                            app:layout_constraintStart_toStartOf="@+id/txtTitle" />
+            <TextView
+                android:id="@+id/txtCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vegetarian"
+                android:textSize="20sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/category"
+                app:layout_constraintEnd_toEndOf="@+id/txtTitle"
+                app:layout_constraintHorizontal_bias="0.788"
+                app:layout_constraintStart_toStartOf="@+id/txtTitle" />
 
-                        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:id="@+id/addToFav"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
-                            android:clickable="true"
-                            android:contentDescription="@string/add_to_favorite_icon"
-                            android:focusable="true"
-                            android:foregroundGravity="left|bottom"
-                            app:backgroundTint="#129575 "
-                            app:layout_constraintEnd_toEndOf="@+id/cardView"
-                            app:layout_constraintHorizontal_bias="0.949"
-                            app:layout_constraintStart_toStartOf="@+id/cardView"
-                            app:layout_constraintTop_toBottomOf="@+id/cardView"
-                            app:srcCompat="@drawable/baseline_favorite_24" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/addToFav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:contentDescription="@string/add_to_favorite_icon"
+                android:focusable="true"
+                android:foregroundGravity="left|bottom"
+                app:backgroundTint="#129575 "
+                app:layout_constraintEnd_toEndOf="@+id/cardView"
+                app:layout_constraintHorizontal_bias="0.949"
+                app:layout_constraintStart_toStartOf="@+id/cardView"
+                app:layout_constraintTop_toBottomOf="@+id/cardView"
+                app:srcCompat="@drawable/baseline_favorite_24" />
 
-                        <TextView
-                            android:id="@+id/txtdetails"
-                            android:layout_width="360dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="48dp"
-                            android:text="@string/bring_a_large_pot_of_water_to_a_boil_add_kosher_salt_to_the_boiling_water_then_add_the_pasta_cook_according_to_the_package_instructions_about_9_minutes_in_a_large_skillet_over_medium_high_heat_add_the_olive_oil_and_heat_until_the_oil_starts_to_shimmer_add_the_garlic_and_cook_stirring_until_fragrant_1_to_2_minutes_add_the_chopped_tomatoes_red_chile_flakes_italian_seasoning_and_salt_and_pepper_to_taste_bring_to_a_boil_and_cook_for_5_minutes_remove_from_the_heat_and_add_the_chopped_basil_drain_the_pasta_and_add_it_to_the_sauce_garnish_with_parmigiano_reggiano_flakes_and_more_basil_and_serve_warm"
-                            app:layout_constraintEnd_toEndOf="@+id/addToFav"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="@+id/txtTitle"
-                            app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
+            <TextView
+                android:id="@+id/txtdetails"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:text="@string/bring_a_large_pot_of_water_to_a_boil_add_kosher_salt_to_the_boiling_water_then_add_the_pasta_cook_according_to_the_package_instructions_about_9_minutes_in_a_large_skillet_over_medium_high_heat_add_the_olive_oil_and_heat_until_the_oil_starts_to_shimmer_add_the_garlic_and_cook_stirring_until_fragrant_1_to_2_minutes_add_the_chopped_tomatoes_red_chile_flakes_italian_seasoning_and_salt_and_pepper_to_taste_bring_to_a_boil_and_cook_for_5_minutes_remove_from_the_heat_and_add_the_chopped_basil_drain_the_pasta_and_add_it_to_the_sauce_garnish_with_parmigiano_reggiano_flakes_and_more_basil_and_serve_warm"
+                app:layout_constraintEnd_toEndOf="@+id/addToFav"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/txtTitle"
+                app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
 
-                        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-                            android:id="@+id/youtube_player_view"
-                            android:layout_width="360dp"
-                            android:layout_height="178dp"
-                            app:autoPlay="true"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@+id/txtdetails"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="@+id/txtdetails"
-                            app:layout_constraintTop_toBottomOf="@+id/txtdetails"
-                            app:layout_constraintVertical_bias="0.567"
-                            app:videoId="S0Q4gqBUs7c" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/youtube_player_view"
+                android:layout_width="360dp"
+                android:layout_height="178dp"
+                app:autoPlay="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/txtdetails"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/txtdetails"
+                app:layout_constraintTop_toBottomOf="@+id/txtdetails"
+                app:layout_constraintVertical_bias="0.567"
+                app:videoId="S0Q4gqBUs7c" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
