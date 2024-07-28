@@ -1,6 +1,7 @@
 package com.example.recipeapp.view.recipe
 
 import android.os.Bundle
+import android.view.Menu
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -40,7 +41,10 @@ class RecipeActivity : AppCompatActivity() {
 
 //        val homeFabButton= findViewById<FloatingActionButton>(R.id.floating)
 
+    }
 
-
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.options_menu, menu)
+        return true
     }
 }
