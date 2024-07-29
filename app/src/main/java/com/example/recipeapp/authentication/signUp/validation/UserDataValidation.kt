@@ -7,7 +7,7 @@ import java.util.regex.Pattern
 object UserDataValidation {
 
     private const val namePattern = "^[A-Za-z]+$"
-    private const val passwordPattern = "^(?=.*\\d)(?=.[a-z]).{8,20}$"
+    private const val passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,20}$"
 
     private fun isValidName(name: String): Boolean {
         return name.isNotEmpty() && name.isNotBlank() && Pattern.matches(namePattern, name)

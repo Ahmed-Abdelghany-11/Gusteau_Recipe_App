@@ -118,7 +118,6 @@
         android:layout_marginHorizontal="24dp"
         android:hint="@string/password"
         app:hintTextColor="@color/black"
-
         app:endIconMode="password_toggle"
         app:errorEnabled="true"
         app:errorIconDrawable="@drawable/ic_error"
