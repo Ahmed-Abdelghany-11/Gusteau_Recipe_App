@@ -46,7 +46,7 @@ androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecyc
 androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "room_version" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room_version" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room_version" }
-
+glide = {group = "com.github.bumptech.glide", name = "glide", version.ref = "glide"}
 
 
 [plugins]
