@@ -1,5 +1,6 @@
 package com.example.recipeapp.data.remote
 
+import com.example.recipeapp.data.remote.dto.Category
 import com.example.recipeapp.data.remote.dto.MealList
 
 interface RemoteDataSource {
@@ -10,7 +11,7 @@ interface RemoteDataSource {
 
     suspend fun getMealByFirstLetter(letter: String): MealList
 
-    suspend fun getAllCategories(): MealList
+    suspend fun getAllCategories(): List<Category>
 
 
 }

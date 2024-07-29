@@ -1,11 +1,11 @@
 package com.example.recipeapp.data.remote
 
+import com.example.recipeapp.data.remote.dto.Category
 import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.data.remote.dto.MealList
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
-import java.util.Locale.Category
 
 interface APIService {
 
