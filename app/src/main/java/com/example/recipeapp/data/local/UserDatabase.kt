@@ -1,10 +1,13 @@
 package com.example.recipeapp.data.local
 
 import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.example.recipeapp.data.local.dao.UserData
 
 @Database ( entities = [UserData::class], version = 1)
-abstract class UserDatabase : RoomDatabase {
+abstract class UserDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
 
