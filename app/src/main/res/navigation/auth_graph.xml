@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.recipeapp.view.auth.RegisterFragment"
+        android:name="com.example.recipeapp.authentication.signUp.view.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action

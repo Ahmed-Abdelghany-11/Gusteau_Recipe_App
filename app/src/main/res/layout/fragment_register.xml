@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.auth.RegisterFragment" >
+    tools:context=".authentication.signUp.view.RegisterFragment" >
 
     <ImageView
         android:id="@+id/imageView_logo"
@@ -48,16 +48,13 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_name"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/fieldCorners"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="24dp"
         android:hint="@string/name"
-        app:boxCornerRadiusBottomEnd="20dp"
-        app:boxCornerRadiusBottomStart="20dp"
-        app:boxCornerRadiusTopEnd="20dp"
-        app:boxCornerRadiusTopStart="20dp"
+        app:hintTextColor="@color/black"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
         app:errorIconDrawable="@drawable/ic_error"
@@ -65,7 +62,9 @@
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:startIconDrawable="@drawable/person">
+        app:startIconDrawable="@drawable/person"
+        app:startIconTint="@color/lightGreen"
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/name"
@@ -81,15 +80,12 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_email"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/fieldCorners"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:hint="@string/email"
-        app:boxCornerRadiusBottomEnd="20dp"
-        app:boxCornerRadiusBottomStart="20dp"
-        app:boxCornerRadiusTopEnd="20dp"
-        app:boxCornerRadiusTopStart="20dp"
+        app:hintTextColor="@color/black"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
         app:errorIconDrawable="@drawable/ic_error"
@@ -97,7 +93,10 @@
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_name"
-        app:startIconDrawable="@drawable/email">
+        app:startIconDrawable="@drawable/email"
+        app:startIconTint="@color/lightGreen"
+
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
@@ -113,23 +112,24 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_password"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/fieldCorners"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:hint="@string/password"
-        app:boxCornerRadiusBottomEnd="20dp"
-        app:boxCornerRadiusBottomStart="20dp"
-        app:boxCornerRadiusTopEnd="20dp"
-        app:boxCornerRadiusTopStart="20dp"
-        app:endIconMode="clear_text"
+        app:hintTextColor="@color/black"
+
+        app:endIconMode="password_toggle"
         app:errorEnabled="true"
         app:errorIconDrawable="@drawable/ic_error"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_email"
-        app:startIconDrawable="@drawable/baseline_lock_24">
+        app:startIconDrawable="@drawable/baseline_lock_24"
+        app:startIconTint="@color/lightGreen"
+
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
@@ -145,23 +145,23 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_confirm_password"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/fieldCorners"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:hint="@string/retype_password"
-        app:boxCornerRadiusBottomEnd="20dp"
-        app:boxCornerRadiusBottomStart="20dp"
-        app:boxCornerRadiusTopEnd="20dp"
-        app:boxCornerRadiusTopStart="20dp"
-        app:endIconMode="clear_text"
+        app:hintTextColor="@color/black"
+        app:endIconMode="password_toggle"
         app:errorEnabled="true"
         app:errorIconDrawable="@drawable/ic_error"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_password"
-        app:startIconDrawable="@drawable/baseline_lock_24">
+        app:startIconDrawable="@drawable/baseline_lock_24"
+        app:startIconTint="@color/lightGreen"
+
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/confirm_password"
@@ -176,7 +176,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/signin_button"
+        android:id="@+id/signUp_button"
         style="@style/CustomButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -194,26 +194,27 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_confirm_password"
-        app:layout_constraintVertical_bias="0.179" />
+        app:layout_constraintVertical_bias="0.224" />
 
     <TextView
         android:id="@+id/Recipes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
         android:paddingEnd="4dp"
         android:text="@string/already_a_member"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView5"
+        app:layout_constraintEnd_toStartOf="@+id/signIn_textView"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signin_button"
+        app:layout_constraintTop_toBottomOf="@+id/signUp_button"
         app:layout_constraintVertical_bias="0.38" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/signIn_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sign_in"
