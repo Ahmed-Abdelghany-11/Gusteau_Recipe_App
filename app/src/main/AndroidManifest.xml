@@ -16,7 +16,7 @@
             android:name=".view.recipe.RecipeActivity"
             android:exported="false" />
         <activity
-            android:name=".view.auth.AuthActivity"
+            android:name=".authentication.AuthActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

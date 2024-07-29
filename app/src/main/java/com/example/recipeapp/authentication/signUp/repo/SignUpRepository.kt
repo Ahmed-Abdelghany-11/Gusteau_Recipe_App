@@ -1,8 +1,8 @@
-package com.example.recipeapp.data.local
+package com.example.recipeapp.authentication.signUp.repo
 
 import com.example.recipeapp.data.local.model.UserData
 
-interface LocalDataSource {
+interface SignUpRepository {
 
     suspend fun getUserDataById(id: Int): UserData
 
@@ -11,5 +11,4 @@ interface LocalDataSource {
     suspend fun isEmailAlreadyExists(email: String): Boolean
 
     suspend fun insertUserData(userData: UserData)
-
 }

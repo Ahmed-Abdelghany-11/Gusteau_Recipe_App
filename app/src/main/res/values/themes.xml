@@ -50,6 +50,15 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="fieldCorners" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusBottomEnd">20dp</item>
+        <item name="boxCornerRadiusTopEnd">20dp</item>
+        <item name="boxCornerRadiusBottomStart">20dp</item>
+        <item name="boxCornerRadiusTopStart">20dp</item>
+        <item name="boxStrokeColor">@color/lightGreen</item>
+        <item name="boxStrokeWidth">2dp</item>
+    </style>
+
 
 
 </resources>

@@ -1,7 +1,6 @@
-package com.example.recipeapp.view.auth
+package com.example.recipeapp.authentication
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat

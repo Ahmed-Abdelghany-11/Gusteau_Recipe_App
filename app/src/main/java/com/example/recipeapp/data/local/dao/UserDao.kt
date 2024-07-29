@@ -9,7 +9,13 @@ import com.example.recipeapp.data.local.model.UserData
 interface UserDao {
 
     @Query("SELECT * FROM  user WHERE ID= :id")
-    suspend fun getUserDataById(id: Int): UserData
+     fun getUserDataById(id: Int): UserData
+
+    @Query("SELECT EXISTS(SELECT 1 FROM user WHERE email = :email AND password = :password)")
+    suspend fun isUserExists(email: String, password: String): Boolean
+
+    @Query("SELECT EXISTS(SELECT 1 FROM user WHERE email = :email)")
+    suspend fun isEmailAlreadyExists(email: String): Boolean
 
     @Insert
     suspend fun insertUserData(userData: UserData)

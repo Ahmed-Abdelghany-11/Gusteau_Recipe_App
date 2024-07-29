@@ -21,7 +21,7 @@ activityCompose = "1.9.0"
 composeBom = "2024.04.01"
 glide = "4.16.0"
 room_version = "2.6.1"
-ksp_version = "2.0.0-1.0.23"
+ksp_version = "1.9.21-1.0.15"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -44,13 +44,12 @@ androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifec
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle_version" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "room_version" }
-androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room_version" }
-androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room_version" }
-glide = {group = "com.github.bumptech.glide", name = "glide", version.ref = "glide"}
+room = { group = "androidx.room", name = "room-ktx", version.ref = "room_version" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room_version" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref="room_version"}
 
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp_version" }
-
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp_version" }
