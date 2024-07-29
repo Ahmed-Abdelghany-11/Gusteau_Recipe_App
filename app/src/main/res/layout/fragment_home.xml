@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="60dp"
-    tools:context=".view.recipe.HomeFragment">
+    tools:context=".home.home.view.HomeFragment">
 
 
     <TextView
@@ -37,17 +37,19 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/RandomImageView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="10dp"
+                app:layout_constraintDimensionRatio="H,28:9"
+                android:scaleType="fitCenter"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/RandomTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -60,7 +62,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView"
+                app:layout_constraintTop_toBottomOf="@id/RandomImageView"
                 app:layout_constraintVertical_bias="0.0" />
 
             <ImageButton
@@ -69,10 +71,10 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/white"
-                app:layout_constraintEnd_toStartOf="@+id/textView"
+                app:layout_constraintEnd_toStartOf="@+id/RandomTextView"
                 app:layout_constraintHorizontal_bias="0.325"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/RandomImageView"
                 app:srcCompat="@drawable/baseline_favorite_border_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
