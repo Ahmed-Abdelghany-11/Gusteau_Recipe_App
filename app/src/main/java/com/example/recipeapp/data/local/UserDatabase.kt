@@ -4,7 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.recipeapp.data.local.dao.UserData
+import com.example.recipeapp.data.local.dao.UserDao
+import com.example.recipeapp.data.local.model.UserData
 
 @Database ( entities = [UserData::class], version = 1)
 abstract class UserDatabase : RoomDatabase() {

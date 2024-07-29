@@ -1,7 +1,8 @@
 package com.example.recipeapp.data.local
 
 import android.content.Context
-import com.example.recipeapp.data.local.dao.UserData
+import com.example.recipeapp.data.local.dao.UserDao
+import com.example.recipeapp.data.local.model.UserData
 
 class LocalDataSourceImpl(context: Context) : LocalDataSource {
 

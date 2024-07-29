@@ -23,6 +23,6 @@ interface APIService {
     ) : MealList
 
     @GET("categories.php")
-    suspend fun getAllCategories () : MealList
+    suspend fun getAllCategories () : List<Category>
 
 }

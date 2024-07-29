@@ -1,9 +1,9 @@
-package com.example.recipeapp.data.local
+package com.example.recipeapp.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.recipeapp.data.local.dao.UserData
+import com.example.recipeapp.data.local.model.UserData
 
 @Dao
 interface UserDao {

@@ -1,6 +1,6 @@
 package com.example.recipeapp.data.local
 
-import com.example.recipeapp.data.local.dao.UserData
+import com.example.recipeapp.data.local.model.UserData
 
 interface LocalDataSource {
 
