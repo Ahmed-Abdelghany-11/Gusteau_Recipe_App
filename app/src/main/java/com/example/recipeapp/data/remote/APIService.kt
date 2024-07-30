@@ -1,11 +1,13 @@
 package com.example.recipeapp.data.remote
 
 import com.example.recipeapp.data.remote.dto.Category
+import com.example.recipeapp.data.remote.dto.CategoryList
 import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.data.remote.dto.MealList
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface APIService {
 
@@ -17,12 +19,12 @@ interface APIService {
         @Path("name") name: String
     ) : MealList
 
-    @GET("search.php?f={letter}")
+    @GET("search.php")
     suspend fun getMealByFirstLetter(
-        @Path("letter") letter: String
+        @Query("f") letter: String
     ) : MealList
 
     @GET("categories.php")
-    suspend fun getAllCategories () : List<Category>
+    suspend fun getAllCategories () : CategoryList
 
 }
