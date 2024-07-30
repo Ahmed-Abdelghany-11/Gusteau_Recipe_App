@@ -14,11 +14,11 @@ interface LocalDataSource {
 
     suspend fun insertUserData(userData: UserData)
 
-    suspend fun insertIntoFav(userWithMeals: UserMealCrossRef)
+    suspend fun insertIntoFav(userMealCrossRef: UserMealCrossRef)
 
-    suspend fun deleteFromFav(userWithMeals: UserMealCrossRef)
+    suspend fun deleteFromFav(userMealCrossRef: UserMealCrossRef)
 
-    suspend fun getAllUserFavMeals(): List<UserWithMeal>
+    suspend fun getAllUserFavMeals(userId : Int): List<UserWithMeal>
 
     suspend fun isFavoriteMeal(userId: Int, mealId: String): Boolean
 

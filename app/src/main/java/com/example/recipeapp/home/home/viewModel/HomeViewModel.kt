@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.RetrofitHelper
 import com.example.recipeapp.data.remote.dto.Category
 import com.example.recipeapp.data.remote.dto.CategoryList
@@ -40,6 +41,12 @@ class HomeViewModel (private val myRepo : RetrofitRepoImp) : ViewModel() {
     fun getAllCategories() {
         viewModelScope.launch {
             _getAllCategoriesResponse.postValue(myRepo.getAllCategories())
+        }
+    }
+
+    fun insertIntoFav(userMealCrossRef: UserMealCrossRef) {
+        viewModelScope.launch {
+            myRepo.insertIntoFav(userMealCrossRef)
         }
     }
 }

@@ -6,7 +6,7 @@ import java.io.Serializable
 
 @Entity(tableName = "meal")
 data class Meal(
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey
     val idMeal: String,
     val strArea: String?,
     val strCategory: String?,

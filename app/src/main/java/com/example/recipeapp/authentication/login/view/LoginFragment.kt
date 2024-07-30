@@ -1,5 +1,6 @@
 package com.example.recipeapp.authentication.login.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -77,7 +78,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-    private fun setErrors(email: String,password: String) {
+    @SuppressLint("SuspiciousIndentation")
+    private fun setErrors(email: String, password: String) {
         if(email.isBlank())
         emailInput.error="Please enter your email"
         if(password.isBlank())

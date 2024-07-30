@@ -11,7 +11,7 @@ import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.local.model.UserWithMeal
 import com.example.recipeapp.data.remote.dto.Meal
 
-@Database ( entities = [UserData::class,Meal::class,UserMealCrossRef::class], version = 2)
+@Database ( entities = [UserData::class,Meal::class,UserMealCrossRef::class], version = 3)
 abstract class UserDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao

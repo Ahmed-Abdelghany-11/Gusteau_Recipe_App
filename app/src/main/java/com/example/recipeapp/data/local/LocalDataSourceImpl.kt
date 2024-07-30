@@ -32,16 +32,16 @@ class LocalDataSourceImpl(context: Context) : LocalDataSource {
     override suspend fun insertUserData(userData: UserData) =
         dao.insertUserData(userData)
 
-    override suspend fun insertIntoFav(userWithMeals: UserMealCrossRef) {
-        userWithMealDao.insertIntoFav(userWithMeals)
+    override suspend fun insertIntoFav(userMealCrossRef: UserMealCrossRef) {
+        userWithMealDao.insertIntoFav(userMealCrossRef)
     }
 
-    override suspend fun deleteFromFav(userWithMeals: UserMealCrossRef) {
-        userWithMealDao.deleteFromFav(userWithMeals)
+    override suspend fun deleteFromFav(userMealCrossRef: UserMealCrossRef) {
+        userWithMealDao.deleteFromFav(userMealCrossRef)
     }
 
-    override suspend fun getAllUserFavMeals(): List<UserWithMeal> {
-        return userWithMealDao.getAllUserFavMeals()
+    override suspend fun getAllUserFavMeals(userId : Int): List<UserWithMeal> {
+        return userWithMealDao.getAllUserFavMeals(userId)
     }
 
     override suspend fun isFavoriteMeal(userId: Int, mealId: String): Boolean {

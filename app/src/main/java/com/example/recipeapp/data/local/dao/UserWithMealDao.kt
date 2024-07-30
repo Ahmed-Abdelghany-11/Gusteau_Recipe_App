@@ -12,14 +12,14 @@ import com.example.recipeapp.data.local.model.UserWithMeal
 @Dao
 interface UserWithMealDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertIntoFav(userWithMeals: UserMealCrossRef)
+    suspend fun insertIntoFav(userMealCrossRef: UserMealCrossRef)
 
     @Delete
-    suspend fun deleteFromFav(userWithMeals: UserMealCrossRef)
+    suspend fun deleteFromFav(userMealCrossRef: UserMealCrossRef)
 
     @Transaction
-    @Query("SELECT * FROM user")
-    suspend fun getAllUserFavMeals(): List<UserWithMeal>
+    @Query("SELECT * FROM user WHERE id = :userId")
+    suspend fun getAllUserFavMeals(userId : Int): List<UserWithMeal>
 
     @Transaction
     @Query("SELECT EXISTS (SELECT * FROM UserMealCrossRef  WHERE id = :userId AND idMeal = :mealId)")
