@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="30dp"
+    android:layout_marginTop="10dp"
     tools:context=".home.home.view.HomeFragment">
-
 
     <TextView
         android:id="@+id/RandomRecipe"
@@ -19,7 +18,6 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -77,8 +75,18 @@
                 app:layout_constraintEnd_toStartOf="@id/RandomTextView"
                 app:layout_constraintHorizontal_bias="0.092"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/RandomImageView"
+                app:layout_constraintTop_toBottomOf="@id/RandomImageView"
                 app:srcCompat="@drawable/baseline_favorite_border_24" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_random"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:layout_constraintBottom_toBottomOf="@id/RandomImageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/RandomImageView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -108,6 +116,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Category"/>
 
+    <ProgressBar
+        android:id="@+id/progressBar_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/recyclerViewCategories"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/Recipes"
         android:layout_width="match_parent"
@@ -135,5 +152,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Recipes" />
 
+    <ProgressBar
+        android:id="@+id/progressBar_recipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Recipes" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
