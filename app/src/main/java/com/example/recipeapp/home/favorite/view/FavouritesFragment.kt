@@ -1,6 +1,7 @@
 package com.example.recipeapp.home.favorite.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -33,24 +34,24 @@ class FavouritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val userId = 0
-            gettingViewModelReady()
+        val userId = 0 /* Retrieve userId from appropriate source */
+        gettingViewModelReady()
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.FavRv)
         viewModel.getAllUserFavMeals(userId)
-        viewModel.userFavMeals.observe(viewLifecycleOwner) { userWithMeals ->
-            if (userWithMeals != null) {
-                for (item in userWithMeals) {
-                    addElements(item.meals, recyclerView)
-                }
-            }
+        viewModel.userFavMeals.observe(viewLifecycleOwner) { meals ->
+            Log.d("Fragment", "Observed UserFavMeals: $meals")
+            addElements(meals, recyclerView)
         }
     }
 
-    private fun addElements(data:List<Meal>, recyclerView: RecyclerView){
+    private fun addElements(data: List<Meal>, recyclerView: RecyclerView) {
+        Log.d("Fragment", "Adding elements: $data")
         val mutableCopy = mutableListOf<Meal>().apply {
             addAll(data)
+            Log.d("Fragment", "Elements added: $data")
         }
+
         recyclerView.adapter = FavAdapter(mutableCopy, viewModel)
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
     }

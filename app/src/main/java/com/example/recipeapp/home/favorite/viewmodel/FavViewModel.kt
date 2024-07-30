@@ -13,10 +13,10 @@ import kotlinx.coroutines.launch
 
 class FavViewModel (private val repo: FavRepo) : ViewModel() {
 
-    private val _userFavMeals = MutableLiveData<List<UserWithMeal>>()
-    val userFavMeals: LiveData<List<UserWithMeal>> get() = _userFavMeals
+    private val _userFavMeals = MutableLiveData<List<Meal>>()
+    val userFavMeals: LiveData<List<Meal>> get() = _userFavMeals
 
-    fun getAllUserFavMeals(userId : Int) {
+    fun getAllUserFavMeals(userId : Int){
         viewModelScope.launch {
             _userFavMeals.postValue(repo.getAllUserFavMeals(userId))
         }

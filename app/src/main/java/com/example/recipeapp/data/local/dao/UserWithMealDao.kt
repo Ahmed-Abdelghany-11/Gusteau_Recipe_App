@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.local.model.UserWithMeal
+import com.example.recipeapp.data.remote.dto.Meal
 
 @Dao
 interface UserWithMealDao {
@@ -18,11 +19,12 @@ interface UserWithMealDao {
     suspend fun deleteFromFav(userMealCrossRef: UserMealCrossRef)
 
     @Transaction
-    @Query("SELECT * FROM user WHERE id = :userId")
-    suspend fun getAllUserFavMeals(userId : Int): List<UserWithMeal>
+    @Query("SELECT Meal.* FROM Meal INNER JOIN UserMealCrossRef ON Meal.idMeal = UserMealCrossRef.idMeal WHERE UserMealCrossRef.id = :userId")
+    suspend fun getAllUserFavMeals(userId : Int): List<Meal>
 
     @Transaction
     @Query("SELECT EXISTS (SELECT * FROM UserMealCrossRef  WHERE id = :userId AND idMeal = :mealId)")
     suspend fun isFavoriteMeal(userId: Int, mealId: String): Boolean
 
 }
+

@@ -3,6 +3,7 @@ package com.example.recipeapp.data.local
 import com.example.recipeapp.data.local.model.UserData
 import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.local.model.UserWithMeal
+import com.example.recipeapp.data.remote.dto.Meal
 
 interface LocalDataSource {
 
@@ -18,7 +19,7 @@ interface LocalDataSource {
 
     suspend fun deleteFromFav(userMealCrossRef: UserMealCrossRef)
 
-    suspend fun getAllUserFavMeals(userId : Int): List<UserWithMeal>
+    suspend fun getAllUserFavMeals(userId : Int): List<Meal>
 
     suspend fun isFavoriteMeal(userId: Int, mealId: String): Boolean
 

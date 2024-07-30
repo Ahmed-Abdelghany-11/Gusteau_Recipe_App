@@ -6,6 +6,7 @@ import com.example.recipeapp.data.local.dao.UserWithMealDao
 import com.example.recipeapp.data.local.model.UserData
 import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.local.model.UserWithMeal
+import com.example.recipeapp.data.remote.dto.Meal
 
 class LocalDataSourceImpl(context: Context) : LocalDataSource {
 
@@ -40,7 +41,7 @@ class LocalDataSourceImpl(context: Context) : LocalDataSource {
         userWithMealDao.deleteFromFav(userMealCrossRef)
     }
 
-    override suspend fun getAllUserFavMeals(userId : Int): List<UserWithMeal> {
+    override suspend fun getAllUserFavMeals(userId : Int): List<Meal> {
         return userWithMealDao.getAllUserFavMeals(userId)
     }
 
