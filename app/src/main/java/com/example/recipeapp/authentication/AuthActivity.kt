@@ -9,7 +9,6 @@ import com.example.recipeapp.R
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 
 class AuthActivity : AppCompatActivity() {
-    private lateinit var authSharedPref: AuthSharedPref
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        enableEdgeToEdge()
@@ -19,15 +18,6 @@ class AuthActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        authSharedPref= AuthSharedPref(this)
-//        if(authSharedPref.isLoggedIn())
-//            findNavController(R.id.nav_host_fragment).navigate(
-//                R.id.recipeActivity
-//            )
-//
-//        else
-//            findNavController(R.id.nav_host_fragment).navigate(
-//                R.id.splashFragment
-//            )
+
     }
 }
