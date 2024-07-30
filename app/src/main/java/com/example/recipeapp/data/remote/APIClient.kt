@@ -1,6 +1,7 @@
 package com.example.recipeapp.data.remote
 
 import com.example.recipeapp.data.remote.dto.Category
+import com.example.recipeapp.data.remote.dto.CategoryList
 import com.example.recipeapp.data.remote.dto.MealList
 
 object APIClient : RemoteDataSource {
@@ -16,7 +17,7 @@ object APIClient : RemoteDataSource {
         return RetrofitHelper.service.getMealByFirstLetter(letter)
     }
 
-    override suspend fun getAllCategories(): List<Category> {
+    override suspend fun getAllCategories(): CategoryList {
         return RetrofitHelper.service.getAllCategories()
     }
 

@@ -8,15 +8,20 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.recipeapp.R
 import com.example.recipeapp.data.remote.APIClient
+import com.example.recipeapp.home.home.adapter.Adapter
+import com.example.recipeapp.home.home.adapter.CategoryAdapter
 import com.example.recipeapp.home.home.repo.RetrofitRepoImp
 import com.example.recipeapp.home.home.viewModel.HomeViewModel
 import com.example.recipeapp.home.home.viewModel.ViewModelFactory
+import kotlin.random.Random
 
 class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
@@ -31,25 +36,43 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-       /* val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewRecipes)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
         gettingViewModelReady()
-        viewModel.getMyResponse()
-        viewModel.getMyResponse.observe(viewLifecycleOwner) { getMyResponse ->
-            val meal = getMyResponse.meals
-            recyclerView.adapter = RandomRecipeAdapter(meal)
-        }*/
 
+        //Random Recipe
         val textView = view.findViewById<TextView>(R.id.RandomTextView)
         val imageView = view.findViewById<ImageView>(R.id.RandomImageView)
-        gettingViewModelReady()
+
         viewModel.getMyResponse()
         viewModel.getMyResponse.observe(viewLifecycleOwner) { getMyResponse ->
+            val randomMeal = getMyResponse.meals
+            textView.text = randomMeal[0].strMeal
+            Glide.with(requireContext())
+                .load(randomMeal[0].strMealThumb)
+                .placeholder(R.drawable.baseline_image_24)
+                .centerCrop()
+                .into(imageView)
+        }
+
+        //Categories
+        val recyclerView2 = view.findViewById<RecyclerView>(R.id.recyclerViewCategories)
+        recyclerView2.layoutManager = LinearLayoutManager(requireContext(),
+            RecyclerView.HORIZONTAL, false)
+
+        viewModel.getAllCategories()
+        viewModel.getAllCategoriesResponse.observe(viewLifecycleOwner) { getMyResponse ->
+            val category = getMyResponse.categories
+            recyclerView2.adapter = CategoryAdapter(category)
+        }
+
+        //Recipes
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewRecipes)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(),
+            RecyclerView.HORIZONTAL, false)
+
+        viewModel.getMealsByRandomLetter()
+        viewModel.getMealsByLetterResponse.observe(viewLifecycleOwner) { getMyResponse ->
             val meal = getMyResponse.meals
-            textView.text = meal[0].strMeal
-            Glide.with(requireContext()).load(meal[0].strMealThumb).centerCrop().into(imageView)
+            recyclerView.adapter = Adapter(meal)
         }
 
     }
@@ -62,6 +85,5 @@ class HomeFragment : Fragment() {
         )
         viewModel = ViewModelProvider(this,factory).get(HomeViewModel::class.java)
     }
-
 
 }
