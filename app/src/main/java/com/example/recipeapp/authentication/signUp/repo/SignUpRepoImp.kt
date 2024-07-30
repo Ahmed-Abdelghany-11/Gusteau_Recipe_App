@@ -10,9 +10,6 @@ class SignUpRepoImp(
     override suspend fun getUserDataById(id: Int): UserData =
         localDataSource.getUserDataById(id)
 
-    override suspend fun isUserExists(email: String, password: String) =
-        localDataSource.isUserExists(email, password)
-
     override suspend fun isEmailAlreadyExists(email: String) =
         localDataSource.isEmailAlreadyExists(email)
 
