@@ -14,11 +14,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeViewModel (private val myRepo : RetrofitRepoImp) : ViewModel() {
-    private val _getMyResponse = MutableLiveData<MealList>()
-    val getMyResponse: LiveData<MealList> = _getMyResponse
+    private val _getMyResponse = MutableLiveData<MealList?>()
+    val getMyResponse: LiveData<MealList?> = _getMyResponse
 
-    private val _getMealsByLetterResponse = MutableLiveData<MealList>()
-    val getMealsByLetterResponse: LiveData<MealList> = _getMealsByLetterResponse
+    private val _getMealsByLetterResponse = MutableLiveData<MealList?>()
+    val getMealsByLetterResponse: LiveData<MealList?> = _getMealsByLetterResponse
 
     private val _getAllCategoriesResponse = MutableLiveData<CategoryList>()
     val getAllCategoriesResponse: LiveData<CategoryList> = _getAllCategoriesResponse
