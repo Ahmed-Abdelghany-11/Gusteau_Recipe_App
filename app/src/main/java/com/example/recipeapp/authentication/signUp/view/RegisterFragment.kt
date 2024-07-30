@@ -84,6 +84,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         if (validationErrors.isEmpty()) {
             signUpViewModel.insertUser(user)
             Toast.makeText(requireContext(), "sign up successful", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         } else {
             clearErrors()
             setErrors(validationErrors)
