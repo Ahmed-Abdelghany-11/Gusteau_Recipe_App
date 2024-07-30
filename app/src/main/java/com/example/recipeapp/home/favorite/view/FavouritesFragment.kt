@@ -1,4 +1,4 @@
-package com.example.recipeapp.view.auth
+package com.example.recipeapp.home.favorite.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
