@@ -21,6 +21,7 @@ class SplashFragment : Fragment() {
 
 
     authSharedPref=AuthSharedPref(requireContext())
+
         if (authSharedPref.isLoggedIn()) {
             findNavController().navigate(
                 R.id.action_splashFragment_to_recipeActivity)
