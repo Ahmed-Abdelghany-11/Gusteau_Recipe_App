@@ -10,19 +10,19 @@ object UserDataValidation {
     private const val passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,20}$"
 
     private fun isValidName(name: String): Boolean {
-        return name.isNotEmpty() && name.isNotBlank() && Pattern.matches(namePattern, name)
+        return name.isNotBlank() && Pattern.matches(namePattern, name)
     }
 
     private fun isValidEmail(email: String) =
-        email.isNotEmpty() && email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(email)
+         email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(email)
             .matches()
 
 
     private fun isValidPassword(pass: String) =
-        pass.isNotEmpty() && pass.isNotBlank() && Pattern.matches(passwordPattern, pass)
+       pass.isNotBlank() && Pattern.matches(passwordPattern, pass)
 
     private fun isValidConfirmPassword(pass: String,confirmPass:String) =
-        pass.isNotEmpty() && pass.isNotBlank() && confirmPass==pass
+        pass.isNotBlank() && confirmPass==pass
 
 
 
