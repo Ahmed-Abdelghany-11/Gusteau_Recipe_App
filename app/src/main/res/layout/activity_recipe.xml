@@ -17,10 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/options_menu"
-        app:popupTheme="@style/OptionMenu"
-        app:title="What are you cooking today?"
-        app:titleMarginStart="60dp"
-        app:titleTextColor="@color/white" />
+        app:popupTheme="@style/OptionMenu" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
