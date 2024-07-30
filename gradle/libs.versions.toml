@@ -22,6 +22,7 @@ composeBom = "2024.04.01"
 glide = "4.16.0"
 room_version = "2.6.1"
 ksp_version = "1.9.21-1.0.15"
+safeargs = "2.6.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -48,8 +49,13 @@ room = { group = "androidx.room", name = "room-ktx", version.ref = "room_version
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room_version" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref="room_version"}
 glide = {group = "com.github.bumptech.glide", name = "glide", version.ref = "glide"}
+dynamic-featrues = {group = "androidx.navigation", name = "navigation-dynamic-features-fragment", version.ref = "navigationFragmentKtx"}
+
+#implementation("androidx.navigation:navigation-dynamic-features-fragment:2.7.7")
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp_version" }
+safeargs = {id = "androidx.navigation.safeargs.kotlin", version.ref = "safeargs"}
+# id("androidx.navigation.safeargs.kotlin") version "2.6.0" apply(false)

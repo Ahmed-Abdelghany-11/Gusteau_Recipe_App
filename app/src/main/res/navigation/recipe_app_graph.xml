@@ -17,7 +17,11 @@
         android:id="@+id/detailsFragment"
         android:name="com.example.recipeapp.view.recipe.DetailsFragment"
         android:label="fragment_details"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details" >
+        <argument
+            android:name="mealObj"
+            app:argType="com.example.recipeapp.data.remote.dto.Meal" />
+    </fragment>
     <fragment
         android:id="@+id/aboutUsFragment"
         android:name="com.example.recipeapp.view.recipe.AboutUsFragment"

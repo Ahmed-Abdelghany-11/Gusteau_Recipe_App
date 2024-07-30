@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,6 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.recipeapp.R
 import com.example.recipeapp.data.remote.APIClient
+import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.home.home.adapter.Adapter
 import com.example.recipeapp.home.home.adapter.CategoryAdapter
 import com.example.recipeapp.home.home.repo.RetrofitRepoImp
@@ -26,6 +28,7 @@ import kotlin.random.Random
 class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,9 +38,10 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
         gettingViewModelReady()
-
+        //var myMeal: List<Meal>? = null
         //Random Recipe
         val textView = view.findViewById<TextView>(R.id.RandomTextView)
         val imageView = view.findViewById<ImageView>(R.id.RandomImageView)
@@ -45,6 +49,7 @@ class HomeFragment : Fragment() {
         viewModel.getMyResponse()
         viewModel.getMyResponse.observe(viewLifecycleOwner) { getMyResponse ->
             val randomMeal = getMyResponse.meals
+            //myMeal = randomMeal
             textView.text = randomMeal[0].strMeal
             Glide.with(requireContext())
                 .load(randomMeal[0].strMealThumb)
@@ -74,8 +79,23 @@ class HomeFragment : Fragment() {
             val meal = getMyResponse.meals
             recyclerView.adapter = Adapter(meal)
         }
+        imageView.setOnClickListener {
 
-    }
+            val meal = viewModel.getMyResponse.value
+            if (meal != null) {
+                val myMea = meal.meals[0]
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(myMea)
+                findNavController().navigate(action)
+            }
+
+
+        }
+
+            }
+
+
+
+
 
     private fun gettingViewModelReady(){
         val factory = ViewModelFactory(
