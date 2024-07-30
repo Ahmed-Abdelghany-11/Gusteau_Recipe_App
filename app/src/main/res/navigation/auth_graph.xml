@@ -37,7 +37,7 @@
     </fragment>
     <activity
         android:id="@+id/recipeActivity"
-        android:name="com.example.recipeapp.view.recipe.RecipeActivity"
+        android:name="com.example.recipeapp.home.RecipeActivity"
         android:label="activity_recipe"
         tools:layout="@layout/activity_recipe" />
 </navigation>
