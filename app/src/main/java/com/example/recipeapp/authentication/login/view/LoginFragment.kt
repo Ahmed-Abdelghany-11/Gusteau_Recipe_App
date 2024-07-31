@@ -33,7 +33,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         emailInput = view.findViewById(R.id.email)
         passwordInput = view.findViewById(R.id.password)
-        authSharedPref= AuthSharedPref(requireContext())
+        authSharedPref = AuthSharedPref(requireContext())
         signInBtn = view.findViewById(R.id.signin_button)
         signUpText = view.findViewById(R.id.signIn_textView)
 
@@ -48,11 +48,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         passwordInput.error = null
                         authSharedPref.setLoggedIn(true)
                         navigateToHome()
+                    } else {
+                        passwordInput.error = "incorrect password,please try again"
                     }
-
-                    else{
-                    passwordInput.error = "incorrect password,please try again"
-                }
 
                 }
             } else {
@@ -64,11 +62,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         signInBtn.setOnClickListener {
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
-            if(checkInputs(email, password)) {
+            if (checkInputs(email, password)) {
                 loginViewModel.isEmailAlreadyExists(email)
                 loginViewModel.isUserExists(email, password)
-            }
-            else
+            } else
                 setErrors(email, password)
         }
 
@@ -77,15 +74,15 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-    private fun setErrors(email: String,password: String) {
-        if(email.isBlank())
-        emailInput.error="Please enter your email"
-        if(password.isBlank())
-        passwordInput.error="Please enter your password"
+    private fun setErrors(email: String, password: String) {
+        if (email.isBlank())
+            emailInput.error = "Please enter your email"
+        if (password.isBlank())
+            passwordInput.error = "Please enter your password"
     }
 
-    private fun checkInputs(email:String,password:String)=
-         email.isNotBlank() && password.isNotBlank()
+    private fun checkInputs(email: String, password: String) =
+        email.isNotBlank() && password.isNotBlank()
 
 
     // navigation
@@ -120,7 +117,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             .setNegativeButton("Cancel", null)
             .show()
     }
-
 
 
 }
