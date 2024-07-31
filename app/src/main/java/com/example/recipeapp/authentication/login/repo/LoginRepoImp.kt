@@ -1,24 +1,21 @@
-package com.example.recipeapp.authentication.signUp.repo
+package com.example.recipeapp.authentication.login.repo
 
 import com.example.recipeapp.data.local.LocalDataSource
-import com.example.recipeapp.data.local.model.UserData
 
-class SignUpRepoImp(
+class LoginRepoImp(
     private val localDataSource: LocalDataSource,
-) : SignUpRepository {
+) : LoginRepository {
 
-    override suspend fun getUserDataById(id: Int): UserData =
-        localDataSource.getUserDataById(id)
+    override suspend fun isUserExists(email: String, password: String) =
+        localDataSource.isUserExists(email, password)
 
     override suspend fun isEmailAlreadyExists(email: String) =
         localDataSource.isEmailAlreadyExists(email)
-
-    override suspend fun insertUserData(userData: UserData) =
-        localDataSource.insertUserData(userData)
 
     override suspend fun getUserIdByEmailAndPassword(email: String, password: String)=
         localDataSource.getUserIdByEmailAndPassword(email, password)
 
 
-
 }
+
+

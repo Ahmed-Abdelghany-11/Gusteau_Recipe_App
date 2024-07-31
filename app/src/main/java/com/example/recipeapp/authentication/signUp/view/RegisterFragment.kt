@@ -12,6 +12,7 @@ import com.example.recipeapp.authentication.signUp.repo.SignUpRepoImp
 import com.example.recipeapp.authentication.signUp.validation.UserDataValidation
 import com.example.recipeapp.authentication.signUp.viewmodel.SignUpViewModel
 import com.example.recipeapp.authentication.signUp.viewmodel.SignUpViewModelFactory
+import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
 import com.example.recipeapp.data.local.model.UserData
 import com.google.android.material.button.MaterialButton
@@ -27,6 +28,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     private lateinit var signUpBtn: MaterialButton
     private lateinit var signInText: TextView
     private lateinit var signUpViewModel: SignUpViewModel
+    private lateinit var authSharedPref: AuthSharedPref
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,6 +40,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         confirmPass = confirmPasswordInput.text.toString()
         signUpBtn = view.findViewById(R.id.signUp_button)
         signInText = view.findViewById(R.id.signIn_textView)
+        authSharedPref=AuthSharedPref(requireContext())
 
 
         getViewModelReady()
@@ -83,7 +86,9 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     private fun handleValidation(user: UserData, validationErrors: MutableMap<String, String>) {
         if (validationErrors.isEmpty()) {
             signUpViewModel.insertUser(user)
-            Toast.makeText(requireContext(), "sign up successful", Toast.LENGTH_SHORT).show()
+            authSharedPref.setLoggedIn(true)
+            saveUserId()
+            findNavController().navigate(R.id.action_registerFragment_to_recipeActivity)
         } else {
             clearErrors()
             setErrors(validationErrors)
@@ -91,6 +96,15 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     }
 
+    private fun saveUserId(){
+        val email= emailInput.text.toString()
+        val password=passwordInput.text.toString()
+        signUpViewModel.getUserIdByEmailAndPassword(email, password)
+
+        signUpViewModel.userId.observe(viewLifecycleOwner){ id->
+            authSharedPref.saveUserId(id)
+        }
+    }
 
     private fun clearErrors() {
         nameInput.error = null

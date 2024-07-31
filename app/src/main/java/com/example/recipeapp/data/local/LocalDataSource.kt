@@ -12,4 +12,6 @@ interface LocalDataSource {
 
     suspend fun insertUserData(userData: UserData)
 
+    suspend fun getUserIdByEmailAndPassword(email: String,password: String):Int
+
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.auth.LoginFragment">
+    tools:context=".authentication.login.view.LoginFragment">
 
 
     <ImageView
@@ -48,16 +48,13 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_email"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/fieldCorners"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="54dp"
         android:hint="@string/email"
-        app:boxCornerRadiusBottomEnd="20dp"
-        app:boxCornerRadiusBottomStart="20dp"
-        app:boxCornerRadiusTopEnd="20dp"
-        app:boxCornerRadiusTopStart="20dp"
+        app:hintTextColor="@color/black"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
         app:errorIconDrawable="@drawable/ic_error"
@@ -81,17 +78,13 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_password"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/fieldCorners"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="18dp"
         android:hint="@string/password"
-        app:boxCornerRadiusBottomEnd="20dp"
-        app:boxCornerRadiusBottomStart="20dp"
-        app:boxCornerRadiusTopEnd="20dp"
-        app:boxCornerRadiusTopStart="20dp"
-        app:endIconMode="clear_text"
+        app:endIconMode="password_toggle"
         app:errorEnabled="true"
         app:errorIconDrawable="@drawable/ic_error"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,6 +100,7 @@
             android:layout_gravity="center"
             android:inputType="textPassword"
             android:paddingVertical="22dp"
+            android:paddingEnd="48dp"
             android:paddingStart="45dp" />
 
 

@@ -7,33 +7,43 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.example.recipeapp.view.auth.SplashFragment"
+        android:name="com.example.recipeapp.authentication.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_recipeActivity"
+            app:destination="@id/recipeActivity" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.recipeapp.view.auth.LoginFragment"
-        android:label="fragment_login"
+        android:name="com.example.recipeapp.authentication.login.view.LoginFragment"
+        android:label="Login"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
         <action
             android:id="@+id/action_loginFragment_to_recipeActivity"
-            app:destination="@id/recipeActivity" />
+            app:destination="@id/recipeActivity"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.recipeapp.authentication.signUp.view.RegisterFragment"
-        android:label="fragment_register"
+        android:label="Sign Up"
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_recipeActivity"
+            app:destination="@id/recipeActivity"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <activity
         android:id="@+id/recipeActivity"

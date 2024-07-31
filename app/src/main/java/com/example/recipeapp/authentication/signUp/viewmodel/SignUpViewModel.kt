@@ -16,6 +16,10 @@ class SignUpViewModel(
     val isEmailExists:LiveData<Boolean>
         get() = _isEmailExists
 
+    private val _userId = MutableLiveData<Int>()
+    val userId: LiveData<Int>
+        get() = _userId
+
     fun insertUser(userData: UserData) =
         viewModelScope.launch {
             signUpRepository.insertUserData(userData)
@@ -25,5 +29,13 @@ class SignUpViewModel(
         viewModelScope.launch {
             _isEmailExists.postValue(signUpRepository.isEmailAlreadyExists(email))
         }
+
+
+    fun getUserIdByEmailAndPassword(email: String, password: String) =
+        viewModelScope.launch {
+            _userId.postValue(signUpRepository.getUserIdByEmailAndPassword(email, password))
+        }
+
+
 
 }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -46,6 +47,7 @@ class HomeFragment : Fragment() {
         //Random Recipe
         val textView = view.findViewById<TextView>(R.id.RandomTextView)
         val imageView = view.findViewById<ImageView>(R.id.RandomImageView)
+        val processBarMeal: ProgressBar = view.findViewById(R.id.progressBar_random)
 
         viewModel.getMyResponse()
         viewModel.getMyResponse.observe(viewLifecycleOwner) { getMyResponse ->
@@ -53,16 +55,22 @@ class HomeFragment : Fragment() {
             mealId = randomMeal.idMeal
             //myMeal = randomMeal
             textView.text = randomMeal.strMeal
+            val randomMeal = getMyResponse?.meals
+            textView.text = randomMeal?.get(0)?.strMeal
             Glide.with(requireContext())
                 .load(randomMeal.strMealThumb)
+                .load(randomMeal?.get(0)?.strMealThumb)
                 .placeholder(R.drawable.baseline_image_24)
                 .centerCrop()
                 .into(imageView)
 
+            processBarMeal.visibility = View.GONE
         }
 
         //Categories
         val recyclerView2 = view.findViewById<RecyclerView>(R.id.recyclerViewCategories)
+        val processBarCategory: ProgressBar = view.findViewById(R.id.progressBar_category)
+
         recyclerView2.layoutManager = LinearLayoutManager(requireContext(),
             RecyclerView.HORIZONTAL, false)
 
@@ -70,10 +78,13 @@ class HomeFragment : Fragment() {
         viewModel.getAllCategoriesResponse.observe(viewLifecycleOwner) { getMyResponse ->
             val category = getMyResponse.categories
             recyclerView2.adapter = CategoryAdapter(category)
+            processBarCategory.visibility = View.GONE
         }
 
         //Recipes
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewRecipes)
+        val progressBarRecipe = view.findViewById<ProgressBar>(R.id.progressBar_recipe)
+
         recyclerView.layoutManager = LinearLayoutManager(requireContext(),
             RecyclerView.HORIZONTAL, false)
 
@@ -104,9 +115,16 @@ class HomeFragment : Fragment() {
                 val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(meal?.idMeal ?: "0")
                 findNavController().navigate(action)
 
+            val meal = getMyResponse?.meals
+            if (!meal.isNullOrEmpty()) {
+                recyclerView.adapter = Adapter(meal)
+                progressBarRecipe.visibility = View.GONE
+            }
         }
 
 //        }
+
+        Log.d("userId","${AuthSharedPref(requireContext()).getUserId()}")
 
             }
 

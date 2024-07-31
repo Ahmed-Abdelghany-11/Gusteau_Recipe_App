@@ -3,13 +3,17 @@ package com.example.recipeapp.home
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.onNavDestinationSelected
 import com.example.recipeapp.R
@@ -38,11 +42,15 @@ class RecipeActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         NavigationUI.setupWithNavController(toolbar,navController)
 
-        val homeFabButton= findViewById<FloatingActionButton>(R.id.floating)
 
-        homeFabButton.setOnClickListener {
-            navController.navigate(R.id.action_global_to_homeFragment)
-        }
+        // Handle back button behavior
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if(!navController.popBackStack())
+                    finishAffinity()
+            }
+        })
+
 
     }
 
@@ -52,7 +60,14 @@ class RecipeActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return item.onNavDestinationSelected(navController) ||
-                super.onOptionsItemSelected(item)
+        return when (item.itemId) {
+            R.id.signOut -> {
+                true
+            }
+            else -> {
+                item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
+            }
+        }
     }
+
 }
