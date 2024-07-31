@@ -1,45 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="bottom"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottomAppBar"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/bottomFragment"/>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:contentInsetEnd="0dp"
+        app:contentInsetStart="0dp"
+        style="@style/BarTheme"
+        app:fabCradleMargin="10dp"
+        app:fabCradleRoundedCornerRadius="20dp"
+        app:fabAlignmentMode="center">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNav"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/BarTheme"
-            app:fabCradleMargin="20dp"
-            app:fabCradleVerticalOffset="10dp"
-            app:fabCradleRoundedCornerRadius="20dp"
-            app:fabAlignmentMode="center"
-            android:layout_gravity="bottom">
+            android:layout_height="match_parent"
+            style="@style/NavTheme"
+            android:elevation="0dp"
+            app:itemRippleColor="@color/lightGreen"
+            app:itemActiveIndicatorStyle="@color/gray"
+            app:itemTextAppearanceActive="@color/lightGreen"
+            app:itemTextAppearanceInactive="@color/black"
+            app:itemTextAppearanceActiveBoldEnabled="true"
+            android:background="@android:color/transparent"
+            app:menu="@menu/app_menu" />
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
-                <com.google.android.material.bottomnavigation.BottomNavigationView
-                    android:id="@+id/bottomNav"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/NavTheme"
-                    android:layout_marginEnd="16dp"
-                    app:itemRippleColor="@color/lightGreen"
-                    app:itemActiveIndicatorStyle="@color/gray"
-                    app:itemTextAppearanceActive="@color/lightGreen"
-                    app:itemTextAppearanceInactive="@color/black"
-                    app:itemTextAppearanceActiveBoldEnabled="true"
-                    android:background="@android:color/transparent"
-                    app:menu="@menu/app_menu" />
-        </com.google.android.material.bottomappbar.BottomAppBar>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/FloatTheme"
-            android:importantForAccessibility="no"
-            app:fabCustomSize="60dp"
-            app:layout_anchorGravity="center"
-            android:src="@drawable/baseline_home_24"
-            app:layout_anchor="@id/bottomAppBar"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/FloatTheme"
+        android:importantForAccessibility="no"
+        app:fabCustomSize="60dp"
+        app:layout_anchorGravity="center"
+        android:src="@drawable/baseline_home_24"
+        app:layout_anchor="@id/bottomAppBar"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

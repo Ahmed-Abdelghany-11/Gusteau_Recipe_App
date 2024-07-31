@@ -19,9 +19,9 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
         membersRV = view.findViewById(R.id.members_rv)
 
         val members = listOf(
+            TeamMember("Ahmed Abdelghany", "anofal786@gmail.com", R.drawable.avatar),
             TeamMember("Alaa Hassan", "alaahassan2019th@gmail.com", R.drawable.girl_image),
             TeamMember("Mai Muhammed", "maimuhammedkhalil@gmail.com", R.drawable.girl_image),
-            TeamMember("Ahmed Abdelghany", "anofal786@gmail.com", R.drawable.avatar),
             TeamMember("Ziad Tarek", "ziadghonim621@gmail.com", R.drawable.avatar)
         )
 
