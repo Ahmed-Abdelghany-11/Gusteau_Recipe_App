@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.dto.Meal
+import com.example.recipeapp.data.remote.dto.MealList
 import com.example.recipeapp.home.favorite.viewmodel.FavViewModel
 
 class FavAdapter(val meal : List<Meal>,val viewmodel : FavViewModel) :RecyclerView.Adapter<FavAdapter.FavViewHolder>() {
@@ -30,7 +31,6 @@ class FavAdapter(val meal : List<Meal>,val viewmodel : FavViewModel) :RecyclerVi
 //        holder.getBtn().setImageResource(R.drawable.baseline_favorite_border_24)
 //        }
         val meal = meal[position]
-        Log.d("asd", "onBindViewHolder: $meal")
         holder.bind(meal, viewmodel)
     }
 
@@ -44,13 +44,14 @@ class FavAdapter(val meal : List<Meal>,val viewmodel : FavViewModel) :RecyclerVi
         private val btn: ImageView = view.findViewById(R.id.heart_button)
 
         fun bind(meal: Meal, viewModel: FavViewModel) {
-            name.text = meal.idMeal
+            name.text = meal.strMeal
             Glide.with(view.context).load(meal.strMealThumb).into(image)
             btn.setImageResource(R.drawable.baseline_favorite_24)
             btn.setOnClickListener {
                 viewModel.deleteFromFav(UserMealCrossRef(0, meal.idMeal))
                 btn.setImageResource(R.drawable.baseline_favorite_border_24)
             }
+            viewModel.getMealById(meal.idMeal)
         }
     }
 }

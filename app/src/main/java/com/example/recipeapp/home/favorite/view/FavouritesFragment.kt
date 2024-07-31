@@ -6,14 +6,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.view.menu.MenuItemWrapperICS
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.data.local.LocalDataSourceImpl
+import com.example.recipeapp.data.remote.APIClient
+import com.example.recipeapp.data.remote.RemoteDataSource
 import com.example.recipeapp.data.remote.dto.Meal
+import com.example.recipeapp.data.remote.dto.MealList
 import com.example.recipeapp.home.favorite.adapter.FavAdapter
 import com.example.recipeapp.home.favorite.repo.FavRepoImpl
 import com.example.recipeapp.home.favorite.viewmodel.FavViewModel
@@ -45,8 +50,13 @@ class FavouritesFragment : Fragment() {
         viewModel.userFavMeals.observe(viewLifecycleOwner) { userFavMeals ->
             Log.d("FavouritesFragment", "Observed favorite meals: $userFavMeals")
             if (userFavMeals != null) {
-                    addElements(userFavMeals, recyclerViewFav)
+                addElements(userFavMeals, recyclerViewFav)
+            }
+        }
 
+        viewModel.getMyResponse.observe(viewLifecycleOwner) { mealList ->
+            mealList?.meals?.firstOrNull()?.let { meal ->
+                displayMealDetails(meal)
             }
         }
     }
@@ -62,20 +72,23 @@ class FavouritesFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
     }
 
-
-    private fun gettingViewModelReady(){
+    private fun gettingViewModelReady() {
         val favFactory = FavViewModelFactory(
             FavRepoImpl(
-            localDataSource = LocalDataSourceImpl(requireContext())
+                localDataSource = LocalDataSourceImpl(requireContext()), remoteDataSource = APIClient
             )
         )
-        viewModel = ViewModelProvider(this,favFactory)[FavViewModel::class.java]
+        viewModel = ViewModelProvider(this, favFactory)[FavViewModel::class.java]
     }
 
-//    private fun onRecipeClick(clickedMeal: Meal) {
-//        val action = FavouritesFragmentDirections.actionFavouritesFragmentToNewDetailsFragment(clickedMeal.strMeal,
-//            clickedMeal.strCategory,clickedMeal.strInstructions,clickedMeal.strYoutube,clickedMeal.strMealThumb,clickedMeal.idMeal,clickedMeal.strArea)
-//        findNavController().navigate(action)
-//    }
+    private fun displayMealDetails(meal: Meal) {
+        // Update the UI with meal details
+        val mealNameTextView: TextView = view?.findViewById(R.id.meal_name) ?: return
+        val mealImageView: ImageView = view?.findViewById(R.id.image) ?: return
+
+        mealNameTextView.text = meal.strMeal
+        Glide.with(requireContext()).load(meal.strMealThumb).into(mealImageView)
+    }
+
 
 }
