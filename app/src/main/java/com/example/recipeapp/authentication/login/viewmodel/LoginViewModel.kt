@@ -13,17 +13,20 @@ class LoginViewModel(
 
     // first check email
     private val _isEmailExists = MutableLiveData<Boolean>()
-    val isEmailExists:LiveData<Boolean>
+    val isEmailExists: LiveData<Boolean>
         get() = _isEmailExists
 
 
-    private val _isUserExists= MutableLiveData<Boolean>()
-    val isUserExists:LiveData<Boolean>
-            get()= _isUserExists
+    private val _isUserExists = MutableLiveData<Boolean>()
+    val isUserExists: LiveData<Boolean>
+        get() = _isUserExists
+
+    private val _userId = MutableLiveData<Int>()
+    val userId: LiveData<Int>
+        get() = _userId
 
 
-
-    fun isUserExists(email:String,password:String)=
+    fun isUserExists(email: String, password: String) =
         viewModelScope.launch {
             _isUserExists.postValue(loginRepository.isUserExists(email, password))
         }
@@ -34,6 +37,10 @@ class LoginViewModel(
             _isEmailExists.postValue(loginRepository.isEmailAlreadyExists(email))
         }
 
+    fun getUserIdByEmailAndPassword(email: String, password: String) =
+        viewModelScope.launch {
+          _userId.postValue(loginRepository.getUserIdByEmailAndPassword(email, password))
+        }
 
 
 }

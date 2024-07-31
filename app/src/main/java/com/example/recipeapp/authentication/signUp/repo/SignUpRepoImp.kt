@@ -16,4 +16,9 @@ class SignUpRepoImp(
     override suspend fun insertUserData(userData: UserData) =
         localDataSource.insertUserData(userData)
 
+    override suspend fun getUserIdByEmailAndPassword(email: String, password: String)=
+        localDataSource.getUserIdByEmailAndPassword(email, password)
+
+
+
 }

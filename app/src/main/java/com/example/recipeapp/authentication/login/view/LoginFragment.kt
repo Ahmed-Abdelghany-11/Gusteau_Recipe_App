@@ -47,12 +47,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     if (userExists) {
                         passwordInput.error = null
                         authSharedPref.setLoggedIn(true)
+                        saveUserId()
                         navigateToHome()
+                    } else {
+                        passwordInput.error = "incorrect password,please try again"
                     }
-
-                    else{
-                    passwordInput.error = "incorrect password,please try again"
-                }
 
                 }
             } else {
@@ -64,11 +63,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         signInBtn.setOnClickListener {
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
-            if(checkInputs(email, password)) {
+            if (checkInputs(email, password)) {
                 loginViewModel.isEmailAlreadyExists(email)
                 loginViewModel.isUserExists(email, password)
-            }
-            else
+            } else
                 setErrors(email, password)
         }
 
@@ -77,15 +75,15 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-    private fun setErrors(email: String,password: String) {
-        if(email.isBlank())
-        emailInput.error="Please enter your email"
-        if(password.isBlank())
-        passwordInput.error="Please enter your password"
+    private fun setErrors(email: String, password: String) {
+        if (email.isBlank())
+            emailInput.error = "Please enter your email"
+        if (password.isBlank())
+            passwordInput.error = "Please enter your password"
     }
 
-    private fun checkInputs(email:String,password:String)=
-         email.isNotBlank() && password.isNotBlank()
+    private fun checkInputs(email: String, password: String) =
+        email.isNotBlank() && password.isNotBlank()
 
 
     // navigation
@@ -107,6 +105,16 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         loginViewModel =
             ViewModelProvider(this, loginViewModelFactory)[LoginViewModel::class.java]
 
+    }
+
+    private fun saveUserId(){
+        val email= emailInput.text.toString()
+        val password=passwordInput.text.toString()
+         loginViewModel.getUserIdByEmailAndPassword(email, password)
+
+        loginViewModel.userId.observe(viewLifecycleOwner){ id->
+            authSharedPref.saveUserId(id)
+        }
     }
 
 

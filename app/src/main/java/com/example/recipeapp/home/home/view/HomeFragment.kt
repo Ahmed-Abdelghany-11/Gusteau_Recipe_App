@@ -1,6 +1,7 @@
 package com.example.recipeapp.home.home.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.recipeapp.R
+import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.remote.APIClient
 import com.example.recipeapp.home.home.adapter.Adapter
 import com.example.recipeapp.home.home.adapter.CategoryAdapter
@@ -85,6 +87,8 @@ class HomeFragment : Fragment() {
                 progressBarRecipe.visibility = View.GONE
             }
         }
+
+        Log.d("userId","${AuthSharedPref(requireContext()).getUserId()}")
 
     }
 

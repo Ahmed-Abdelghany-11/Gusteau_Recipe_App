@@ -1,4 +1,4 @@
-package com.example.recipeapp.view.recipe
+package com.example.recipeapp.home.aboutUs.view
 
 import android.os.Bundle
 import android.view.View
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
 import com.example.recipeapp.data.local.model.TeamMember
-import com.example.recipeapp.view.recipe.adapters.TeamMembersAdapter
+import com.example.recipeapp.home.aboutUs.adapters.TeamMembersAdapter
 
 class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
     private lateinit var membersRV: RecyclerView

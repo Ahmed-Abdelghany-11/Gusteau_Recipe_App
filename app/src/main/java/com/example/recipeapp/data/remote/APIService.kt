@@ -14,9 +14,9 @@ interface APIService {
     @GET("random.php")
     suspend fun getRandomMeal(): MealList
 
-    @GET("search.php?s={name}")
+    @GET("search.php")
     suspend fun getMealByName(
-        @Path("name") name: String
+        @Query("s") name: String
     ) : MealList
 
     @GET("search.php")

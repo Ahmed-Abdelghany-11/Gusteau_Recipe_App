@@ -19,4 +19,7 @@ interface UserDao {
 
     @Insert
     suspend fun insertUserData(userData: UserData)
+
+    @Query("SELECT id FROM user WHERE email = :email AND password = :password")
+    suspend fun getUserIdByEmailAndPassword(email: String, password: String): Int
 }
