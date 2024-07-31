@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
+import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
+import com.example.recipeapp.data.local.model.UserWithMeal
 import com.example.recipeapp.data.remote.APIClient
 import com.example.recipeapp.data.remote.RemoteDataSource
 import com.example.recipeapp.data.remote.dto.Meal
@@ -28,10 +30,13 @@ import com.example.recipeapp.home.favorite.viewmodel.FavViewModelFactory
 class FavouritesFragment : Fragment() {
 
     private lateinit var viewModel: FavViewModel
+    private lateinit var favAdapter: FavAdapter
+    private lateinit var recyclerViewFav: RecyclerView
+    private lateinit var authSharedPref: AuthSharedPref
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_favourites, container, false)
@@ -41,54 +46,39 @@ class FavouritesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         gettingViewModelReady()
-        val recyclerViewFav = view.findViewById<RecyclerView>(R.id.FavRv)
-        recyclerViewFav.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        recyclerViewFav = view.findViewById(R.id.FavRv)
+        authSharedPref = AuthSharedPref(requireContext())
 
-        val userId = 0 // Replace with actual user ID
-        viewModel.getAllUserFavMeals(userId)
+        val userId = 1
+        viewModel.gerUserWithMeals(userId)
 
         viewModel.userFavMeals.observe(viewLifecycleOwner) { userFavMeals ->
-            Log.d("FavouritesFragment", "Observed favorite meals: $userFavMeals")
+            Log.d("FavouritesFragment", "Observed favorite meals: ${userFavMeals}")
             if (userFavMeals != null) {
-                addElements(userFavMeals, recyclerViewFav)
-            }
-        }
-
-        viewModel.getMyResponse.observe(viewLifecycleOwner) { mealList ->
-            mealList?.meals?.firstOrNull()?.let { meal ->
-                displayMealDetails(meal)
+                setUpRecyclerView(userFavMeals.meals, recyclerViewFav)
             }
         }
     }
 
-    private fun addElements(data: List<Meal>, recyclerView: RecyclerView) {
-        Log.d("Fragment", "Adding elements: $data")
-        val mutableCopy = mutableListOf<Meal>().apply {
-            addAll(data)
-            Log.d("Fragment", "Elements added: ${data}")
-        }
-
-        recyclerView.adapter = FavAdapter(mutableCopy, viewModel)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+    private fun setUpRecyclerView(data: List<Meal>, recyclerView: RecyclerView) {
+        favAdapter = FavAdapter(data, viewModel)
+        recyclerView.adapter = favAdapter
+        recyclerView.layoutManager =
+            LinearLayoutManager(requireContext())
     }
 
     private fun gettingViewModelReady() {
         val favFactory = FavViewModelFactory(
             FavRepoImpl(
-                localDataSource = LocalDataSourceImpl(requireContext()), remoteDataSource = APIClient
+                localDataSource = LocalDataSourceImpl(requireContext()),
+                remoteDataSource = APIClient
             )
         )
         viewModel = ViewModelProvider(this, favFactory)[FavViewModel::class.java]
     }
 
-    private fun displayMealDetails(meal: Meal) {
-        // Update the UI with meal details
-        val mealNameTextView: TextView = view?.findViewById(R.id.meal_name) ?: return
-        val mealImageView: ImageView = view?.findViewById(R.id.image) ?: return
-
-        mealNameTextView.text = meal.strMeal
-        Glide.with(requireContext()).load(meal.strMealThumb).into(mealImageView)
-    }
-
-
 }
+
+
+
+

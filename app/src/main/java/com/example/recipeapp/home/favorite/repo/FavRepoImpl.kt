@@ -21,4 +21,15 @@ class FavRepoImpl(private val localDataSource: LocalDataSource,private val remot
         return remoteDataSource.getMealById(id)
     }
 
+    override suspend fun getUserWithMeals(userId: Int): UserWithMeal? {
+        return localDataSource.getUserWithMeals(userId)
+    }
+
+    override suspend fun insertMeal(meal: Meal) =
+        localDataSource.insertMeal(meal)
+
+    override suspend fun deleteMeal(meal: Meal) =
+        localDataSource.deleteMeal(meal)
+
+
 }

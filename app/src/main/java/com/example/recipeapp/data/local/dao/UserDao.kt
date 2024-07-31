@@ -3,7 +3,9 @@ package com.example.recipeapp.data.local.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import com.example.recipeapp.data.local.model.UserData
+import com.example.recipeapp.data.local.model.UserWithMeal
 
 @Dao
 interface UserDao {
@@ -19,4 +21,5 @@ interface UserDao {
 
     @Insert
     suspend fun insertUserData(userData: UserData)
+
 }

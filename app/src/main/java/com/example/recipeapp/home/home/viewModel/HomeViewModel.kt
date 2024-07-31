@@ -9,6 +9,7 @@ import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.RetrofitHelper
 import com.example.recipeapp.data.remote.dto.Category
 import com.example.recipeapp.data.remote.dto.CategoryList
+import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.data.remote.dto.MealList
 import com.example.recipeapp.home.home.repo.RetrofitRepoImp
 import kotlinx.coroutines.Dispatchers
@@ -49,4 +50,13 @@ class HomeViewModel (private val myRepo : RetrofitRepoImp) : ViewModel() {
             myRepo.insertIntoFav(userMealCrossRef)
         }
     }
+    fun insertMeal(meal: Meal)=
+        viewModelScope.launch {
+            myRepo.insertMeal(meal)
+        }
+
+    fun deleteMeal(meal: Meal)=
+        viewModelScope.launch {
+            myRepo.deleteMeal(meal)
+        }
 }

@@ -9,4 +9,9 @@ interface FavRepo {
     suspend fun getAllUserFavMeals(userId : Int): List<Meal>
     suspend fun deleteFromFav(userWithMeals: UserMealCrossRef)
     suspend fun getMealById(id: String): MealList
+    suspend fun getUserWithMeals(userId: Int): UserWithMeal?
+
+    suspend fun insertMeal(meal: Meal)
+    suspend fun deleteMeal(meal: Meal)
+
 }

@@ -21,12 +21,16 @@ interface UserWithMealDao {
     suspend fun deleteFromFav(userMealCrossRef: UserMealCrossRef)
 
     @Transaction
-    @Query("SELECT idMeal FROM usermealcrossref WHERE id = :userId")
+    @Query("SELECT * FROM meal WHERE idMeal IN (SELECT idMeal FROM UserMealCrossRef WHERE id = :userId)")
     suspend fun getAllUserFavMeals(userId: Int): List<Meal>
 
     @Transaction
     @Query("SELECT EXISTS (SELECT * FROM UserMealCrossRef  WHERE id = :userId AND idMeal = :mealId)")
     suspend fun isFavoriteMeal(userId: Int, mealId: String): Boolean
+
+    @Transaction
+    @Query("SELECT * FROM user WHERE id = :userId")
+    suspend fun getUserWithMeals(userId: Int): UserWithMeal?
 
 }
 

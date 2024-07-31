@@ -1,6 +1,7 @@
 package com.example.recipeapp.data.local
 
 import android.content.Context
+import com.example.recipeapp.data.local.dao.MealDao
 import com.example.recipeapp.data.local.dao.UserDao
 import com.example.recipeapp.data.local.dao.UserWithMealDao
 import com.example.recipeapp.data.local.model.UserData
@@ -12,12 +13,15 @@ class LocalDataSourceImpl(context: Context) : LocalDataSource {
 
     private var dao: UserDao
     private var userWithMealDao: UserWithMealDao
+    private var mealDao: MealDao
+
 
 
     init {
         val db = UserDatabase.getInstance(context)
         dao = db.userDao()
         userWithMealDao = db.userWithMealDao()
+        mealDao= db.mealDao()
     }
 
     override suspend fun getUserDataById(id: Int) =
@@ -49,7 +53,16 @@ class LocalDataSourceImpl(context: Context) : LocalDataSource {
         return userWithMealDao.isFavoriteMeal(userId, mealId)
     }
 
+    override suspend fun getUserWithMeals(userId: Int): UserWithMeal? {
+        return userWithMealDao.getUserWithMeals(userId)
+    }
+
+    override suspend fun insertMeal(meal: Meal) =
+        mealDao.insertMeal(meal)
 
 
+
+    override suspend fun deleteMeal(meal: Meal) =
+        mealDao.deleteMeal(meal)
 
 }

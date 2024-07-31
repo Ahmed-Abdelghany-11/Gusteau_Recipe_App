@@ -23,4 +23,8 @@ interface LocalDataSource {
 
     suspend fun isFavoriteMeal(userId: Int, mealId: String): Boolean
 
+    suspend fun getUserWithMeals(userId: Int): UserWithMeal?
+
+    suspend fun insertMeal(meal: Meal)
+    suspend fun deleteMeal(meal: Meal)
 }

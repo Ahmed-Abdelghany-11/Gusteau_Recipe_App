@@ -21,17 +21,19 @@ class Adapter(private val meal: List<Meal?>,private val viewModel :HomeViewModel
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.getTextView().text = meal[position]?.strMeal
+        val meal  = meal[position]
+        holder.getTextView().text = meal?.strMeal
         Glide.with(holder.itemView.context)
-            .load(meal[position]?.strMealThumb)
+            .load(meal?.strMealThumb)
             .placeholder(R.drawable.baseline_image_24)
             .circleCrop()
             .into(holder.getImageView())
 
-        val meals  = meal[position]?.idMeal
         holder.getFavButton().setOnClickListener {
-            viewModel.insertIntoFav(userMealCrossRef = UserMealCrossRef(0,
-                meal[position]?.idMeal.toString()
+
+            viewModel.insertMeal(meal!!)
+            viewModel.insertIntoFav(userMealCrossRef = UserMealCrossRef(1,
+                meal.idMeal
             ))
             holder.getFavButton().setImageResource(R.drawable.baseline_favorite_24)
         }
