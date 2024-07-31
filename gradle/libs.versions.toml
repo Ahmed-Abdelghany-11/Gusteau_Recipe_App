@@ -23,6 +23,7 @@ glide = "4.16.0"
 room_version = "2.6.1"
 ksp_version = "1.9.21-1.0.15"
 safeargs = "2.6.0"
+youtube = "1.2.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -50,9 +51,8 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref="room_version"}
 glide = {group = "com.github.bumptech.glide", name = "glide", version.ref = "glide"}
 dynamic-featrues = {group = "androidx.navigation", name = "navigation-dynamic-features-fragment", version.ref = "navigationFragmentKtx"}
-
-#implementation("androidx.navigation:navigation-dynamic-features-fragment:2.7.7")
-
+youtube-player = {group = "com.google.android.youtube", name = "youtube-android-player-api", version.ref = "youtube"}
+#com.google.android.youtube:youtube-android-player-api:1.2.2
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

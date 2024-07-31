@@ -10,6 +10,7 @@ import com.example.recipeapp.data.remote.dto.Category
 import com.example.recipeapp.data.remote.dto.CategoryList
 import com.example.recipeapp.data.remote.dto.MealList
 import com.example.recipeapp.home.home.repo.RetrofitRepoImp
+import com.example.recipeapp.home.home.view.HomeFragmentDirections
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -41,5 +42,8 @@ class HomeViewModel (private val myRepo : RetrofitRepoImp) : ViewModel() {
         viewModelScope.launch {
             _getAllCategoriesResponse.postValue(myRepo.getAllCategories())
         }
+    }
+    fun toDetails() {
+       //val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(_getMyResponse.getValue()?.meals?.get(0))
     }
 }

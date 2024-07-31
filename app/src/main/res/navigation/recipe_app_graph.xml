@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/recipe_app_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/HomeFragment">
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/HomeFragment"
         android:name="com.example.recipeapp.home.home.view.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
@@ -19,8 +19,9 @@
         android:label="fragment_details"
         tools:layout="@layout/fragment_details" >
         <argument
-            android:name="mealObj"
-            app:argType="com.example.recipeapp.data.remote.dto.Meal" />
+            android:name="idMeal"
+            app:argType="string"
+            android:defaultValue='"2"' />
     </fragment>
     <fragment
         android:id="@+id/aboutUsFragment"
@@ -40,5 +41,5 @@
 
     <action
         android:id="@+id/action_global_to_homeFragment"
-        app:destination="@id/homeFragment" />
+        app:destination="@id/HomeFragment" />
 </navigation>

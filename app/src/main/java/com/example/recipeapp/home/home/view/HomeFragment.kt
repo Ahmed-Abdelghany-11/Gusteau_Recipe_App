@@ -1,6 +1,7 @@
 package com.example.recipeapp.home.home.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +39,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        var mealId: String? = null
         super.onViewCreated(view, savedInstanceState)
         gettingViewModelReady()
         //var myMeal: List<Meal>? = null
@@ -48,14 +49,16 @@ class HomeFragment : Fragment() {
 
         viewModel.getMyResponse()
         viewModel.getMyResponse.observe(viewLifecycleOwner) { getMyResponse ->
-            val randomMeal = getMyResponse.meals
+            val randomMeal = getMyResponse.meals[0]
+            mealId = randomMeal.idMeal
             //myMeal = randomMeal
-            textView.text = randomMeal[0].strMeal
+            textView.text = randomMeal.strMeal
             Glide.with(requireContext())
-                .load(randomMeal[0].strMealThumb)
+                .load(randomMeal.strMealThumb)
                 .placeholder(R.drawable.baseline_image_24)
                 .centerCrop()
                 .into(imageView)
+
         }
 
         //Categories
@@ -74,22 +77,36 @@ class HomeFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext(),
             RecyclerView.HORIZONTAL, false)
 
+        var adapter: Adapter? = null
         viewModel.getMealsByRandomLetter()
         viewModel.getMealsByLetterResponse.observe(viewLifecycleOwner) { getMyResponse ->
             val meal = getMyResponse.meals
-            recyclerView.adapter = Adapter(meal)
+            adapter = Adapter(meal)
+            recyclerView.adapter = adapter
         }
+        adapter?.setOnItemClickListener(object : Adapter.OnItemClickListener{
+            override fun onItemClick(position: Int) {
+                val meal = viewModel.getMealsByLetterResponse.value?.meals?.get(position)
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(meal?.idMeal ?: "0")
+                findNavController().navigate(action)            }
+
+        })
+
         imageView.setOnClickListener {
+            //fragment
+//            val meal = viewModel.getMyResponse.value?.meals
+//            if (meal != null) {
+//                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(meal[0])
+//                findNavController().navigate(action)
+//            }
 
-            val meal = viewModel.getMyResponse.value
-            if (meal != null) {
-                val myMea = meal.meals[0]
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(myMea)
+                val meal = viewModel.getMyResponse.value?.meals?.get(0)
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(meal?.idMeal ?: "0")
                 findNavController().navigate(action)
-            }
-
 
         }
+
+//        }
 
             }
 
