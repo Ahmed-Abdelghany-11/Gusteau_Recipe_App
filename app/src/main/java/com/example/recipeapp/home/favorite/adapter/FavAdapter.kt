@@ -44,7 +44,7 @@ class FavAdapter(val meal : List<Meal>,val viewmodel : FavViewModel) :RecyclerVi
         private val btn: ImageView = view.findViewById(R.id.heart_button)
 
         fun bind(meal: Meal, viewModel: FavViewModel) {
-            name.text = meal.strMeal
+            name.text = meal.idMeal
             Glide.with(view.context).load(meal.strMealThumb).into(image)
             btn.setImageResource(R.drawable.baseline_favorite_24)
             btn.setOnClickListener {

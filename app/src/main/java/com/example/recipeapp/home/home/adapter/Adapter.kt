@@ -28,10 +28,10 @@ class Adapter(private val meal: List<Meal?>,private val viewModel :HomeViewModel
             .circleCrop()
             .into(holder.getImageView())
 
-
+        val meals  = meal[position]?.idMeal
         holder.getFavButton().setOnClickListener {
             viewModel.insertIntoFav(userMealCrossRef = UserMealCrossRef(0,
-                meal[position].toString()
+                meal[position]?.idMeal.toString()
             ))
             holder.getFavButton().setImageResource(R.drawable.baseline_favorite_24)
         }
