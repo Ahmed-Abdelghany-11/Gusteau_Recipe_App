@@ -1,5 +1,6 @@
 package com.example.recipeapp.home
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,6 +11,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -17,7 +19,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.onNavDestinationSelected
 import com.example.recipeapp.R
+import com.example.recipeapp.authentication.login.view.LoginFragment
+import com.example.recipeapp.data.SharedPreference.AuthSharedPref
+import com.google.android.gms.dynamic.SupportFragmentWrapper
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class RecipeActivity : AppCompatActivity() {
@@ -67,12 +73,28 @@ class RecipeActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.signOut -> {
+                showSignOutDialog()
                 true
             }
             else -> {
                 item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
             }
         }
+    }
+
+    private fun showSignOutDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Sign Out")
+            .setMessage("Are You Sure That You Want To Sign Out")
+            .setPositiveButton("Sure") { _, _ ->
+                navigateToLogin()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun navigateToLogin() {
+//        AuthSharedPref(this).setLoggedIn(false)
     }
 
 }
