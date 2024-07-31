@@ -33,7 +33,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         emailInput = view.findViewById(R.id.email)
         passwordInput = view.findViewById(R.id.password)
-        authSharedPref= AuthSharedPref(requireContext())
+        authSharedPref = AuthSharedPref(requireContext())
         signInBtn = view.findViewById(R.id.signin_button)
         signUpText = view.findViewById(R.id.signIn_textView)
 
@@ -120,7 +120,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             .setNegativeButton("Cancel", null)
             .show()
     }
-
 
 
 }
