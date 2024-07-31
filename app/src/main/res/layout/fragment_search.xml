@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/search_recipes"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
@@ -61,16 +61,16 @@
      app:cardElevation="10dp"
      app:layout_constraintEnd_toEndOf="@id/guideline4"
      app:layout_constraintStart_toStartOf="@id/guideline5"
-     app:layout_constraintTop_toBottomOf="@id/textView7"
-     >
-    <SearchView
-        android:id="@+id/searchView"
-        style="@style/searchStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:queryHint="@string/search_recipes"
-        android:inputType="text"
-        />
+     app:layout_constraintTop_toBottomOf="@id/textView7">
+
+     <SearchView
+         android:id="@+id/searchView"
+         style="@style/searchStyle"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:inputType="text"
+         android:queryHint="@string/search_recipes"
+         android:iconifiedByDefault="false"/>
  </androidx.cardview.widget.CardView>
 
 
@@ -83,7 +83,23 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/no_result_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/no_results_found"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

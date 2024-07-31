@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,12 +30,15 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private lateinit var resultRv: RecyclerView
     private lateinit var searchView: SearchView
     private lateinit var searchAdapter: SearchAdapter
+    private lateinit var noResultText: TextView
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         resultRv = view.findViewById(R.id.search_rv)
         searchView = view.findViewById(R.id.searchView)
+        noResultText = view.findViewById(R.id.no_result_text)
 
         getViewModelReady()
         setUpSearchView()
@@ -43,8 +47,15 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         // observe result
         searchViewModel.searchResultOfMeals.observe(viewLifecycleOwner) { meals ->
-            if (meals != null)
+            val meal = meals?.meals
+            if (!meal.isNullOrEmpty()) {
+                resultRv.visibility = View.VISIBLE
+                noResultText.visibility = View.GONE
                 setUpRecyclerView(meals)
+            } else {
+                resultRv.visibility = View.GONE
+                noResultText.visibility = View.VISIBLE
+            }
         }
     }
 

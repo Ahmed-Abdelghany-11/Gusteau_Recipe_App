@@ -12,7 +12,7 @@ import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.data.remote.dto.MealList
 
 class SearchAdapter(
-    var mealList: MealList
+    private var mealList: MealList
 ): RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     class SearchViewHolder(private val view:View): RecyclerView.ViewHolder(view){
@@ -61,6 +61,6 @@ class SearchAdapter(
         holder.bind(meal)
     }
 
-    override fun getItemCount()= mealList.meals.size
+    override fun getItemCount()= mealList.meals.size ?: 0
 
 }

@@ -18,6 +18,7 @@ class SearchViewModel(
 
     fun getSearchResult(name: String) =
         viewModelScope.launch {
-            _searchResultOfMeals.postValue(searchRepository.getMealByName(name))
+            val result = searchRepository.getMealByName(name) ?: MealList(emptyList())
+            _searchResultOfMeals.postValue(result)
         }
 }
