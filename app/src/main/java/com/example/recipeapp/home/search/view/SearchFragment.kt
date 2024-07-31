@@ -38,6 +38,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         getViewModelReady()
         setUpSearchView()
+        setUpSearchView()
 
 
         // observe result
@@ -70,14 +71,14 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         // handle listener to search view
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(p0: String?): Boolean {
-                if (p0 != null) {
+                if (!p0.isNullOrBlank()) {
                     searchViewModel.getSearchResult(p0)
                 }
                 return true
             }
 
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                if (p0 != null) {
+                if (!p0.isNullOrBlank()) {
                     searchViewModel.getSearchResult(p0)
                 }
                 return true
