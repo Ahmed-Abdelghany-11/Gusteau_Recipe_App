@@ -84,6 +84,9 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             override fun onQueryTextChange(p0: String?): Boolean {
                 if (!p0.isNullOrBlank()) {
                     searchViewModel.getSearchResult(p0)
+                } else {
+                    resultRv.visibility = View.GONE
+                    noResultText.visibility = View.GONE
                 }
                 return true
             }
