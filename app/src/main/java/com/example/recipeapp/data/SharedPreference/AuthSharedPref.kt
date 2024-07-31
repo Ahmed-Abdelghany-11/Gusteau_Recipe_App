@@ -21,14 +21,7 @@ class AuthSharedPref(context: Context) {
         }
     }
 
-    fun saveUserId(userId: Int) {
-        with(sharedPreferences.edit()) {
-            putInt(USER_ID,userId)
-            apply()
-        }
-    }
 
-    fun getUserId()= sharedPreferences.getInt(USER_ID,0)
 
     fun isLoggedIn()=
          sharedPreferences.getBoolean(IS_LOGGED_IN, false)
