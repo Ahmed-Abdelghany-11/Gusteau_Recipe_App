@@ -47,6 +47,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     if (userExists) {
                         passwordInput.error = null
                         authSharedPref.setLoggedIn(true)
+                        saveUserId()
                         navigateToHome()
                     } else {
                         passwordInput.error = "incorrect password,please try again"
@@ -104,6 +105,16 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         loginViewModel =
             ViewModelProvider(this, loginViewModelFactory)[LoginViewModel::class.java]
 
+    }
+
+    private fun saveUserId(){
+        val email= emailInput.text.toString()
+        val password=passwordInput.text.toString()
+         loginViewModel.getUserIdByEmailAndPassword(email, password)
+
+        loginViewModel.userId.observe(viewLifecycleOwner){ id->
+            authSharedPref.saveUserId(id)
+        }
     }
 
 
