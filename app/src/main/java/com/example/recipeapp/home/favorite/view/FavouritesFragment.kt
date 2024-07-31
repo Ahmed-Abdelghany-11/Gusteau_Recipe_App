@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.view.menu.MenuItemWrapperICS
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,14 +35,19 @@ class FavouritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val userId = 0 /* Retrieve userId from appropriate source */
         gettingViewModelReady()
+        val recyclerViewFav = view.findViewById<RecyclerView>(R.id.FavRv)
+        recyclerViewFav.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.FavRv)
+        val userId = 0 // Replace with actual user ID
         viewModel.getAllUserFavMeals(userId)
-        viewModel.userFavMeals.observe(viewLifecycleOwner) { meals ->
-            Log.d("Fragment", "Observed UserFavMeals: $meals")
-            addElements(meals, recyclerView)
+
+        viewModel.userFavMeals.observe(viewLifecycleOwner) { userFavMeals ->
+            Log.d("FavouritesFragment", "Observed favorite meals: $userFavMeals")
+            if (userFavMeals != null) {
+                    addElements(userFavMeals, recyclerViewFav)
+
+            }
         }
     }
 
@@ -49,7 +55,7 @@ class FavouritesFragment : Fragment() {
         Log.d("Fragment", "Adding elements: $data")
         val mutableCopy = mutableListOf<Meal>().apply {
             addAll(data)
-            Log.d("Fragment", "Elements added: $data")
+            Log.d("Fragment", "Elements added: ${data}")
         }
 
         recyclerView.adapter = FavAdapter(mutableCopy, viewModel)
@@ -65,5 +71,11 @@ class FavouritesFragment : Fragment() {
         )
         viewModel = ViewModelProvider(this,favFactory)[FavViewModel::class.java]
     }
+
+//    private fun onRecipeClick(clickedMeal: Meal) {
+//        val action = FavouritesFragmentDirections.actionFavouritesFragmentToNewDetailsFragment(clickedMeal.strMeal,
+//            clickedMeal.strCategory,clickedMeal.strInstructions,clickedMeal.strYoutube,clickedMeal.strMealThumb,clickedMeal.idMeal,clickedMeal.strArea)
+//        findNavController().navigate(action)
+//    }
 
 }

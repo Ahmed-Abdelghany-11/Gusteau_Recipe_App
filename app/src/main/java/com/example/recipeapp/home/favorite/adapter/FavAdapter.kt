@@ -1,5 +1,6 @@
 package com.example.recipeapp.home.favorite.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,36 +21,36 @@ class FavAdapter(val meal : List<Meal>,val viewmodel : FavViewModel) :RecyclerVi
     }
 
     override fun onBindViewHolder(holder: FavViewHolder, position: Int) {
-        holder.getName().text = meal[position].strMeal
-        val image: ImageView = holder.getImage()
-        Glide.with(holder.itemView.context).load(meal[position].strMealThumb).into(image)
-        holder.getBtn().setImageResource(R.drawable.baseline_favorite_24)
-        holder.getBtn().setOnClickListener {
-            viewmodel.deleteFromFav(UserMealCrossRef(0,meal[position].idMeal))
-        holder.getBtn().setImageResource(R.drawable.baseline_favorite_border_24)
-        }
+//        holder.getName().text = meal[position].strMeal
+//        val image: ImageView = holder.getImage()
+//        Glide.with(holder.itemView.context).load(meal[position].strMealThumb).into(image)
+//        holder.getBtn().setImageResource(R.drawable.baseline_favorite_24)
+//        holder.getBtn().setOnClickListener {
+//            viewmodel.deleteFromFav(UserMealCrossRef(0,meal[position].idMeal))
+//        holder.getBtn().setImageResource(R.drawable.baseline_favorite_border_24)
+//        }
+        val meal = meal[position]
+        Log.d("asd", "onBindViewHolder: $meal")
+        holder.bind(meal, viewmodel)
     }
 
     override fun getItemCount(): Int {
         return meal.size
     }
 
-     class FavViewHolder(private var view: View) : RecyclerView.ViewHolder(view) {
-         private val name = null
-         private val image = null
-         private val btn = null
+    class FavViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+        private val name: TextView = view.findViewById(R.id.meal_name)
+        private val image: ImageView = view.findViewById(R.id.image)
+        private val btn: ImageView = view.findViewById(R.id.heart_button)
 
-         fun getName(): TextView {
-             return name ?: view.findViewById(R.id.meal_name)
-         }
-
-         fun getImage(): ImageView {
-             return image ?: view.findViewById(R.id.image)
-         }
-
-        fun getBtn(): ImageView {
-            return btn ?: view.findViewById(R.id.heart_button)
+        fun bind(meal: Meal, viewModel: FavViewModel) {
+            name.text = meal.strMeal
+            Glide.with(view.context).load(meal.strMealThumb).into(image)
+            btn.setImageResource(R.drawable.baseline_favorite_24)
+            btn.setOnClickListener {
+                viewModel.deleteFromFav(UserMealCrossRef(0, meal.idMeal))
+                btn.setImageResource(R.drawable.baseline_favorite_border_24)
+            }
         }
-
     }
 }

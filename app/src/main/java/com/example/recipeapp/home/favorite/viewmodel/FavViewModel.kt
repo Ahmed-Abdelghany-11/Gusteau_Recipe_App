@@ -1,5 +1,6 @@
 package com.example.recipeapp.home.favorite.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,7 +19,9 @@ class FavViewModel (private val repo: FavRepo) : ViewModel() {
 
     fun getAllUserFavMeals(userId : Int){
         viewModelScope.launch {
-            _userFavMeals.postValue(repo.getAllUserFavMeals(userId))
+            val favMeals = repo.getAllUserFavMeals(userId)
+            Log.d("FavViewModel", "Fetched favorite meals: $favMeals")
+            _userFavMeals.postValue(favMeals)
         }
     }
 
