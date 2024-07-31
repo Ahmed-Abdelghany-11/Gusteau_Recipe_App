@@ -18,6 +18,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.recipeapp.R
+import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.remote.APIClient
 import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.home.home.adapter.Adapter
@@ -25,6 +26,7 @@ import com.example.recipeapp.home.home.adapter.CategoryAdapter
 import com.example.recipeapp.home.home.repo.RetrofitRepoImp
 import com.example.recipeapp.home.home.viewModel.HomeViewModel
 import com.example.recipeapp.home.home.viewModel.ViewModelFactory
+import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory
 import kotlin.random.Random
 
 class HomeFragment : Fragment() {
@@ -51,16 +53,14 @@ class HomeFragment : Fragment() {
 
         viewModel.getMyResponse()
         viewModel.getMyResponse.observe(viewLifecycleOwner) { getMyResponse ->
-            val randomMeal = getMyResponse.meals[0]
-            mealId = randomMeal.idMeal
+
             //myMeal = randomMeal
-            textView.text = randomMeal.strMeal
             val randomMeal = getMyResponse?.meals
+            mealId = randomMeal?.get(0)?.idMeal
             textView.text = randomMeal?.get(0)?.strMeal
             Glide.with(requireContext())
-                .load(randomMeal.strMealThumb)
                 .load(randomMeal?.get(0)?.strMealThumb)
-                .placeholder(R.drawable.baseline_image_24)
+                //.placeholder(R.drawable.baseline_image_24)
                 .centerCrop()
                 .into(imageView)
 
@@ -91,8 +91,9 @@ class HomeFragment : Fragment() {
         var adapter: Adapter? = null
         viewModel.getMealsByRandomLetter()
         viewModel.getMealsByLetterResponse.observe(viewLifecycleOwner) { getMyResponse ->
-            val meal = getMyResponse.meals
+            val meal = getMyResponse?.meals
             adapter = Adapter(meal)
+
             recyclerView.adapter = adapter
         }
         adapter?.setOnItemClickListener(object : Adapter.OnItemClickListener{
@@ -111,11 +112,11 @@ class HomeFragment : Fragment() {
 //                findNavController().navigate(action)
 //            }
 
-                val meal = viewModel.getMyResponse.value?.meals?.get(0)
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(meal?.idMeal ?: "0")
+                val myMeal = viewModel.getMyResponse.value?.meals?.get(0)
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(myMeal?.idMeal ?: "0")
                 findNavController().navigate(action)
 
-            val meal = getMyResponse?.meals
+            val meal = viewModel.getMyResponse.value?.meals
             if (!meal.isNullOrEmpty()) {
                 recyclerView.adapter = Adapter(meal)
                 progressBarRecipe.visibility = View.GONE

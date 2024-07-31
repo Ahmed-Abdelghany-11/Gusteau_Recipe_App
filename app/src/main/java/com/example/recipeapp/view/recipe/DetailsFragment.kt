@@ -43,7 +43,7 @@ class DetailsFragment : Fragment() {
             video = view.findViewById<YouTubePlayerView>(R.id.youtube_player_view)
             video.enableAutomaticInitialization = false
             lifecycle.addObserver(video)
-            Log.d("video", meal.strYoutube)
+            Log.d("video", meal?.strYoutube?: "null")
 
             /*
             video.initialize(object: YouTubePlayerListener {
@@ -89,11 +89,11 @@ class DetailsFragment : Fragment() {
 
             })
             */
-            details.text = meal.strInstructions
-            title.text = meal.strMeal
-            category.text = meal.strCategory
+            details.text = meal?.strInstructions
+            title.text = meal?.strMeal
+            category.text = meal?.strCategory
             Glide.with(requireContext())
-                .load(meal.strMealThumb)
+                .load(meal?.strMealThumb)
                 .into(img)
         }
 

@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.data.remote.dto.Meal
 
-class Adapter(private val meal: List<Meal>) : RecyclerView.Adapter<Adapter.ViewHolder>() {
+class Adapter(private val meal: List<Meal?>?) : RecyclerView.Adapter<Adapter.ViewHolder>() {
     var myListener: OnItemClickListener? = null
 
     interface OnItemClickListener{
@@ -28,15 +28,15 @@ class Adapter(private val meal: List<Meal>) : RecyclerView.Adapter<Adapter.ViewH
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.getTextView().text = meal[position].strMeal
+        holder.getTextView().text = meal?.get(position)?.strMeal
         Glide.with(holder.itemView.context)
-            .load(meal[position].strMealThumb)
+            .load(meal?.get(position)?.strMealThumb)
             .placeholder(R.drawable.baseline_image_24)
             .circleCrop()
             .into(holder.getImageView())
     }
 
-    override fun getItemCount() = meal.size
+    override fun getItemCount() = meal?.size ?: 0
 
     class ViewHolder(private var view: View, listener: OnItemClickListener?) : RecyclerView.ViewHolder(view) {
         private var textView: TextView?= null
