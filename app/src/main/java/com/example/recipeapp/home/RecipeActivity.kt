@@ -42,11 +42,6 @@ class RecipeActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         NavigationUI.setupWithNavController(toolbar,navController)
 
-        val homeFabButton= findViewById<FloatingActionButton>(R.id.floating)
-
-        homeFabButton.setOnClickListener {
-            navController.navigate(R.id.action_global_to_homeFragment)
-        }
 
         // Handle back button behavior
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
