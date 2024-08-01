@@ -1,5 +1,6 @@
 package com.example.recipeapp.home.home.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,8 +35,16 @@ class HomeViewModel (private val myRepo : RetrofitRepoImp) : ViewModel() {
 
     fun getMealsByRandomLetter() {
         viewModelScope.launch {
-            val randomLetter = ('a'..'z').random()
-            val response = myRepo.getMealByFirstLetter(randomLetter.toString())
+            fetchMealsByRandomLetter()
+        }
+    }
+
+    private suspend fun fetchMealsByRandomLetter() {
+        val randomLetter = ('a'..'z').random()
+        val response = myRepo.getMealByFirstLetter(randomLetter.toString())
+        if (response?.meals.isNullOrEmpty()) {
+            fetchMealsByRandomLetter()
+        } else {
             _getMealsByLetterResponse.postValue(response)
         }
     }
