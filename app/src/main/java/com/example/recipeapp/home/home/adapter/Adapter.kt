@@ -1,5 +1,6 @@
 package com.example.recipeapp.home.home.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
+import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.home.home.viewModel.HomeViewModel
@@ -43,14 +45,7 @@ class Adapter(private val meal: List<Meal?>?,private val viewModel :HomeViewMode
             .into(holder.getImageView())
 
         holder.getFavButton().setOnClickListener {
-
-            viewModel.insertMeal(meal!!)
-            viewModel.insertIntoFav(
-                userMealCrossRef = UserMealCrossRef(
-                    1,
-                    meal.idMeal
-                )
-            )
+             addFavMeal(holder.itemView.context,meal!!)
             holder.getFavButton().setImageResource(R.drawable.baseline_favorite_24)
         }
     }
@@ -84,4 +79,16 @@ class Adapter(private val meal: List<Meal?>?,private val viewModel :HomeViewMode
         }
 
     }
+
+    private fun addFavMeal(context: Context,meal: Meal){
+        val userId= AuthSharedPref(context).getUserId()
+        viewModel.insertMeal(meal)
+        viewModel.insertIntoFav(
+            userMealCrossRef = UserMealCrossRef(
+                userId,
+                meal.idMeal
+            )
+        )
+    }
+
 }
