@@ -9,4 +9,7 @@ interface SignUpRepository {
     suspend fun isEmailAlreadyExists(email: String): Boolean
 
     suspend fun insertUserData(userData: UserData)
+
+    suspend fun getUserIdByEmailAndPassword(email: String,password: String):Int
+
 }

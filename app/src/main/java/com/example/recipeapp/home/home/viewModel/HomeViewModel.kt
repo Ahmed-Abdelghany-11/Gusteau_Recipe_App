@@ -1,15 +1,19 @@
 package com.example.recipeapp.home.home.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.RetrofitHelper
 import com.example.recipeapp.data.remote.dto.Category
 import com.example.recipeapp.data.remote.dto.CategoryList
+import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.data.remote.dto.MealList
 import com.example.recipeapp.home.home.repo.RetrofitRepoImp
+import com.example.recipeapp.home.home.view.HomeFragmentDirections
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -31,8 +35,16 @@ class HomeViewModel (private val myRepo : RetrofitRepoImp) : ViewModel() {
 
     fun getMealsByRandomLetter() {
         viewModelScope.launch {
-            val randomLetter = ('a'..'z').random()
-            val response = myRepo.getMealByFirstLetter(randomLetter.toString())
+            fetchMealsByRandomLetter()
+        }
+    }
+
+    private suspend fun fetchMealsByRandomLetter() {
+        val randomLetter = ('a'..'z').random()
+        val response = myRepo.getMealByFirstLetter(randomLetter.toString())
+        if (response?.meals.isNullOrEmpty()) {
+            fetchMealsByRandomLetter()
+        } else {
             _getMealsByLetterResponse.postValue(response)
         }
     }
@@ -42,4 +54,19 @@ class HomeViewModel (private val myRepo : RetrofitRepoImp) : ViewModel() {
             _getAllCategoriesResponse.postValue(myRepo.getAllCategories())
         }
     }
+
+    fun insertIntoFav(userMealCrossRef: UserMealCrossRef) {
+        viewModelScope.launch {
+            myRepo.insertIntoFav(userMealCrossRef)
+        }
+    }
+    fun insertMeal(meal: Meal)=
+        viewModelScope.launch {
+            myRepo.insertMeal(meal)
+        }
+
+    fun deleteMeal(meal: Meal)=
+        viewModelScope.launch {
+            myRepo.deleteMeal(meal)
+        }
 }

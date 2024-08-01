@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="16dp"
     tools:context=".home.home.view.HomeFragment">
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="14dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="4dp"
@@ -40,9 +40,8 @@
                 android:id="@+id/RandomImageView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_margin="10dp"
-                app:layout_constraintDimensionRatio="H,27:8.5"
                 android:scaleType="fitCenter"
+                app:layout_constraintDimensionRatio="H,27:8.5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -51,7 +50,7 @@
 
             <TextView
                 android:id="@+id/RandomTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
@@ -64,18 +63,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/RandomImageView"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintHorizontal_chainStyle="spread_inside" />
 
             <ImageButton
-                android:id="@+id/fav"
+                android:id="@+id/randomFav"
                 android:layout_width="22dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="12dp"
-                android:background="@color/white"
-                app:layout_constraintEnd_toStartOf="@id/RandomTextView"
-                app:layout_constraintHorizontal_bias="0.092"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/RandomImageView"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:background="@null"
+                app:layout_constraintStart_toStartOf="@id/RandomTextView"
+                app:layout_constraintTop_toTopOf="@id/RandomTextView"
                 app:srcCompat="@drawable/baseline_favorite_border_24" />
 
             <ProgressBar
@@ -92,6 +90,7 @@
 
     </androidx.cardview.widget.CardView>
 
+
     <TextView
         android:id="@+id/Category"
         android:layout_width="match_parent"
@@ -101,7 +100,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginStart="14dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardView"
         app:layout_constraintBottom_toTopOf="@id/recyclerViewCategories" />
@@ -110,7 +109,7 @@
         android:id="@+id/recyclerViewCategories"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="14dp"
         android:layout_marginEnd="14dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -134,7 +133,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginStart="14dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/recyclerViewCategories"
         app:layout_constraintBottom_toTopOf="@id/recyclerViewRecipes" />
@@ -143,7 +142,7 @@
         android:id="@+id/recyclerViewRecipes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="14dp"
         android:layout_marginEnd="14dp"
         android:layout_marginBottom="10dp"

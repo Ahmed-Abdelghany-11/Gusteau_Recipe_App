@@ -87,6 +87,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         if (validationErrors.isEmpty()) {
             signUpViewModel.insertUser(user)
             authSharedPref.setLoggedIn(true)
+            saveUserId()
             findNavController().navigate(R.id.action_registerFragment_to_recipeActivity)
         } else {
             clearErrors()
@@ -95,6 +96,15 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     }
 
+    private fun saveUserId(){
+        val email= emailInput.text.toString()
+        val password=passwordInput.text.toString()
+        signUpViewModel.getUserIdByEmailAndPassword(email, password)
+
+        signUpViewModel.userId.observe(viewLifecycleOwner){ id->
+            authSharedPref.saveUserId(id)
+        }
+    }
 
     private fun clearErrors() {
         nameInput.error = null

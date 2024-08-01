@@ -12,6 +12,10 @@ class LoginRepoImp(
     override suspend fun isEmailAlreadyExists(email: String) =
         localDataSource.isEmailAlreadyExists(email)
 
+    override suspend fun getUserIdByEmailAndPassword(email: String, password: String)=
+        localDataSource.getUserIdByEmailAndPassword(email, password)
+
+
 }
 
 

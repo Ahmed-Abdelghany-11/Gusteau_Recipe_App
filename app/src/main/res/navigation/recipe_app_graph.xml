@@ -16,24 +16,38 @@
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.example.recipeapp.view.recipe.DetailsFragment"
+        android:name="com.example.recipeapp.home.details.view.DetailsFragment"
         android:label="@string/details"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details" >
+        <argument
+            android:name="idMeal"
+            app:argType="string"
+            android:defaultValue='"2"' />
+    </fragment>
+
     <fragment
         android:id="@+id/aboutUsFragment"
-        android:name="com.example.recipeapp.view.recipe.AboutUsFragment"
+        android:name="com.example.recipeapp.home.aboutUs.view.AboutUsFragment"
         android:label="@string/about"
         tools:layout="@layout/fragment_about_us" />
     <fragment
         android:id="@+id/favouritesFragment"
-        android:name="com.example.recipeapp.view.auth.FavouritesFragment"
+        android:name="com.example.recipeapp.home.favorite.view.FavouritesFragment"
         android:label="@string/favourites"
-        tools:layout="@layout/fragment_favourites" />
+        tools:layout="@layout/fragment_favourites" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.recipeapp.view.auth.SearchFragment"
+        android:name="com.example.recipeapp.home.search.view.SearchFragment"
         android:label="@string/search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
 
     <action
         android:id="@+id/action_global_to_homeFragment"

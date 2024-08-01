@@ -4,13 +4,20 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.recipeapp.data.local.dao.MealDao
 import com.example.recipeapp.data.local.dao.UserDao
+import com.example.recipeapp.data.local.dao.UserWithMealDao
 import com.example.recipeapp.data.local.model.UserData
+import com.example.recipeapp.data.local.model.UserMealCrossRef
+import com.example.recipeapp.data.local.model.UserWithMeal
+import com.example.recipeapp.data.remote.dto.Meal
 
-@Database ( entities = [UserData::class], version = 1)
+@Database ( entities = [UserData::class,Meal::class,UserMealCrossRef::class], version = 5)
 abstract class UserDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
+    abstract fun userWithMealDao(): UserWithMealDao
+    abstract fun mealDao(): MealDao
 
     companion object {
         @Volatile
