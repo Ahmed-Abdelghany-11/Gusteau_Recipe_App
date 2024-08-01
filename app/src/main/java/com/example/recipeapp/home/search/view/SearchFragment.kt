@@ -52,7 +52,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             if (!meal.isNullOrEmpty()) {
                 resultRv.visibility = View.VISIBLE
                 noResultText.visibility = View.GONE
-                setUpRecyclerView(meals)
+                setUpRecyclerView(meals, searchViewModel)
             } else {
                 resultRv.visibility = View.GONE
                 noResultText.visibility = View.VISIBLE
@@ -64,7 +64,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         val searchViewModelFactory = SearchViewModelFactory(
             searchRepository = SearchRepoImp(
-                remoteDataSource = APIClient
+                remoteDataSource = APIClient,
+                localDataSource = LocalDataSourceImpl(requireContext())
             )
         )
         searchViewModel =
@@ -72,8 +73,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     }
 
-    private fun setUpRecyclerView(meals: MealList= MealList(emptyList())) {
-        searchAdapter = SearchAdapter(meals)
+    private fun setUpRecyclerView(meals: MealList= MealList(emptyList()), viewModel: SearchViewModel) {
+        searchAdapter = SearchAdapter(meals, viewModel)
         resultRv.layoutManager = LinearLayoutManager(requireContext())
         resultRv.adapter = searchAdapter
         searchAdapter.setOnItemClickListener(object: SearchAdapter.OnItemClickListener {
