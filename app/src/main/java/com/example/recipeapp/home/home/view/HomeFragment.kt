@@ -104,8 +104,15 @@ class HomeFragment : Fragment() {
             adapter.setOnItemClickListener(object : Adapter.OnItemClickListener{
                 override fun onItemClick(position: Int) {
                     val meal = viewModel.getMealsByLetterResponse.value?.meals?.get(position)
-                    val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(meal?.idMeal ?: "0")
-                    findNavController().navigate(action)
+                    Log.d("aaaaaaaaaaaaaaaaaaaaa", "onItemClick: ${meal}")
+                    val action = meal?.let {
+                        HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(
+                            it
+                        )
+                    }
+                    if (action != null) {
+                        findNavController().navigate(action)
+                    }
                 }
 
             })
@@ -120,8 +127,15 @@ class HomeFragment : Fragment() {
 //            }
 
             val myMeal = viewModel.getMyResponse.value?.meals?.get(0)
-            val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(myMeal?.idMeal ?: "0")
-            findNavController().navigate(action)
+            Log.d("aaaaaaaaaaaaaaaaaaaaa", "onItemClick: ${myMeal}")
+            val action = myMeal?.let { it1 ->
+                HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(
+                    it1
+                )
+            }
+            if (action != null) {
+                findNavController().navigate(action)
+            }
 
             val meal = viewModel.getMyResponse.value?.meals
             if (!meal.isNullOrEmpty()) {

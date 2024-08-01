@@ -80,8 +80,14 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         searchAdapter.setOnItemClickListener(object: SearchAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val meal = searchViewModel.searchResultOfMeals.value?.meals?.get(position)
-                val action = SearchFragmentDirections.actionSearchFragmentToDetailsFragment(meal?.idMeal ?: "0")
-                findNavController().navigate(action)
+                val action = meal?.let {
+                    SearchFragmentDirections.actionSearchFragmentToDetailsFragment(
+                        it
+                    )
+                }
+                if (action != null) {
+                    findNavController().navigate(action)
+                }
             }
 
         })

@@ -20,9 +20,8 @@
         android:label="@string/details"
         tools:layout="@layout/fragment_details" >
         <argument
-            android:name="idMeal"
-            app:argType="string"
-            android:defaultValue='"2"' />
+            android:name="MealData"
+            app:argType="com.example.recipeapp.data.remote.dto.Meal" />
     </fragment>
 
     <fragment

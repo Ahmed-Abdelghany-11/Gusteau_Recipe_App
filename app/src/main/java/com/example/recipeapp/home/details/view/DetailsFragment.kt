@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.data.remote.RetrofitHelper
+import com.example.recipeapp.data.remote.dto.Meal
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import kotlinx.coroutines.launch
@@ -31,9 +32,9 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
-            Log.v("mealId", args.idMeal)
-            val myResponse = RetrofitHelper.service.getMealById(args.idMeal)
-            val meal = myResponse.meals[0]
+            val data :Meal = args.MealData
+//            val myResponse = RetrofitHelper.service.getMealById(args.idMeal)
+//            val meal = myResponse.meals[0]
             val title = view.findViewById<TextView>(R.id.txtTitle)
             val img = view.findViewById<ImageView>(R.id.image)
             val category = view.findViewById<TextView>(R.id.txtCategory)
@@ -41,7 +42,7 @@ class DetailsFragment : Fragment() {
             video = view.findViewById<YouTubePlayerView>(R.id.youtube_player_view)
             video.enableAutomaticInitialization = false
             lifecycle.addObserver(video)
-            Log.d("video", meal?.strYoutube?: "null")
+//            Log.d("video", meal?.strYoutube?: "null")
 
             /*
             video.initialize(object: YouTubePlayerListener {
@@ -87,11 +88,11 @@ class DetailsFragment : Fragment() {
 
             })
             */
-            details.text = meal?.strInstructions
-            title.text = meal?.strMeal
-            category.text = meal?.strCategory
+            details.text = data.strInstructions
+            title.text = data.strMeal
+            category.text = data.strCategory
             Glide.with(requireContext())
-                .load(meal?.strMealThumb)
+                .load(data.strMealThumb)
                 .into(img)
         }
 
