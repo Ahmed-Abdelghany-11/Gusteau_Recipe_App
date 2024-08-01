@@ -10,12 +10,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.view.menu.MenuItemWrapperICS
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
+import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.local.model.UserWithMeal
 import com.example.recipeapp.data.remote.APIClient
 import com.example.recipeapp.data.remote.RemoteDataSource
@@ -58,6 +60,7 @@ class FavouritesFragment : Fragment() {
                 setUpRecyclerView(userFavMeals.meals, recyclerViewFav)
             }
         }
+        removeBySwipe ()
     }
 
     private fun setUpRecyclerView(data: List<Meal>, recyclerView: RecyclerView) {
@@ -75,6 +78,24 @@ class FavouritesFragment : Fragment() {
             )
         )
         viewModel = ViewModelProvider(this, favFactory)[FavViewModel::class.java]
+    }
+
+    private fun removeBySwipe () {
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val meal = favAdapter.meal[position]
+                viewModel.deleteMeal(meal)
+                viewModel.deleteFromFav(UserMealCrossRef(1, meal.idMeal))
+                favAdapter.notifyItemRemoved(position)
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerViewFav)
     }
 
 }

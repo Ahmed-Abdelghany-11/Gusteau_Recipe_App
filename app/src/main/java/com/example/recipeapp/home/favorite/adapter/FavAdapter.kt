@@ -1,10 +1,14 @@
 package com.example.recipeapp.home.favorite.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.AsyncListUtil
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
@@ -33,6 +37,7 @@ class FavAdapter(val meal : List<Meal>,val viewmodel : FavViewModel) :RecyclerVi
 
         fun bind(meal: Meal, viewModel: FavViewModel) {
             name.text = meal.strMeal
+            Log.d("strmeal", "bind: ${meal.strMeal}")
             Glide.with(view.context).load(meal.strMealThumb).into(image)
             btn.setImageResource(R.drawable.baseline_favorite_24)
             btn.setOnClickListener {
