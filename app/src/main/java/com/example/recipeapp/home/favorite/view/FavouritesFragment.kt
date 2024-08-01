@@ -94,7 +94,7 @@ class FavouritesFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val meal = favAdapter.mealList[position]
-                favAdapter.showFunAlertDialog(requireContext(),meal)
+                favAdapter.showFunAlertDialog(requireContext(),meal,position)
             }
         }
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)

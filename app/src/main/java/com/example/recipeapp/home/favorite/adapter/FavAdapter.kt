@@ -57,7 +57,7 @@ class FavAdapter(val mealList : MutableList<Meal>, val viewmodel : FavViewModel)
             Glide.with(view.context).load(meal.strMealThumb).into(image)
             btn.setImageResource(R.drawable.baseline_favorite_24)
             btn.setOnClickListener {
-                showFunAlertDialog(itemView.context,meal)
+                showFunAlertDialog(itemView.context,meal,adapterPosition)
             }
         }
 
@@ -66,12 +66,12 @@ class FavAdapter(val mealList : MutableList<Meal>, val viewmodel : FavViewModel)
 
     }
 
-    fun showFunAlertDialog(context: Context,meal: Meal) {
+    fun showFunAlertDialog(context: Context,meal: Meal,position: Int) {
         MaterialAlertDialogBuilder(context)
             .setTitle("Remove Meal From Favorites")
             .setMessage("Are you sure you want to remove this meal from favorites?")
             .setPositiveButton("Remove") { dialog, _ ->
-                removeMeal(context,meal)
+                removeMeal(context,meal,position)
                 dialog.dismiss()
             }
             .setNegativeButton("Cancel") { dialog, _ ->
@@ -81,22 +81,19 @@ class FavAdapter(val mealList : MutableList<Meal>, val viewmodel : FavViewModel)
             .show()
     }
 
-    private fun removeMeal(context: Context, meal: Meal) {
-        val userId = AuthSharedPref(context).getUserId()
+    private fun removeMeal(context: Context,meal: Meal,position: Int) {
+        val userId= AuthSharedPref(context).getUserId()
         viewmodel.deleteMeal(meal)
         viewmodel.deleteFromFav(UserMealCrossRef(
-            id = userId,
+            id= userId,
             idMeal = meal.idMeal
         ))
 
-        val position = mealList.indexOf(meal)
-        if (position != -1) {
-            // delete from adapter
-            mealList.removeAt(position)
-            notifyItemRemoved(position)
-        }
-    }
+        // delete from adapter
+        mealList.removeAt(position)
+        notifyItemRemoved(position)
 
+    }
 
 
 }
