@@ -46,4 +46,5 @@
     <string name="search_result">Search Result</string>
     <string name="no_results_found">No Results Found</string>
     <string name="textview">textView</string>
+    <string name="meal_name">Meal Name</string>
 </resources>

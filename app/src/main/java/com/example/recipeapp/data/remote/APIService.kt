@@ -27,7 +27,8 @@ interface APIService {
     @GET("categories.php")
     suspend fun getAllCategories () : CategoryList
 
-    @GET("lookup.php?")
-    suspend fun getMealById(@Query("i") id : String): MealList
+
+    @GET("lookup.php")
+    suspend fun getMealById(@Query("i") mealId: String): MealList
 
 }

@@ -3,7 +3,9 @@ package com.example.recipeapp.data.local.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import com.example.recipeapp.data.local.model.UserData
+import com.example.recipeapp.data.local.model.UserWithMeal
 
 @Dao
 interface UserDao {
@@ -22,4 +24,5 @@ interface UserDao {
 
     @Query("SELECT id FROM user WHERE email = :email AND password = :password")
     suspend fun getUserIdByEmailAndPassword(email: String, password: String): Int
+
 }
