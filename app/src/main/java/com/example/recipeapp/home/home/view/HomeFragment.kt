@@ -18,6 +18,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.recipeapp.R
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
+import com.example.recipeapp.data.local.LocalDataSourceImpl
+import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.APIClient
 import com.example.recipeapp.home.home.adapter.Adapter
 import com.example.recipeapp.home.home.adapter.CategoryAdapter
@@ -83,7 +85,7 @@ class HomeFragment : Fragment() {
         viewModel.getMealsByLetterResponse.observe(viewLifecycleOwner) { getMyResponse ->
             val meal = getMyResponse?.meals
             if (!meal.isNullOrEmpty()) {
-                recyclerView.adapter = Adapter(meal)
+                recyclerView.adapter = Adapter(meal,viewModel)
                 progressBarRecipe.visibility = View.GONE
             }
         }
@@ -95,7 +97,8 @@ class HomeFragment : Fragment() {
     private fun gettingViewModelReady(){
         val factory = ViewModelFactory(
             repo = RetrofitRepoImp(
-                remoteDataSource = APIClient
+                remoteDataSource = APIClient ,
+                localDataSource = LocalDataSourceImpl(requireContext())
             )
         )
         viewModel = ViewModelProvider(this,factory).get(HomeViewModel::class.java)

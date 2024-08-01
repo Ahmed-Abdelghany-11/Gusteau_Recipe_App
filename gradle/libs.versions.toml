@@ -48,6 +48,8 @@ room = { group = "androidx.room", name = "room-ktx", version.ref = "room_version
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room_version" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref="room_version"}
 glide = {group = "com.github.bumptech.glide", name = "glide", version.ref = "glide"}
+lottie = { group = "com.airbnb.android", name = "lottie", version = "6.4.0" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
