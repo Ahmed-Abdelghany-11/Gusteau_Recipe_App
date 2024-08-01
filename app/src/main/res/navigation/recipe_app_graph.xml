@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.example.recipeapp.home.details.view.DetailsFragment"
-        android:label="fragment_details"
+        android:label="@string/details"
         tools:layout="@layout/fragment_details" >
         <argument
             android:name="idMeal"
@@ -28,7 +28,7 @@
     <fragment
         android:id="@+id/aboutUsFragment"
         android:name="com.example.recipeapp.home.aboutUs.view.AboutUsFragment"
-        android:label="fragment_about_us"
+        android:label="@string/about"
         tools:layout="@layout/fragment_about_us" />
     <fragment
         android:id="@+id/favouritesFragment"
@@ -42,7 +42,7 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.recipeapp.home.search.view.SearchFragment"
-        android:label="fragment_search"
+        android:label="@string/search"
         tools:layout="@layout/fragment_search" >
         <action
             android:id="@+id/action_searchFragment_to_detailsFragment"
