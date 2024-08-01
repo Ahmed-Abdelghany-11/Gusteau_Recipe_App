@@ -81,19 +81,22 @@ class FavAdapter(val mealList : MutableList<Meal>, val viewmodel : FavViewModel)
             .show()
     }
 
-    private fun removeMeal(context: Context,meal: Meal) {
-        val userId= AuthSharedPref(context).getUserId()
+    private fun removeMeal(context: Context, meal: Meal) {
+        val userId = AuthSharedPref(context).getUserId()
         viewmodel.deleteMeal(meal)
         viewmodel.deleteFromFav(UserMealCrossRef(
-            id= userId,
+            id = userId,
             idMeal = meal.idMeal
         ))
 
-        // delete from adapter
-        mealList.remove(meal)
-        notifyItemRemoved(mealList.indexOf(meal))
-
+        val position = mealList.indexOf(meal)
+        if (position != -1) {
+            // delete from adapter
+            mealList.removeAt(position)
+            notifyItemRemoved(position)
+        }
     }
+
 
 
 }
