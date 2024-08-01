@@ -117,11 +117,11 @@ class HomeFragment : Fragment() {
                 val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(myMeal?.idMeal ?: "0")
                 findNavController().navigate(action)
 
-//            val meal = viewModel.getMyResponse.value?.meals
-//            if (!meal.isNullOrEmpty()) {
-//                recyclerView.adapter = Adapter(meal)
-//                progressBarRecipe.visibility = View.GONE
-//            }
+            val meal = viewModel.getMyResponse.value?.meals
+            if (!meal.isNullOrEmpty()) {
+                recyclerView.adapter = Adapter(meal)
+                progressBarRecipe.visibility = View.GONE
+            }
         }
 
 //        }
