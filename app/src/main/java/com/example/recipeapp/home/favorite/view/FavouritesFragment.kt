@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.view.menu.MenuItemWrapperICS
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,8 @@ import com.example.recipeapp.home.favorite.adapter.FavAdapter
 import com.example.recipeapp.home.favorite.repo.FavRepoImpl
 import com.example.recipeapp.home.favorite.viewmodel.FavViewModel
 import com.example.recipeapp.home.favorite.viewmodel.FavViewModelFactory
+import com.example.recipeapp.home.search.adapter.SearchAdapter
+import com.example.recipeapp.home.search.view.SearchFragmentDirections
 
 
 class FavouritesFragment : Fragment() {
@@ -68,6 +71,15 @@ class FavouritesFragment : Fragment() {
         recyclerView.adapter = favAdapter
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext())
+
+        favAdapter.setOnItemClickListener(object: FavAdapter.OnItemClickListener {
+            override fun onItemClick(position: Int) {
+                val meal = viewModel.userFavMeals.value?.meals?.get(position)
+                val action = FavouritesFragmentDirections.actionFavouritesFragmentToDetailsFragment(meal?.idMeal ?: "0")
+                findNavController().navigate(action)
+            }
+
+        })
     }
 
     private fun gettingViewModelReady() {

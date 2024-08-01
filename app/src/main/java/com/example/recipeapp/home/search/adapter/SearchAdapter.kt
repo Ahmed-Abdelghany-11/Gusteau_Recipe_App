@@ -14,12 +14,26 @@ import com.example.recipeapp.data.remote.dto.MealList
 class SearchAdapter(
     private var mealList: MealList
 ): RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
+    var myListener: OnItemClickListener? = null
 
-    class SearchViewHolder(private val view:View): RecyclerView.ViewHolder(view){
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
+    }
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        myListener = listener
+    }
+
+    class SearchViewHolder(private val view:View, listener: OnItemClickListener?): RecyclerView.ViewHolder(view){
         private var title: TextView?= null
         private var imageView: ImageView?= null
         private var catrgory: TextView?= null
         private var country: TextView?= null
+
+        init {
+            itemView.setOnClickListener {
+                listener?.onItemClick(adapterPosition)
+            }
+        }
 
         private fun getTitle(): TextView {
             return title ?: view.findViewById(R.id.meal_title)
@@ -53,7 +67,7 @@ class SearchAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.search_item, parent, false)
-        return SearchViewHolder(view)
+        return SearchViewHolder(view, myListener)
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {

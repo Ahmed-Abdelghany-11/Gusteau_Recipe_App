@@ -12,6 +12,7 @@ import com.example.recipeapp.data.remote.dto.CategoryList
 import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.data.remote.dto.MealList
 import com.example.recipeapp.home.home.repo.RetrofitRepoImp
+import com.example.recipeapp.home.home.view.HomeFragmentDirections
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

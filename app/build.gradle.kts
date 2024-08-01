@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.safeargs)
 }
 
 android {
@@ -56,6 +57,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.lottie)
 //    implementation(libs.androidx.room.common)
+    //implementation(libs.youtube.player)
+    implementation(libs.dynamic.featrues)
     implementation(libs.room)
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
