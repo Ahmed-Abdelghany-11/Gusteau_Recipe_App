@@ -24,11 +24,10 @@
             app:argType="string"
             android:defaultValue='"2"' />
     </fragment>
-        android:label="@string/details"
-        tools:layout="@layout/fragment_details" />
+
     <fragment
         android:id="@+id/aboutUsFragment"
-        android:name="com.example.recipeapp.view.recipe.AboutUsFragment"
+        android:name="com.example.recipeapp.home.aboutUs.view.AboutUsFragment"
         android:label="fragment_about_us"
         tools:layout="@layout/fragment_about_us" />
     <fragment
@@ -38,7 +37,7 @@
         tools:layout="@layout/fragment_favourites" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.recipeapp.view.auth.SearchFragment"
+        android:name="com.example.recipeapp.home.search.view.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
 

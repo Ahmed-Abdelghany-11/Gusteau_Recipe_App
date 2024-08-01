@@ -95,14 +95,15 @@ class HomeFragment : Fragment() {
             adapter = Adapter(meal)
 
             recyclerView.adapter = adapter
-        }
-        adapter?.setOnItemClickListener(object : Adapter.OnItemClickListener{
-            override fun onItemClick(position: Int) {
-                val meal = viewModel.getMealsByLetterResponse.value?.meals?.get(position)
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(meal?.idMeal ?: "0")
-                findNavController().navigate(action)            }
+            adapter?.setOnItemClickListener(object : Adapter.OnItemClickListener{
+                override fun onItemClick(position: Int) {
+                    val meal = viewModel.getMealsByLetterResponse.value?.meals?.get(position)
+                    val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(meal?.idMeal ?: "0")
+                    findNavController().navigate(action)            }
 
-        })
+            })
+        }
+
 
         imageView.setOnClickListener {
             //fragment
@@ -116,11 +117,11 @@ class HomeFragment : Fragment() {
                 val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(myMeal?.idMeal ?: "0")
                 findNavController().navigate(action)
 
-            val meal = viewModel.getMyResponse.value?.meals
-            if (!meal.isNullOrEmpty()) {
-                recyclerView.adapter = Adapter(meal)
-                progressBarRecipe.visibility = View.GONE
-            }
+//            val meal = viewModel.getMyResponse.value?.meals
+//            if (!meal.isNullOrEmpty()) {
+//                recyclerView.adapter = Adapter(meal)
+//                progressBarRecipe.visibility = View.GONE
+//            }
         }
 
 //        }
