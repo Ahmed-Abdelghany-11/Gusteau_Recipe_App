@@ -19,19 +19,6 @@ class FavViewModel (private val repo: FavRepo) : ViewModel() {
     private val _userFavMeals = MutableLiveData<UserWithMeal?>()
     val userFavMeals: LiveData<UserWithMeal?> get() = _userFavMeals
 
-    private val _userFavMeals2 = MutableLiveData<List<Meal>>()
-    val userFavMeals2: LiveData<List<Meal>> get() = _userFavMeals2
-
-    private val _getMyResponse = MutableLiveData<MealList?>()
-    val getMyResponse: LiveData<MealList?> = _getMyResponse
-
-    fun getAllUserFavMeals(userId : Int){
-        viewModelScope.launch {
-            val favMeals = repo.getAllUserFavMeals(userId)
-            Log.d("FavViewModel", "Fetched favorite meals: $favMeals")
-            _userFavMeals2.postValue(favMeals)
-        }
-    }
 
     fun gerUserWithMeals(userId:Int){
         viewModelScope.launch {
@@ -43,12 +30,6 @@ class FavViewModel (private val repo: FavRepo) : ViewModel() {
     fun deleteFromFav(userMealCrossRef: UserMealCrossRef) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.deleteFromFav(userMealCrossRef)
-        }
-    }
-
-    fun getMealById(mealId: String)  {
-        viewModelScope.launch {
-             _getMyResponse.postValue(repo.getMealById(mealId))
         }
     }
 
