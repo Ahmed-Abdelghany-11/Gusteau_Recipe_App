@@ -90,14 +90,14 @@ class HomeFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext(),
             RecyclerView.HORIZONTAL, false)
 
-        var adapter: Adapter? = null
+//        var adapter: Adapter? = null
         viewModel.getMealsByRandomLetter()
         viewModel.getMealsByLetterResponse.observe(viewLifecycleOwner) { getMyResponse ->
             val meal = getMyResponse?.meals
-            adapter = Adapter(meal)
+            val adapter = Adapter(meal, viewModel)
 
             recyclerView.adapter = adapter
-            adapter?.setOnItemClickListener(object : Adapter.OnItemClickListener{
+            adapter.setOnItemClickListener(object : Adapter.OnItemClickListener{
                 override fun onItemClick(position: Int) {
                     val meal = viewModel.getMealsByLetterResponse.value?.meals?.get(position)
                     val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(meal?.idMeal ?: "0")

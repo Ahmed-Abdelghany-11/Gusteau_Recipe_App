@@ -14,30 +14,30 @@ import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.home.home.viewModel.HomeViewModel
 
-class Adapter(private val meal: List<Meal?>?) : RecyclerView.Adapter<Adapter.ViewHolder>() {
+
+
+class Adapter(private val meal: List<Meal?>?,private val viewModel :HomeViewModel) : RecyclerView.Adapter<Adapter.ViewHolder>() {
     var myListener: OnItemClickListener? = null
 
-    interface OnItemClickListener{
+    interface OnItemClickListener {
         fun onItemClick(position: Int)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
         myListener = listener
     }
-class Adapter(private val meal: List<Meal?>,private val viewModel :HomeViewModel) : RecyclerView.Adapter<Adapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.single_recipe, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.single_recipe, parent, false)
         return ViewHolder(view, myListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val meal  = meal[position]
+        val meal = meal?.get(position)
         holder.getTextView().text = meal?.strMeal
-        holder.getTextView().text = meal?.get(position)?.strMeal
         Glide.with(holder.itemView.context)
             .load(meal?.strMealThumb)
-            .load(meal?.get(position)?.strMealThumb)
             .placeholder(R.drawable.baseline_image_24)
             .circleCrop()
             .into(holder.getImageView())
@@ -45,19 +45,24 @@ class Adapter(private val meal: List<Meal?>,private val viewModel :HomeViewModel
         holder.getFavButton().setOnClickListener {
 
             viewModel.insertMeal(meal!!)
-            viewModel.insertIntoFav(userMealCrossRef = UserMealCrossRef(1,
-                meal.idMeal
-            ))
+            viewModel.insertIntoFav(
+                userMealCrossRef = UserMealCrossRef(
+                    1,
+                    meal.idMeal
+                )
+            )
             holder.getFavButton().setImageResource(R.drawable.baseline_favorite_24)
         }
     }
-    override fun getItemCount() = meal.size
+
     override fun getItemCount() = meal?.size ?: 0
 
-    class ViewHolder(private var view: View, listener: OnItemClickListener?) : RecyclerView.ViewHolder(view) {
-        private var textView: TextView?= null
-        private var imageView: ImageView?= null
-        private var favbtn: ImageButton?= null
+
+    class ViewHolder(private var view: View, listener: OnItemClickListener?) :
+        RecyclerView.ViewHolder(view) {
+        private var textView: TextView? = null
+        private var imageView: ImageView? = null
+        private var favbtn: ImageButton? = null
 
 
         init {
@@ -65,6 +70,7 @@ class Adapter(private val meal: List<Meal?>,private val viewModel :HomeViewModel
                 listener?.onItemClick(adapterPosition)
             }
         }
+
         fun getTextView(): TextView {
             return textView ?: view.findViewById(R.id.textRecipe)
         }

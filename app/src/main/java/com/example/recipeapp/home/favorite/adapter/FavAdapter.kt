@@ -17,10 +17,19 @@ import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.home.favorite.viewmodel.FavViewModel
 
 class FavAdapter(val meal : List<Meal>,val viewmodel : FavViewModel) :RecyclerView.Adapter<FavAdapter.FavViewHolder>() {
+    var myListener: OnItemClickListener? = null
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        myListener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.favs_items, parent, false)
-        return FavViewHolder(view)
+        return FavViewHolder(view, myListener)
     }
 
     override fun onBindViewHolder(holder: FavViewHolder, position: Int) {
@@ -30,10 +39,16 @@ class FavAdapter(val meal : List<Meal>,val viewmodel : FavViewModel) :RecyclerVi
 
     override fun getItemCount()= meal.size
 
-    class FavViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    class FavViewHolder(private val view: View, listener: OnItemClickListener?) : RecyclerView.ViewHolder(view) {
         private val name: TextView = view.findViewById(R.id.meal_name)
         private val image: ImageView = view.findViewById(R.id.image)
         private val btn: ImageView = view.findViewById(R.id.heart_button)
+
+        init {
+            itemView.setOnClickListener {
+                listener?.onItemClick(adapterPosition)
+            }
+        }
 
         fun bind(meal: Meal, viewModel: FavViewModel) {
             name.text = meal.strMeal

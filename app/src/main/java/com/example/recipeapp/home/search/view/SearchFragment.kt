@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
@@ -75,6 +76,14 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         searchAdapter = SearchAdapter(meals)
         resultRv.layoutManager = LinearLayoutManager(requireContext())
         resultRv.adapter = searchAdapter
+        searchAdapter.setOnItemClickListener(object: SearchAdapter.OnItemClickListener {
+            override fun onItemClick(position: Int) {
+                val meal = searchViewModel.searchResultOfMeals.value?.meals?.get(position)
+                val action = SearchFragmentDirections.actionSearchFragmentToDetailsFragment(meal?.idMeal ?: "0")
+                findNavController().navigate(action)
+            }
+
+        })
     }
 
     private fun setUpSearchView() {
