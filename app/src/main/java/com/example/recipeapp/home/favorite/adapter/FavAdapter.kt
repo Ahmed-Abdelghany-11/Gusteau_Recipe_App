@@ -93,6 +93,8 @@ class FavAdapter(val mealList : MutableList<Meal>, val viewmodel : FavViewModel)
         mealList.removeAt(position)
         notifyItemRemoved(position)
 
+        viewmodel.gerUserWithMeals(userId)
+
     }
 
 
