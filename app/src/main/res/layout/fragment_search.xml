@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.auth.SearchFragment">
+    tools:context=".home.search.view.SearchFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/search_recipes"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
@@ -45,32 +45,61 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Search Result"
+        android:text="@string/search_result"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+        app:layout_constraintTop_toBottomOf="@+id/search_card" />
 
-    <SearchView
-        android:id="@+id/searchView"
-        style="@style/searchStyle"
-        android:layout_width="255dp"
-        android:layout_height="40dp"
-        android:background="@drawable/search_shape"
-        android:queryHint="@string/search_recipes"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/guideline6" >
 
-    </SearchView>
+ <androidx.cardview.widget.CardView
+     android:id="@+id/search_card"
+     android:layout_width="0dp"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="24dp"
+     app:cardCornerRadius="10dp"
+     app:cardElevation="10dp"
+     app:layout_constraintEnd_toEndOf="@id/guideline4"
+     app:layout_constraintStart_toStartOf="@id/guideline5"
+     app:layout_constraintTop_toBottomOf="@id/textView7">
+
+     <SearchView
+         android:id="@+id/searchView"
+         style="@style/searchStyle"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:inputType="text"
+         android:queryHint="@string/search_recipes"
+         android:iconifiedByDefault="false"/>
+ </androidx.cardview.widget.CardView>
+
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
-        tools:listitem="@layout/search_items" />
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/no_result_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/no_results_found"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

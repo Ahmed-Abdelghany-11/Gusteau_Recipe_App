@@ -43,7 +43,9 @@
             app:destination="@id/loginFragment" />
         <action
             android:id="@+id/action_registerFragment_to_recipeActivity"
-            app:destination="@id/recipeActivity" />
+            app:destination="@id/recipeActivity"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <activity
         android:id="@+id/recipeActivity"

@@ -15,6 +15,8 @@ interface LocalDataSource {
 
     suspend fun insertUserData(userData: UserData)
 
+    suspend fun getUserIdByEmailAndPassword(email: String,password: String):Int
+
     suspend fun insertIntoFav(userMealCrossRef: UserMealCrossRef)
 
     suspend fun deleteFromFav(userMealCrossRef: UserMealCrossRef)

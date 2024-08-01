@@ -37,6 +37,10 @@ class LocalDataSourceImpl(context: Context) : LocalDataSource {
     override suspend fun insertUserData(userData: UserData) =
         dao.insertUserData(userData)
 
+    override suspend fun getUserIdByEmailAndPassword(email: String, password: String)=
+        dao.getUserIdByEmailAndPassword(email,password)
+
+
     override suspend fun insertIntoFav(userMealCrossRef: UserMealCrossRef) {
         userWithMealDao.insertIntoFav(userMealCrossRef)
     }
