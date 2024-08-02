@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -31,6 +32,7 @@ class FavouritesFragment : Fragment() {
     private lateinit var favAdapter: FavAdapter
     private lateinit var recyclerViewFav: RecyclerView
     private lateinit var authSharedPref: AuthSharedPref
+    private lateinit var noFav: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,14 +48,22 @@ class FavouritesFragment : Fragment() {
         gettingViewModelReady()
         recyclerViewFav = view.findViewById(R.id.FavRv)
         authSharedPref = AuthSharedPref(requireContext())
+        noFav = view.findViewById(R.id.no_fav)
 
         val userId = authSharedPref.getUserId()
         viewModel.gerUserWithMeals(userId)
 
         viewModel.userFavMeals.observe(viewLifecycleOwner) { userFavMeals ->
             Log.d("FavouritesFragment", "Observed favorite meals: ${userFavMeals}")
-            if (userFavMeals != null) {
+            if (userFavMeals != null && !userFavMeals.meals.isNullOrEmpty()) {
+                recyclerViewFav.visibility = View.VISIBLE
+                noFav.visibility = View.GONE
                 setUpRecyclerView(userFavMeals.meals as MutableList<Meal>, recyclerViewFav)
+            }
+            else{
+                recyclerViewFav.visibility = View.GONE
+                noFav.visibility = View.VISIBLE
+
             }
         }
         removeBySwipe ()

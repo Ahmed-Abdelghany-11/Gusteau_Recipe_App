@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
@@ -31,7 +32,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private lateinit var resultRv: RecyclerView
     private lateinit var searchView: SearchView
     private lateinit var searchAdapter: SearchAdapter
-    private lateinit var noResultText: TextView
+    private lateinit var noResultText: ImageView
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,7 +40,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         resultRv = view.findViewById(R.id.search_rv)
         searchView = view.findViewById(R.id.searchView)
-        noResultText = view.findViewById(R.id.no_result_text)
+        noResultText = view.findViewById(R.id.no_result)
 
         getViewModelReady()
         setUpSearchView()
