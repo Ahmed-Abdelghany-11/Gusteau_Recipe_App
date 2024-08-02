@@ -110,14 +110,14 @@
                 android:id="@+id/youtube_player_view"
                 android:layout_width="360dp"
                 android:layout_height="178dp"
-                app:autoPlay="true"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/txtdetails"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txtdetails"
                 app:layout_constraintTop_toBottomOf="@+id/txtdetails"
                 app:layout_constraintVertical_bias="0.567"
-                app:videoId="S0Q4gqBUs7c" />
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
