@@ -51,7 +51,6 @@ class FavouritesFragment : Fragment() {
         viewModel.gerUserWithMeals(userId)
 
         viewModel.userFavMeals.observe(viewLifecycleOwner) { userFavMeals ->
-            Log.d("FavouritesFragment", "Observed favorite meals: ${userFavMeals}")
             if (userFavMeals != null) {
                 setUpRecyclerView(userFavMeals.meals as MutableList<Meal>, recyclerViewFav)
             }
