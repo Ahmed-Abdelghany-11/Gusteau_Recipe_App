@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.favorite.view.FavouritesFragment">
+    tools:context=".favorite.view.FavouritesFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
