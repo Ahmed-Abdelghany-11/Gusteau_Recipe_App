@@ -9,6 +9,10 @@ class DetailsRepoImpl(private val localDataSource: LocalDataSource): DetailsRepo
         localDataSource.insertIntoFav(userMealCrossRef)
     }
 
+    override suspend fun deleteFromFav(userMealCrossRef: UserMealCrossRef) {
+        localDataSource.deleteFromFav(userMealCrossRef)
+    }
+
     override suspend fun insertMeal(meal: Meal) {
         localDataSource.insertMeal(meal)
     }
@@ -16,5 +20,10 @@ class DetailsRepoImpl(private val localDataSource: LocalDataSource): DetailsRepo
     override suspend fun deleteMeal(meal: Meal) {
         localDataSource.deleteMeal(meal)
     }
+
+    override suspend fun isFavoriteMeal(userId: Int, mealId: String) : Boolean {
+        return localDataSource.isFavoriteMeal(userId, mealId)
+    }
+
 
 }

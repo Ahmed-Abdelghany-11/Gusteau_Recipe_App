@@ -14,13 +14,26 @@ class DetailsViewModel(private val repo : DetailsRepo) :ViewModel(){
             repo.insertIntoFav(userMealCrossRef)
         }
     }
-    fun insertMeal(meal: Meal)=
+
+    fun deleteFromFav(userMealCrossRef: UserMealCrossRef) {
+        viewModelScope.launch {
+            repo.deleteFromFav(userMealCrossRef)
+        }
+    }
+
+    fun insertMeal(meal: Meal) {
         viewModelScope.launch {
             repo.insertMeal(meal)
         }
+    }
 
-    fun deleteMeal(meal: Meal)=
+    fun deleteMeal(meal: Meal) {
         viewModelScope.launch {
             repo.deleteMeal(meal)
         }
+    }
+
+     suspend fun isFavoriteMeal(userId: Int, mealId: String) : Boolean {
+        return repo.isFavoriteMeal(userId, mealId)
+    }
 }

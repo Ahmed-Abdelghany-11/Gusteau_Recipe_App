@@ -87,13 +87,12 @@
                 android:id="@+id/addToFav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:clickable="true"
                 android:contentDescription="@string/add_to_favorite_icon"
                 android:focusable="true"
                 android:foregroundGravity="left|bottom"
                 app:backgroundTint="@color/lightGreen"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/cardView"
                 app:layout_constraintHorizontal_bias="0.949"
                 app:layout_constraintStart_toEndOf="@id/txtCategory"
                 app:layout_constraintTop_toTopOf="@+id/txtTitle"
@@ -114,14 +113,18 @@
                 android:id="@+id/youtube_player_view"
                 android:layout_width="360dp"
                 android:layout_height="178dp"
+                android:layout_marginTop="20dp"
+                app:autoPlay="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/txtdetails"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txtdetails"
                 app:layout_constraintTop_toBottomOf="@+id/txtdetails"
-                app:layout_constraintVertical_bias="0.567"/>
+                app:layout_constraintVertical_bias="0.567"
+                app:videoId="" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

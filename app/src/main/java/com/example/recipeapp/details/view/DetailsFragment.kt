@@ -23,6 +23,7 @@ import com.example.recipeapp.home.details.repo.DetailsRepo
 import com.example.recipeapp.home.details.repo.DetailsRepoImpl
 import com.example.recipeapp.home.details.viewmodel.DetailsViewModel
 import com.example.recipeapp.home.details.viewmodel.DetailsViewModelFactory
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -72,17 +73,43 @@ class DetailsFragment : Fragment() {
             val userId = authSharedPref.getUserId()
 
             val favBtn = view.findViewById<ImageView>(R.id.addToFav)
-            favBtn.setOnClickListener {
-                viewModel.insertMeal(data)
-                viewModel.insertIntoFav(
-                    userMealCrossRef = UserMealCrossRef(
-                        userId,
-                        data.idMeal
-                    )
-                )
-                favBtn.setImageResource(R.drawable.baseline_favorite_24)
-            }
 
+            if (viewModel.isFavoriteMeal(userId,data.idMeal)) {
+                favBtn.setImageResource(R.drawable.baseline_favorite_24)
+                favBtn.setOnClickListener {
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setTitle("Remove Meal From Favorites")
+                        .setMessage("Are you sure you want to remove this meal from favorites?")
+                        .setPositiveButton("Remove") { dialog, _ ->
+                            viewModel.deleteMeal(data)
+                            viewModel.deleteFromFav(
+                                userMealCrossRef = UserMealCrossRef(
+                                    userId,
+                                    data.idMeal
+                                )
+                            )
+                            dialog.dismiss()
+                        }
+                        .setNegativeButton("Cancel") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .show()
+                }
+                favBtn.setImageResource(R.drawable.baseline_favorite_border_24)
+            }
+            else {
+                favBtn.setImageResource(R.drawable.baseline_favorite_border_24)
+                favBtn.setOnClickListener {
+                    viewModel.insertMeal(data)
+                    viewModel.insertIntoFav(
+                        userMealCrossRef = UserMealCrossRef(
+                            userId,
+                            data.idMeal
+                        )
+                    )
+                    favBtn.setImageResource(R.drawable.baseline_favorite_24)
+                }
+            }
             details.text = data.strInstructions
             title.text = data.strMeal
             category.text = data.strCategory
@@ -96,11 +123,11 @@ class DetailsFragment : Fragment() {
 
 
     private fun gettingViewModelReady() {
-        val DetailesFactory = DetailsViewModelFactory(
+        val DetailsFactory = DetailsViewModelFactory(
             DetailsRepoImpl(
                 localDataSource = LocalDataSourceImpl(requireContext())
             )
         )
-        viewModel = ViewModelProvider(this, DetailesFactory)[DetailsViewModel::class.java]
+        viewModel = ViewModelProvider(this, DetailsFactory)[DetailsViewModel::class.java]
     }
 }
