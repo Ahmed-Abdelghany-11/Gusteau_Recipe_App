@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.colormoon.readmoretextview.ReadMoreTextView
 import com.example.recipeapp.R
 import com.example.recipeapp.data.remote.RetrofitHelper
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -37,7 +38,7 @@ class DetailsFragment : Fragment() {
             val title = view.findViewById<TextView>(R.id.txtTitle)
             val img = view.findViewById<ImageView>(R.id.image)
             val category = view.findViewById<TextView>(R.id.txtCategory)
-            val details = view.findViewById<TextView>(R.id.txtdetails)
+            val details = view.findViewById<ReadMoreTextView>(R.id.txtdetails)
             video = view.findViewById<YouTubePlayerView>(R.id.youtube_player_view)
             video.enableAutomaticInitialization = false
             lifecycle.addObserver(video)
@@ -87,7 +88,9 @@ class DetailsFragment : Fragment() {
 
             })
             */
-            details.text = meal?.strInstructions
+            details.setTrimLength(2)
+            details.setText(meal?.strInstructions)
+
             title.text = meal?.strMeal
             category.text = meal?.strCategory
             Glide.with(requireContext())

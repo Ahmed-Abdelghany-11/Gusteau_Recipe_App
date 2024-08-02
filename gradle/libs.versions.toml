@@ -51,8 +51,10 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref="room_version"}
 glide = {group = "com.github.bumptech.glide", name = "glide", version.ref = "glide"}
 lottie = { group = "com.airbnb.android", name = "lottie", version = "6.4.0" }
-
-
+show-more = {group = "com.github.colourmoon", name = "readmore-textview", version = "1.0.2"}
+#com.github.colourmoon:readmore-textview:v1.0.2
+#com.github.mahimrocky:ShowMoreText:1.0.2
+#implementation 'kr.co.prnd:readmore-textview:1.0.0'
 dynamic-featrues = {group = "androidx.navigation", name = "navigation-dynamic-features-fragment", version.ref = "navigationFragmentKtx"}
 youtube-player = {group = "com.google.android.youtube", name = "youtube-android-player-api", version.ref = "youtube"}
 #com.google.android.youtube:youtube-android-player-api:1.2.2
