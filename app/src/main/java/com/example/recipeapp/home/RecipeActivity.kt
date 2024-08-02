@@ -1,5 +1,6 @@
 package com.example.recipeapp.home
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -19,6 +20,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.onNavDestinationSelected
 import com.example.recipeapp.R
+import com.example.recipeapp.authentication.AuthActivity
 import com.example.recipeapp.authentication.login.view.LoginFragment
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.google.android.gms.dynamic.SupportFragmentWrapper
@@ -39,16 +41,17 @@ class RecipeActivity : AppCompatActivity() {
             insets
         }
 
-      val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-         navController = navHostFragment.navController
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
-        NavigationUI.setupWithNavController(bottomNav,navController)
+        NavigationUI.setupWithNavController(bottomNav, navController)
 
         val toolbar = findViewById<Toolbar>(R.id.toolBar)
         setSupportActionBar(toolbar)
-        NavigationUI.setupWithNavController(toolbar,navController)
+        NavigationUI.setupWithNavController(toolbar, navController)
 
-        val homeFabButton= findViewById<FloatingActionButton>(R.id.floating)
+        val homeFabButton = findViewById<FloatingActionButton>(R.id.floating)
 
         homeFabButton.setOnClickListener {
             navController.navigate(R.id.action_global_to_homeFragment)
@@ -57,7 +60,7 @@ class RecipeActivity : AppCompatActivity() {
         // Handle back button behavior
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if(!navController.popBackStack())
+                if (!navController.popBackStack())
                     finishAffinity()
             }
         })
@@ -76,6 +79,7 @@ class RecipeActivity : AppCompatActivity() {
                 showSignOutDialog()
                 true
             }
+
             else -> {
                 item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
             }
@@ -94,7 +98,14 @@ class RecipeActivity : AppCompatActivity() {
     }
 
     private fun navigateToLogin() {
-//        AuthSharedPref(this).setLoggedIn(false)
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse("https://www.example.com/login")
+        }
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        // Clear login status
+        AuthSharedPref(this).clearLoginStatus()
+
     }
 
 }
