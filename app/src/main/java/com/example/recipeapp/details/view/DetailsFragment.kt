@@ -1,6 +1,5 @@
 package com.example.recipeapp.details.view
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,12 +13,8 @@ import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
-import com.example.recipeapp.data.local.dao.UserWithMealDao
 import com.example.recipeapp.data.local.model.UserMealCrossRef
-import com.example.recipeapp.data.remote.APIClient
-import com.example.recipeapp.data.remote.RetrofitHelper
 import com.example.recipeapp.data.remote.dto.Meal
-import com.example.recipeapp.home.details.repo.DetailsRepo
 import com.example.recipeapp.home.details.repo.DetailsRepoImpl
 import com.example.recipeapp.home.details.viewmodel.DetailsViewModel
 import com.example.recipeapp.home.details.viewmodel.DetailsViewModelFactory
@@ -74,7 +69,7 @@ class DetailsFragment : Fragment() {
 
             val favBtn = view.findViewById<ImageView>(R.id.addToFav)
 
-            if (viewModel.isFavoriteMeal(userId,data.idMeal)) {
+            if (viewModel.isFavoriteMeal(userId, data.idMeal)) {
                 favBtn.setImageResource(R.drawable.baseline_favorite_24)
                 favBtn.setOnClickListener {
                     MaterialAlertDialogBuilder(requireContext())
@@ -88,6 +83,7 @@ class DetailsFragment : Fragment() {
                                     data.idMeal
                                 )
                             )
+                            favBtn.setImageResource(R.drawable.baseline_favorite_border_24)
                             dialog.dismiss()
                         }
                         .setNegativeButton("Cancel") { dialog, _ ->
@@ -95,9 +91,7 @@ class DetailsFragment : Fragment() {
                         }
                         .show()
                 }
-                favBtn.setImageResource(R.drawable.baseline_favorite_border_24)
-            }
-            else {
+            } else {
                 favBtn.setImageResource(R.drawable.baseline_favorite_border_24)
                 favBtn.setOnClickListener {
                     viewModel.insertMeal(data)
@@ -123,11 +117,11 @@ class DetailsFragment : Fragment() {
 
 
     private fun gettingViewModelReady() {
-        val DetailsFactory = DetailsViewModelFactory(
+        val detailsFactory = DetailsViewModelFactory(
             DetailsRepoImpl(
                 localDataSource = LocalDataSourceImpl(requireContext())
             )
         )
-        viewModel = ViewModelProvider(this, DetailsFactory)[DetailsViewModel::class.java]
+        viewModel = ViewModelProvider(this, detailsFactory)[DetailsViewModel::class.java]
     }
 }
