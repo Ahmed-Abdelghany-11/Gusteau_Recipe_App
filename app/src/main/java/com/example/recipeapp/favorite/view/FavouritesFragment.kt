@@ -80,7 +80,7 @@ class FavouritesFragment : Fragment() {
                 val meal = viewModel.userFavMeals.value?.meals?.get(position)
                 val action = meal?.let {
                     FavouritesFragmentDirections.actionFavouritesFragmentToDetailsFragment(
-                        it
+                        meal
                     )
                 }
                 if (action != null) {

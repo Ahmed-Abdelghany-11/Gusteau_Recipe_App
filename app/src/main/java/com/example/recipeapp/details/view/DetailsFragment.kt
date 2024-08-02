@@ -23,10 +23,6 @@ import com.example.recipeapp.home.details.repo.DetailsRepo
 import com.example.recipeapp.home.details.repo.DetailsRepoImpl
 import com.example.recipeapp.home.details.viewmodel.DetailsViewModel
 import com.example.recipeapp.home.details.viewmodel.DetailsViewModelFactory
-import com.example.recipeapp.home.favorite.repo.FavRepo
-import com.example.recipeapp.home.favorite.repo.FavRepoImpl
-import com.example.recipeapp.home.favorite.viewmodel.FavViewModel
-import com.example.recipeapp.home.favorite.viewmodel.FavViewModelFactory
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
