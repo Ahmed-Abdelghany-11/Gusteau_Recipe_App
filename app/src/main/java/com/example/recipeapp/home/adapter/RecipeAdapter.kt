@@ -19,7 +19,7 @@ import com.example.recipeapp.home.viewModel.HomeViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
-class Adapter(private val meals: List<Meal?>?, private val viewModel : HomeViewModel) : RecyclerView.Adapter<Adapter.ViewHolder>() {
+class RecipeAdapter(private val meals: List<Meal?>?, private val viewModel : HomeViewModel) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
     var myListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
