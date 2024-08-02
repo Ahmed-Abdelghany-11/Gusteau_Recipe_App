@@ -112,13 +112,6 @@ class HomeFragment : Fragment() {
         }
 
         imageView.setOnClickListener {
-            //fragment
-//            val meal = viewModel.getMyResponse.value?.meals
-//            if (meal != null) {
-//                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(meal[0])
-//                findNavController().navigate(action)
-//            }
-
             val myMeal = viewModel.getMyResponse.value?.meals?.get(0)
             val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(myMeal?.idMeal ?: "0")
             findNavController().navigate(action)

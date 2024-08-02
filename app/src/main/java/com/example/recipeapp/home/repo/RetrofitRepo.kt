@@ -1,6 +1,7 @@
 package com.example.recipeapp.home.repo
 
 import com.example.recipeapp.data.local.model.UserMealCrossRef
+import com.example.recipeapp.data.local.model.UserWithMeal
 import com.example.recipeapp.data.remote.dto.Category
 import com.example.recipeapp.data.remote.dto.CategoryList
 import com.example.recipeapp.data.remote.dto.Meal
@@ -15,6 +16,13 @@ interface RetrofitRepo {
 
     suspend fun insertIntoFav(userMealCrossRef: UserMealCrossRef)
 
+    suspend fun getUserWithMeals(userId: Int): UserWithMeal?
+
     suspend fun insertMeal(meal: Meal)
+
     suspend fun deleteMeal(meal: Meal)
+
+    suspend fun deleteFromFav(userWithMeals: UserMealCrossRef)
+
+    suspend fun isFavoriteMeal(userId: Int, mealId: String): Boolean
 }

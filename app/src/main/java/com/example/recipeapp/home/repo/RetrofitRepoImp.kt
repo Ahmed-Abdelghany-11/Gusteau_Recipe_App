@@ -2,6 +2,7 @@ package com.example.recipeapp.home.repo
 
 import com.example.recipeapp.data.local.LocalDataSource
 import com.example.recipeapp.data.local.model.UserMealCrossRef
+import com.example.recipeapp.data.local.model.UserWithMeal
 import com.example.recipeapp.data.remote.RemoteDataSource
 import com.example.recipeapp.data.remote.dto.Meal
 
@@ -23,6 +24,13 @@ class RetrofitRepoImp (private val remoteDataSource: RemoteDataSource,private va
     override suspend fun deleteMeal(meal: Meal) =
         localDataSource.deleteMeal(meal)
 
+    override suspend fun deleteFromFav(userWithMeals: UserMealCrossRef) =
+        localDataSource.deleteFromFav(userWithMeals)
 
+    override suspend fun isFavoriteMeal(userId: Int, mealId: String) =
+        localDataSource.isFavoriteMeal(userId, mealId)
 
+    override suspend fun getUserWithMeals(userId: Int): UserWithMeal? {
+        return localDataSource.getUserWithMeals(userId)
+    }
 }
