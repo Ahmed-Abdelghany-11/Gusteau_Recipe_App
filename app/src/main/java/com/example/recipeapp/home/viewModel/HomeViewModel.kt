@@ -5,10 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.data.local.model.UserMealCrossRef
+import com.example.recipeapp.data.local.model.UserWithMeal
 import com.example.recipeapp.data.remote.dto.CategoryList
 import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.data.remote.dto.MealList
 import com.example.recipeapp.home.repo.RetrofitRepoImp
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeViewModel (private val myRepo : RetrofitRepoImp) : ViewModel() {
@@ -20,6 +22,13 @@ class HomeViewModel (private val myRepo : RetrofitRepoImp) : ViewModel() {
 
     private val _getAllCategoriesResponse = MutableLiveData<CategoryList>()
     val getAllCategoriesResponse: LiveData<CategoryList> = _getAllCategoriesResponse
+
+    private val _userFavMeals = MutableLiveData<UserWithMeal?>()
+    val userFavMeals: LiveData<UserWithMeal?> get() = _userFavMeals
+
+    private val _isFavoriteMeal = MutableLiveData<Boolean>()
+    val isFavoriteMeal: LiveData<Boolean> get() = _isFavoriteMeal
+
 
     fun getMyResponse() {
         viewModelScope.launch {
@@ -63,4 +72,24 @@ class HomeViewModel (private val myRepo : RetrofitRepoImp) : ViewModel() {
         viewModelScope.launch {
             myRepo.deleteMeal(meal)
         }
+
+    fun deleteFromFav(userMealCrossRef: UserMealCrossRef) {
+        viewModelScope.launch(Dispatchers.IO) {
+            myRepo.deleteFromFav(userMealCrossRef)
+        }
+    }
+
+    fun isFavoriteMeal(userId: Int, mealId: String): LiveData<Boolean> {
+        val isFavorite = MutableLiveData<Boolean>()
+        viewModelScope.launch {
+            isFavorite.postValue(myRepo.isFavoriteMeal(userId, mealId))
+        }
+        return isFavorite
+    }
+
+    fun gerUserWithMeals(userId:Int){
+        viewModelScope.launch {
+            _userFavMeals.postValue(myRepo.getUserWithMeals(userId))
+        }
+    }
 }
