@@ -84,7 +84,8 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         val signUpViewModelFactory = SignUpViewModelFactory(
             signUpRepository = SignUpRepoImp(
                 localDataSource = LocalDataSourceImpl(requireContext())
-            )
+            ),
+            requireContext()
         )
         signUpViewModel =
             ViewModelProvider(this, signUpViewModelFactory)[SignUpViewModel::class.java]
@@ -105,11 +106,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     private fun saveUserId(){
         val email= emailInput.text.toString()
         val password=passwordInput.text.toString()
-        signUpViewModel.getUserIdByEmailAndPassword(email, password)
-
-        signUpViewModel.userId.observe(viewLifecycleOwner){ id->
-            authSharedPref.saveUserId(id)
-        }
+        signUpViewModel.saveUserIdInSharedPref(email, password)
     }
 
     private fun clearErrors() {

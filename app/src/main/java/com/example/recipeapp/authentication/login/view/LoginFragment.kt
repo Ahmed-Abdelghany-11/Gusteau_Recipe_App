@@ -1,6 +1,7 @@
 package com.example.recipeapp.authentication.login.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -102,7 +103,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         val loginViewModelFactory = LoginViewModelFactory(
             loginRepository = LoginRepoImp(
                 localDataSource = LocalDataSourceImpl(requireContext())
-            )
+            ),
+            requireContext()
         )
         loginViewModel =
             ViewModelProvider(this, loginViewModelFactory)[LoginViewModel::class.java]
@@ -112,11 +114,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun saveUserId() {
         val email = emailInput.text.toString()
         val password = passwordInput.text.toString()
-        loginViewModel.getUserIdByEmailAndPassword(email, password)
-
-        loginViewModel.userId.observe(viewLifecycleOwner) { id ->
-            authSharedPref.saveUserId(id)
-        }
+        loginViewModel.saveUserIdInSharedPref(email, password)
     }
 
 
