@@ -9,6 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.authentication.signUp.repo.SignUpRepository
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.model.UserData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(
@@ -34,9 +36,11 @@ class SignUpViewModel(
 
     fun saveUserIdInSharedPref(email: String, password: String){
         viewModelScope.launch {
-            val id:Int = signUpRepository.getUserIdByEmailAndPassword(email, password)
-            AuthSharedPref(context).saveUserId(id)
-            Log.d("userrid",id.toString())
+            val deferredId = async(Dispatchers.IO) {
+                signUpRepository.getUserIdByEmailAndPassword(email, password)
+            }
+            AuthSharedPref(context).saveUserId(deferredId.await())
+            Log.d("userrid",deferredId.await().toString())
         }
     }
 
