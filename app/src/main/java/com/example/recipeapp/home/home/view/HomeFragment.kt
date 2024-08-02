@@ -65,7 +65,7 @@ class HomeFragment : Fragment() {
                 viewModel.insertMeal(randomMeal?.get(0)!!)
                 viewModel.insertIntoFav(
                     userMealCrossRef = UserMealCrossRef(
-                        1,
+                        AuthSharedPref(requireContext()).getUserId(),
                         mealId ?: "0"
                     )
                 )
