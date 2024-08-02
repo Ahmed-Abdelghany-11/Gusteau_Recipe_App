@@ -23,10 +23,13 @@ class SplashFragment : Fragment() {
     authSharedPref=AuthSharedPref(requireContext())
 
         if (authSharedPref.isLoggedIn()) {
-            findNavController().navigate(
-                R.id.action_splashFragment_to_recipeActivity)
+            if (isAdded) {
+                findNavController().navigate(
+                    R.id.action_splashFragment_to_recipeActivity
+                )
 
-            requireActivity().finish()
+                requireActivity().finish()
+            }
         } else {
             Handler(Looper.getMainLooper()).postDelayed({
                 if (isAdded) {
