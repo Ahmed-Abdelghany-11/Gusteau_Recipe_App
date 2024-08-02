@@ -16,6 +16,7 @@ import com.example.recipeapp.R
 import com.example.recipeapp.authentication.login.repo.LoginRepoImp
 import com.example.recipeapp.authentication.login.viewmodel.LoginViewModel
 import com.example.recipeapp.authentication.login.viewmodel.LoginViewModelFactory
+import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
 import com.example.recipeapp.data.remote.APIClient
 import com.example.recipeapp.data.remote.dto.Meal
@@ -48,6 +49,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
 
         // observe result
+
+
         searchViewModel.searchResultOfMeals.observe(viewLifecycleOwner) { meals ->
             val meal = meals?.meals
             if (!meal.isNullOrEmpty()) {
@@ -110,5 +113,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             }
         })
     }
+
 
 }

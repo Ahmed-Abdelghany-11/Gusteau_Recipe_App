@@ -18,6 +18,10 @@ class SearchViewModel(
     val searchResultOfMeals: LiveData<MealList?>
         get() = _searchResultOfMeals
 
+    private val _isFavMeal = MutableLiveData<Boolean>()
+    val isFavMeal: LiveData<Boolean>
+        get() = _isFavMeal
+
     fun getSearchResult(name: String) =
         viewModelScope.launch {
             val result = searchRepository.getMealByName(name) ?: MealList(emptyList())
@@ -29,13 +33,24 @@ class SearchViewModel(
             searchRepository.insertIntoFav(userMealCrossRef)
         }
     }
-    fun insertMeal(meal: Meal)=
+
+    fun deleteFromFav(userMealCrossRef: UserMealCrossRef)=
+        viewModelScope.launch {
+            searchRepository.deleteFromFav(userMealCrossRef)
+        }
+
+    fun insertMeal(meal: Meal) =
         viewModelScope.launch {
             searchRepository.insertMeal(meal)
         }
 
-    fun deleteMeal(meal: Meal)=
+    fun deleteMeal(meal: Meal) =
         viewModelScope.launch {
             searchRepository.deleteMeal(meal)
+        }
+
+    fun isFavouriteMeal(userId: Int, mealId: String) =
+        viewModelScope.launch {
+            _isFavMeal.postValue(searchRepository.isFavoriteMeal(userId, mealId))
         }
 }

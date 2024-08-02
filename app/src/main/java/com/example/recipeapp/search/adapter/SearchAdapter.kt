@@ -1,5 +1,6 @@
 package com.example.recipeapp.search.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,25 +15,29 @@ import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.data.remote.dto.MealList
 import com.example.recipeapp.search.viewmodel.SearchViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SearchAdapter(
-    private var mealList: MealList, private val viewModel: SearchViewModel
-): RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
+    private var mealList: MealList, private val viewModel: SearchViewModel,
+) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
     private var myListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
         fun onItemClick(position: Int)
     }
+
     fun setOnItemClickListener(listener: OnItemClickListener) {
         myListener = listener
     }
 
-    class SearchViewHolder(private val view:View, listener: OnItemClickListener?): RecyclerView.ViewHolder(view){
-        private var title: TextView?= null
-        private var imageView: ImageView?= null
-        private var catrgory: TextView?= null
-        private var country: TextView?= null
-        private var favbtn: ImageButton?= null
+    inner class SearchViewHolder(private val view: View, listener: OnItemClickListener?) :
+        RecyclerView.ViewHolder(view) {
+        private var title: TextView? = null
+        private var imageView: ImageView? = null
+        private var catrgory: TextView? = null
+        private var country: TextView? = null
+        private var favbtn: ImageButton? = null
+        val userId = AuthSharedPref(itemView.context).getUserId()
 
         init {
             itemView.setOnClickListener {
@@ -62,25 +67,47 @@ class SearchAdapter(
         }
 
 
-        fun bind(meal:Meal?, viewModel: SearchViewModel){
-            getTitle().text= meal?.strMeal
-            getCategory().text= meal?.strCategory
-            getCountry().text= meal?.strArea
+        fun bind(meal: Meal?) {
+            getTitle().text = meal?.strMeal
+            getCategory().text = meal?.strCategory
+            getCountry().text = meal?.strArea
             Glide.with(view.context)
                 .load(meal?.strMealThumb)
                 .placeholder(R.drawable.baseline_image_24)
                 .circleCrop()
                 .into(getImageView())
 
+            viewModel.isFavouriteMeal(userId, meal!!.idMeal)
+            viewModel.isFavMeal.observeForever { isFav ->
+
+                if (isFav) getFavButton().setImageResource(
+                    R.drawable.baseline_favorite_24
+                )
+            }
+
             getFavButton().setOnClickListener {
-                viewModel.insertMeal(meal!!)
-                    viewModel.insertIntoFav(
-                        userMealCrossRef = UserMealCrossRef(
-                            AuthSharedPref(itemView.context).getUserId(),
-                            meal.idMeal
-                        )
-                    )
-               getFavButton().setImageResource(R.drawable.baseline_favorite_24)
+                viewModel.isFavMeal.observeForever { isFav ->
+                    if (isFav) {
+                        MaterialAlertDialogBuilder(itemView.context)
+                            .setTitle("Remove Meal From Favorites")
+                            .setMessage("Are you sure you want to remove this meal from favorites?")
+                            .setPositiveButton("Remove") { dialog, _ ->
+                                deleteFromFav(userId, meal)
+                                getFavButton().setImageResource(R.drawable.baseline_favorite_border_24)
+                                dialog.dismiss()
+                            }
+                            .setNegativeButton("Cancel") { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            .show()
+                    } else {
+                        addMealToFav(userId, meal)
+                        getFavButton().setImageResource(R.drawable.baseline_favorite_24)
+
+                    }
+
+
+                }
             }
         }
 
@@ -92,10 +119,29 @@ class SearchAdapter(
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
-       val meal = mealList.meals[position]
-        holder.bind(meal, viewModel)
+        val meal = mealList.meals[position]
+        holder.bind(meal)
     }
 
-    override fun getItemCount()= mealList.meals.size ?: 0
+    override fun getItemCount() = mealList.meals.size ?: 0
 
+    private fun addMealToFav(userId: Int, meal: Meal) {
+        viewModel.insertMeal(meal)
+        viewModel.insertIntoFav(
+            userMealCrossRef = UserMealCrossRef(
+                userId,
+                meal.idMeal
+            )
+        )
+    }
+
+    private fun deleteFromFav(userId: Int, meal: Meal) {
+        viewModel.deleteMeal(meal)
+        viewModel.deleteFromFav(
+            userMealCrossRef = UserMealCrossRef(
+                userId,
+                meal.idMeal
+            )
+        )
+    }
 }
