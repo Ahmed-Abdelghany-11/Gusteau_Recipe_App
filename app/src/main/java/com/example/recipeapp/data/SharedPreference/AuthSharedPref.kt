@@ -38,7 +38,7 @@ class AuthSharedPref(context: Context) {
 
     fun clearLoginStatus() {
         with(sharedPreferences.edit()) {
-            remove(IS_LOGGED_IN)
+            clear()
             apply()
         }
     }

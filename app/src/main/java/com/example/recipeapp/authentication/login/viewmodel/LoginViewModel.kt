@@ -1,14 +1,20 @@
 package com.example.recipeapp.authentication.login.viewmodel
 
+import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.recipeapp.authentication.login.repo.LoginRepository
+import com.example.recipeapp.data.SharedPreference.AuthSharedPref
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val loginRepository: LoginRepository,
+    private val context: Context
 ) : ViewModel() {
 
     // first check email
@@ -21,9 +27,7 @@ class LoginViewModel(
     val isUserExists: LiveData<Boolean>
         get() = _isUserExists
 
-    private val _userId = MutableLiveData<Int>()
-    val userId: LiveData<Int>
-        get() = _userId
+
 
 
     fun isUserExists(email: String, password: String) =
@@ -37,10 +41,17 @@ class LoginViewModel(
             _isEmailExists.postValue(loginRepository.isEmailAlreadyExists(email))
         }
 
-    fun getUserIdByEmailAndPassword(email: String, password: String) =
+
+
+    fun saveUserIdInSharedPref(email: String, password: String) {
         viewModelScope.launch {
-          _userId.postValue(loginRepository.getUserIdByEmailAndPassword(email, password))
+            val deferredId = async(Dispatchers.IO) {
+                loginRepository.getUserIdByEmailAndPassword(email, password)
+            }
+            AuthSharedPref(context).saveUserId(deferredId.await())
+            Log.d("userrid", deferredId.await().toString())
         }
+    }
 
 
 }
