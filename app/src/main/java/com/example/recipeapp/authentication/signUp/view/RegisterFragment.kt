@@ -2,11 +2,14 @@ package com.example.recipeapp.authentication.signUp.view
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.transition.Visibility
 import com.example.recipeapp.R
 import com.example.recipeapp.authentication.signUp.repo.SignUpRepoImp
 import com.example.recipeapp.authentication.signUp.validation.UserDataValidation
@@ -16,7 +19,10 @@ import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
 import com.example.recipeapp.data.local.model.UserData
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class RegisterFragment : Fragment(R.layout.fragment_register) {
@@ -27,6 +33,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     private lateinit var confirmPass: String
     private lateinit var signUpBtn: MaterialButton
     private lateinit var signInText: TextView
+    private lateinit var progressBar: ProgressBar
     private lateinit var signUpViewModel: SignUpViewModel
     private lateinit var authSharedPref: AuthSharedPref
 
@@ -40,6 +47,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         confirmPass = confirmPasswordInput.text.toString()
         signUpBtn = view.findViewById(R.id.signUp_button)
         signInText = view.findViewById(R.id.signIn_textView)
+        progressBar= view.findViewById(R.id.wait_signup)
         authSharedPref=AuthSharedPref(requireContext())
 
 
@@ -85,9 +93,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     private fun handleValidation(user: UserData, validationErrors: MutableMap<String, String>) {
         if (validationErrors.isEmpty()) {
-            signUpViewModel.insertUser(user)
-            authSharedPref.setLoggedIn(true)
-            saveUserId()
+           addUser(user)
             findNavController().navigate(R.id.action_registerFragment_to_recipeActivity)
         } else {
             clearErrors()
@@ -129,6 +135,28 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         validationErrors["confirm-password"]?.let {
             confirmPasswordInput.error = it
         }
+    }
+
+
+    private fun addUser(user: UserData){
+        lifecycleScope.launch {
+            showProgressBar()
+            delay(2000)
+            signUpViewModel.insertUser(user)
+            authSharedPref.setLoggedIn(true)
+            saveUserId()
+            hideProgressBar()
+        }
+    }
+
+    private fun showProgressBar(){
+        signUpBtn.visibility= View.GONE
+        progressBar.visibility=View.VISIBLE
+    }
+
+    private fun hideProgressBar(){
+        progressBar.visibility=View.GONE
+        signUpBtn.visibility= View.VISIBLE
     }
 
 
