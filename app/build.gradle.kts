@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.lottie)
 //    implementation(libs.androidx.room.common)
     //implementation(libs.youtube.player)
+    implementation(libs.show.more)
     implementation(libs.dynamic.featrues)
     implementation(libs.room)
     implementation(libs.room.runtime)
