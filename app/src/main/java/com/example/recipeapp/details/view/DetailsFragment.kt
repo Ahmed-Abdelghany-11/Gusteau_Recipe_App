@@ -56,13 +56,15 @@ class DetailsFragment : Fragment() {
             val category = view.findViewById<TextView>(R.id.txtCategory)
             val details = view.findViewById<TextView>(R.id.txtdetails)
             val video = view.findViewById<YouTubePlayerView>(R.id.youtube_player_view)
-            val videoId = data.strYoutube?.split("v=")?.get(1)
-            video.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-                override fun onReady(youTubePlayer: YouTubePlayer) {
-                    youtubePlayer = youTubePlayer
-                    youtubePlayer?.loadVideo(videoId!!, 0f)
-                }
-            })
+            val videoId = data.strYoutube?.substringAfterLast("v=")?.substringBefore("&")
+            if (videoId != null) {
+                video.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+                    override fun onReady(youTubePlayer: YouTubePlayer) {
+                        youtubePlayer = youTubePlayer
+                        youtubePlayer?.loadVideo(videoId, 0f)
+                    }
+                })
+            }
 
             gettingViewModelReady()
             authSharedPref = AuthSharedPref(requireContext())
