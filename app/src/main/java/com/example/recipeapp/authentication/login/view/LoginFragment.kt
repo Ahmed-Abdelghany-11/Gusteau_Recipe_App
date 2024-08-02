@@ -1,24 +1,25 @@
 package com.example.recipeapp.authentication.login.view
 
-import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.recipeapp.R
 import com.example.recipeapp.authentication.login.repo.LoginRepoImp
 import com.example.recipeapp.authentication.login.viewmodel.LoginViewModel
 import com.example.recipeapp.authentication.login.viewmodel.LoginViewModelFactory
-import com.example.recipeapp.authentication.signUp.repo.SignUpRepoImp
-import com.example.recipeapp.authentication.signUp.viewmodel.SignUpViewModel
-import com.example.recipeapp.authentication.signUp.viewmodel.SignUpViewModelFactory
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
@@ -26,6 +27,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private lateinit var signUpText: TextView
     private lateinit var emailInput: TextInputEditText
     private lateinit var passwordInput: TextInputEditText
+    private lateinit var progressBar: ProgressBar
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var authSharedPref: AuthSharedPref
 
@@ -37,6 +39,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         authSharedPref = AuthSharedPref(requireContext())
         signInBtn = view.findViewById(R.id.signin_button)
         signUpText = view.findViewById(R.id.signIn_textView)
+        progressBar = view.findViewById(R.id.wait_login)
 
 
         //handle login
@@ -47,8 +50,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 loginViewModel.isUserExists.observe(viewLifecycleOwner) { userExists ->
                     if (userExists) {
                         passwordInput.error = null
-                        authSharedPref.setLoggedIn(true)
-                        saveUserId()
+                        login()
                         navigateToHome()
                     } else {
                         passwordInput.error = "incorrect password,please try again"
@@ -101,21 +103,18 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         val loginViewModelFactory = LoginViewModelFactory(
             loginRepository = LoginRepoImp(
                 localDataSource = LocalDataSourceImpl(requireContext())
-            )
+            ),
+            requireContext()
         )
         loginViewModel =
             ViewModelProvider(this, loginViewModelFactory)[LoginViewModel::class.java]
 
     }
 
-    private fun saveUserId(){
-        val email= emailInput.text.toString()
-        val password=passwordInput.text.toString()
-         loginViewModel.getUserIdByEmailAndPassword(email, password)
-
-        loginViewModel.userId.observe(viewLifecycleOwner){ id->
-            authSharedPref.saveUserId(id)
-        }
+    private fun saveUserId() {
+        val email = emailInput.text.toString()
+        val password = passwordInput.text.toString()
+        loginViewModel.saveUserIdInSharedPref(email, password)
     }
 
 
@@ -130,6 +129,25 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             .show()
     }
 
+    private fun login() {
+        lifecycleScope.launch {
+            showProgressBar()
+            delay(2000)
+            authSharedPref.setLoggedIn(true)
+            saveUserId()
+            hideProgressBar()
+        }
+    }
+
+    private fun showProgressBar() {
+        signInBtn.visibility = View.GONE
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        progressBar.visibility = View.GONE
+        signInBtn.visibility = View.VISIBLE
+    }
 
 
 }
