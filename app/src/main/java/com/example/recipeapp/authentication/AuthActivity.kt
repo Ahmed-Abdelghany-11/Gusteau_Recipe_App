@@ -30,18 +30,13 @@ class AuthActivity : AppCompatActivity() {
         }
         navController = findNavController(R.id.nav_host_fragment)
 
+        handleDeepLink(intent)
 
-        // Delay navigation to ensure NavController is ready
-        lifecycleScope.launch {
-            delay(1000)
-            handleDeepLink(intent)
-        }
     }
 
     private fun handleDeepLink(intent: Intent) {
         val action = intent.action
         val data = intent.data
-
         if (Intent.ACTION_VIEW == action && data != null) {
             val destination = data.path
             if (destination == "/login") {
@@ -52,6 +47,11 @@ class AuthActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleDeepLink(intent)
     }
 
 }
