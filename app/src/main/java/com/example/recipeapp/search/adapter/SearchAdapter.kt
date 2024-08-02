@@ -1,6 +1,7 @@
 package com.example.recipeapp.search.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,20 +47,20 @@ class SearchAdapter(
             }
         }
 
-        private fun getTitle(): TextView {
+        fun getTitle(): TextView {
             return title ?: view.findViewById(R.id.meal_title)
         }
 
-        private fun getCategory(): TextView {
+        fun getCategory(): TextView {
             return catrgory ?: view.findViewById(R.id.meal_category)
         }
 
-        private fun getCountry(): TextView {
+        fun getCountry(): TextView {
             return country ?: view.findViewById(R.id.meal_country)
         }
 
 
-        private fun getImageView(): ImageView {
+        fun getImageView(): ImageView {
             return imageView ?: view.findViewById(R.id.meal_image)
         }
 
@@ -81,6 +82,21 @@ class SearchAdapter(
 
         }
 
+         fun showAlertDialog(context: Context, userId: Int, meal: Meal) {
+            MaterialAlertDialogBuilder(context)
+                .setTitle("Remove Meal From Favorites")
+                .setMessage("Are you sure you want to remove this meal from favorites?")
+                .setPositiveButton("Remove") { dialog, _ ->
+                    deleteFromFav(userId, meal)
+                    dialog.dismiss()
+                    getFavButton().setImageResource(R.drawable.baseline_favorite_border_24)
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
@@ -95,6 +111,7 @@ class SearchAdapter(
         val userId = AuthSharedPref(holder.itemView.context).getUserId()
         viewModel.isFavouriteMeal(userId, meal!!.idMeal)
         viewModel.isFavMeal.observe(holder.itemView.context as LifecycleOwner) { isFav ->
+            Log.d("isfav",isFav.toString())
             holder.getFavButton().setImageResource(
                 if (isFav == true) R.drawable.baseline_favorite_24
                 else R.drawable.baseline_favorite_border_24
@@ -102,15 +119,14 @@ class SearchAdapter(
         }
 
         holder.getFavButton().setOnClickListener {
+            viewModel.isFavouriteMeal(userId,meal.idMeal)
             viewModel.isFavouriteMeal(userId, meal.idMeal)
             viewModel.isFavMeal.observe(holder.itemView.context as LifecycleOwner) { isFav ->
                 if (isFav == true) {
-                    showAlertDialog(holder.itemView.context, userId, meal, position)
-                    holder.getFavButton().setImageResource(R.drawable.baseline_favorite_border_24)
+                    holder.showAlertDialog(holder.itemView.context, userId, meal)
                 } else {
                     addMealToFav(userId, meal)
                     holder.getFavButton().setImageResource(R.drawable.baseline_favorite_24)
-
                 }
             }
         }
@@ -138,18 +154,5 @@ class SearchAdapter(
         )
     }
 
-    private fun showAlertDialog(context: Context, userId: Int, meal: Meal, position: Int) {
-        MaterialAlertDialogBuilder(context)
-            .setTitle("Remove Meal From Favorites")
-            .setMessage("Are you sure you want to remove this meal from favorites?")
-            .setPositiveButton("Remove") { dialog, _ ->
-                deleteFromFav(userId, meal)
-                dialog.dismiss()
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                notifyItemChanged(position)
-                dialog.dismiss()
-            }
-            .show()
-    }
+
 }
