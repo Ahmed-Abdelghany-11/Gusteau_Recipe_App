@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
@@ -78,15 +79,14 @@ class SearchAdapter(
                 .into(getImageView())
 
             viewModel.isFavouriteMeal(userId, meal!!.idMeal)
-            viewModel.isFavMeal.observeForever { isFav ->
-
+            viewModel.isFavMeal.observe(itemView.context as LifecycleOwner) { isFav ->
                 if (isFav) getFavButton().setImageResource(
                     R.drawable.baseline_favorite_24
                 )
             }
 
             getFavButton().setOnClickListener {
-                viewModel.isFavMeal.observeForever { isFav ->
+                viewModel.isFavMeal.observe(itemView.context as LifecycleOwner) { isFav ->
                     if (isFav) {
                         MaterialAlertDialogBuilder(itemView.context)
                             .setTitle("Remove Meal From Favorites")
