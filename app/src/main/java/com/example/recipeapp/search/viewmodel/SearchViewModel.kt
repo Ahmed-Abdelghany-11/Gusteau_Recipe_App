@@ -8,6 +8,9 @@ import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.data.remote.dto.MealList
 import com.example.recipeapp.search.repo.SearchRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
@@ -34,7 +37,7 @@ class SearchViewModel(
         }
     }
 
-    fun deleteFromFav(userMealCrossRef: UserMealCrossRef)=
+    fun deleteFromFav(userMealCrossRef: UserMealCrossRef) =
         viewModelScope.launch {
             searchRepository.deleteFromFav(userMealCrossRef)
         }
@@ -49,8 +52,12 @@ class SearchViewModel(
             searchRepository.deleteMeal(meal)
         }
 
-    fun isFavouriteMeal(userId: Int, mealId: String) =
+    suspend fun isFavouriteMeal(userId: Int, mealId: String) =
+        val isFav= false
         viewModelScope.launch {
-            _isFavMeal.postValue(searchRepository.isFavoriteMeal(userId, mealId))
+
         }
+
+
 }
+
