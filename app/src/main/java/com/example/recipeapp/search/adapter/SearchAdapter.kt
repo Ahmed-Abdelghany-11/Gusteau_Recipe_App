@@ -80,8 +80,9 @@ class SearchAdapter(
 
             viewModel.isFavouriteMeal(userId, meal!!.idMeal)
             viewModel.isFavMeal.observe(itemView.context as LifecycleOwner) { isFav ->
-                if (isFav) getFavButton().setImageResource(
-                    R.drawable.baseline_favorite_24
+                getFavButton().setImageResource(
+                    if (isFav) R.drawable.baseline_favorite_24
+                    else R.drawable.baseline_favorite_border_24
                 )
             }
 
