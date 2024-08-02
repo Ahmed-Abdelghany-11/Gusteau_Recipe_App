@@ -1,50 +1,37 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/bottomFragment"/>
+        android:id="@+id/fragment_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:contentInsetEnd="0dp"
-        app:contentInsetStart="0dp"
-        style="@style/BarTheme"
-        app:fabCradleMargin="10dp"
-        app:fabCradleRoundedCornerRadius="20dp"
-        app:fabAlignmentMode="center">
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNav"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/NavTheme"
-            android:elevation="0dp"
-            app:itemRippleColor="@color/lightGreen"
-            app:itemActiveIndicatorStyle="@color/gray"
-            app:itemTextAppearanceActive="@color/lightGreen"
-            app:itemTextAppearanceInactive="@color/black"
-            app:itemTextAppearanceActiveBoldEnabled="true"
-            android:background="@android:color/transparent"
-            app:menu="@menu/app_menu" />
-    </com.google.android.material.bottomappbar.BottomAppBar>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottomGuideLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/FloatTheme"
-        android:importantForAccessibility="no"
-        app:fabCustomSize="60dp"
-        app:layout_anchorGravity="center"
-        android:src="@drawable/baseline_home_24"
-        app:layout_anchor="@id/bottomAppBar"/>
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.90" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/bottomGuideLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:menu="@menu/app_menu"
+        android:background="@color/white"
+        app:itemIconTint="@color/lightGreen"
+        app:itemTextColor="@color/black"
+        app:itemActiveIndicatorStyle="@style/Indicator"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
