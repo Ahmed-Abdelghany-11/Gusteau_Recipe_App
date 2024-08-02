@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
+import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.data.remote.dto.MealList
@@ -75,7 +76,7 @@ class SearchAdapter(
                 viewModel.insertMeal(meal!!)
                     viewModel.insertIntoFav(
                         userMealCrossRef = UserMealCrossRef(
-                            1,
+                            AuthSharedPref(itemView.context).getUserId(),
                             meal.idMeal
                         )
                     )
