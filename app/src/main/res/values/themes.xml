@@ -60,5 +60,11 @@
     </style>
 
 
+    <style name="Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="indicatorColor">@color/gray</item>
+        <item name="indicatorSize">2dp</item>
+    </style>
+
+
 
 </resources>
