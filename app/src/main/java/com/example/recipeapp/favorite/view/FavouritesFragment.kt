@@ -1,4 +1,4 @@
-package com.example.recipeapp.favorite.view
+package com.example.recipeapp.home.favorite.view
 
 import android.content.Context
 import android.os.Bundle
@@ -78,8 +78,14 @@ class FavouritesFragment : Fragment() {
         favAdapter.setOnItemClickListener(object: FavAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val meal = viewModel.userFavMeals.value?.meals?.get(position)
-                val action = FavouritesFragmentDirections.actionFavouritesFragmentToDetailsFragment(meal?.idMeal ?: "0")
-                findNavController().navigate(action)
+                val action = meal?.let {
+                    FavouritesFragmentDirections.actionFavouritesFragmentToDetailsFragment(
+                        meal
+                    )
+                }
+                if (action != null) {
+                    findNavController().navigate(action)
+                }
             }
 
         })

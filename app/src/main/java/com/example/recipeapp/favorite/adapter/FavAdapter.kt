@@ -53,7 +53,6 @@ class FavAdapter(val mealList : MutableList<Meal>, val viewmodel : FavViewModel)
 
         fun bind(meal: Meal, viewModel: FavViewModel) {
             name.text = meal.strMeal
-            Log.d("strmeal", "bind: ${meal.strMeal}")
             Glide.with(view.context).load(meal.strMealThumb).into(image)
             btn.setImageResource(R.drawable.baseline_favorite_24)
             btn.setOnClickListener {
