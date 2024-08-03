@@ -8,6 +8,9 @@ import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.data.remote.dto.MealList
 import com.example.recipeapp.search.repo.SearchRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
@@ -17,6 +20,10 @@ class SearchViewModel(
     private val _searchResultOfMeals = MutableLiveData<MealList?>()
     val searchResultOfMeals: LiveData<MealList?>
         get() = _searchResultOfMeals
+
+    private val _isFavMeal = MutableLiveData<Boolean>()
+    val isFavMeal: LiveData<Boolean>
+        get() = _isFavMeal
 
     fun getSearchResult(name: String) =
         viewModelScope.launch {
@@ -29,13 +36,29 @@ class SearchViewModel(
             searchRepository.insertIntoFav(userMealCrossRef)
         }
     }
-    fun insertMeal(meal: Meal)=
+
+    fun deleteFromFav(userMealCrossRef: UserMealCrossRef) =
+        viewModelScope.launch {
+            searchRepository.deleteFromFav(userMealCrossRef)
+        }
+
+    fun insertMeal(meal: Meal) =
         viewModelScope.launch {
             searchRepository.insertMeal(meal)
         }
 
-    fun deleteMeal(meal: Meal)=
+    fun deleteMeal(meal: Meal) =
         viewModelScope.launch {
             searchRepository.deleteMeal(meal)
         }
+
+    fun isFavoriteMeal(userId: Int, mealId: String): LiveData<Boolean> {
+        val isFavorite = MutableLiveData<Boolean>()
+        viewModelScope.launch {
+            isFavorite.postValue(searchRepository.isFavoriteMeal(userId, mealId))
+        }
+        return isFavorite
+    }
+
 }
+

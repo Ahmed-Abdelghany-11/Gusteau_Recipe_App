@@ -13,4 +13,8 @@ interface SearchRepository {
     suspend fun insertMeal(meal: Meal)
 
     suspend fun deleteMeal(meal: Meal)
+
+    suspend  fun isFavoriteMeal(userId:Int,mealId:String): Boolean
+
+    suspend fun deleteFromFav(userMealCrossRef:UserMealCrossRef)
 }

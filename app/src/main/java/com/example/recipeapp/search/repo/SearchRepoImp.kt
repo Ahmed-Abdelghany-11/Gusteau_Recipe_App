@@ -23,5 +23,13 @@ class SearchRepoImp(
     override suspend fun deleteMeal(meal: Meal) =
         localDataSource.deleteMeal(meal)
 
+    override suspend fun isFavoriteMeal(userId:Int,mealId:String) =
+        localDataSource.isFavoriteMeal(userId, mealId)
+
+    override suspend fun deleteFromFav(userMealCrossRef: UserMealCrossRef) =
+        localDataSource.deleteFromFav(userMealCrossRef)
+
+
+
 
 }

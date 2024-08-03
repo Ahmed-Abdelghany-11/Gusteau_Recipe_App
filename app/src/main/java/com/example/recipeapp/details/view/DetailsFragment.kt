@@ -1,15 +1,18 @@
 package com.example.recipeapp.details.view
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.colormoon.readmoretextview.ReadMoreTextView
 import com.example.recipeapp.R
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
@@ -23,6 +26,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import kotlinx.coroutines.launch
+
 
 class DetailsFragment : Fragment() {
 
@@ -50,7 +54,7 @@ class DetailsFragment : Fragment() {
             val title = view.findViewById<TextView>(R.id.txtTitle)
             val img = view.findViewById<ImageView>(R.id.image)
             val category = view.findViewById<TextView>(R.id.txtCategory)
-            val details = view.findViewById<TextView>(R.id.txtdetails)
+            val details = view.findViewById<ReadMoreTextView>(R.id.txtdetails)
             val video = view.findViewById<YouTubePlayerView>(R.id.youtube_player_view)
             val videoId = data.strYoutube?.substringAfterLast("v=")
             if (videoId != null) {
@@ -66,6 +70,8 @@ class DetailsFragment : Fragment() {
             authSharedPref = AuthSharedPref(requireContext())
 
             val userId = authSharedPref.getUserId()
+            details.setTrimLength(2)
+            details.setText(data.strInstructions)
 
             val favBtn = view.findViewById<ImageView>(R.id.addToFav)
 
