@@ -79,26 +79,26 @@ class RecipeActivity : AppCompatActivity() {
             }
         })
 
-        val connectivityManager = getSystemService(ConnectivityManager::class.java)
-        //val currentNetwork = connectivityManager.activeNetwork
-        var firstTime = true
-        connectivityManager.registerDefaultNetworkCallback(object: ConnectivityManager.NetworkCallback() {
+//        val connectivityManager = getSystemService(ConnectivityManager::class.java)
+//        //val currentNetwork = connectivityManager.activeNetwork
+//        var firstTime = true
+//        connectivityManager.registerDefaultNetworkCallback(object: ConnectivityManager.NetworkCallback() {
+//
+//            override fun onAvailable(network: Network) {
+//                if (!firstTime) {
+//                    //Toast.makeText(applicationContext, "Internet is available", Toast.LENGTH_LONG)
+//                        //.show()
+//
+//                }
+//                //else firstTime = false
+//            }
+//            override fun onLost(network: Network) {
+//                //Toast.makeText(applicationContext, "Internet is unavailable", Toast.LENGTH_LONG).show()
+////                showDialog()
+////                navController.navigate(R.id.action_global_to_noInternetFragment)
+//            }
 
-            override fun onAvailable(network: Network) {
-                if (!firstTime) {
-                    Toast.makeText(applicationContext, "Internet is available", Toast.LENGTH_LONG)
-                        .show()
-
-                }
-                else firstTime = false
-            }
-            override fun onLost(network: Network) {
-                Toast.makeText(applicationContext, "Internet is unavailable", Toast.LENGTH_LONG).show()
-//                showDialog()
-//                navController.navigate(R.id.action_global_to_noInternetFragment)
-            }
-
-        })
+       // })
 
 
     }
