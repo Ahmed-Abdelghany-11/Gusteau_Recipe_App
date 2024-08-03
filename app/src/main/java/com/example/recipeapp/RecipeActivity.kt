@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.onNavDestinationSelected
@@ -41,6 +42,31 @@ class RecipeActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolBar)
         setSupportActionBar(toolbar)
         NavigationUI.setupWithNavController(toolbar, navController)
+
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.homeFragment -> {
+                    navController.navigate(R.id.homeFragment, null, NavOptions.Builder()
+                        .setPopUpTo(R.id.homeFragment, true)
+                        .build())
+                    true
+                }
+                R.id.favouritesFragment -> {
+                    navController.navigate(R.id.favouritesFragment, null, NavOptions.Builder()
+                        .setPopUpTo(R.id.homeFragment, true)
+                        .build())
+                    true
+                }
+                R.id.searchFragment -> {
+                    navController.navigate(R.id.searchFragment, null, NavOptions.Builder()
+                        .setPopUpTo(R.id.homeFragment, true)
+                        .build())
+                    true
+                }
+                else -> false
+            }
+        }
+
 
         // Handle back button behavior
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
