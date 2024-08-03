@@ -1,10 +1,13 @@
 package com.example.recipeapp
 
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.Network
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -74,6 +77,27 @@ class RecipeActivity : AppCompatActivity() {
                 if (!navController.popBackStack())
                     finishAffinity()
             }
+        })
+
+        val connectivityManager = getSystemService(ConnectivityManager::class.java)
+        //val currentNetwork = connectivityManager.activeNetwork
+        var firstTime = true
+        connectivityManager.registerDefaultNetworkCallback(object: ConnectivityManager.NetworkCallback() {
+
+            override fun onAvailable(network: Network) {
+                if (!firstTime) {
+                    Toast.makeText(applicationContext, "Internet is available", Toast.LENGTH_LONG)
+                        .show()
+
+                }
+                else firstTime = false
+            }
+            override fun onLost(network: Network) {
+                Toast.makeText(applicationContext, "Internet is unavailable", Toast.LENGTH_LONG).show()
+//                showDialog()
+//                navController.navigate(R.id.action_global_to_noInternetFragment)
+            }
+
         })
 
 
