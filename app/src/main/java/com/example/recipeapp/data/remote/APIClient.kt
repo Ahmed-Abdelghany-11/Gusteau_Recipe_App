@@ -25,4 +25,8 @@ object APIClient : RemoteDataSource {
         return RetrofitHelper.service.getMealById(id)
     }
 
+    override suspend fun getRecipesOfCategory(categoryName: String): MealList {
+        return RetrofitHelper.service.getRecipesOfCategory(categoryName)
+    }
+
 }
