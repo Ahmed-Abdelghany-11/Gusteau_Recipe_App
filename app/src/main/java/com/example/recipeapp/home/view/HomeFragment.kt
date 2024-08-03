@@ -22,12 +22,13 @@ import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.APIClient
 import com.example.recipeapp.home.adapter.RecipeAdapter
 import com.example.recipeapp.home.adapter.CategoryAdapter
+import com.example.recipeapp.home.adapter.OnCategoryClickListener
 import com.example.recipeapp.home.adapter.RandomAdapter
 import com.example.recipeapp.home.repo.RetrofitRepoImp
 import com.example.recipeapp.home.viewModel.HomeViewModel
 import com.example.recipeapp.home.viewModel.ViewModelFactory
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), OnCategoryClickListener {
     private lateinit var viewModel: HomeViewModel
 
 
@@ -78,7 +79,7 @@ class HomeFragment : Fragment() {
         viewModel.getAllCategories()
         viewModel.getAllCategoriesResponse.observe(viewLifecycleOwner) { getMyResponse ->
             val category = getMyResponse.categories
-            recyclerViewCategory.adapter = CategoryAdapter(category)
+            recyclerViewCategory.adapter = CategoryAdapter(category, this)
             processBarCategory.visibility = View.GONE
         }
 
@@ -145,6 +146,11 @@ class HomeFragment : Fragment() {
             )
         )
         viewModel = ViewModelProvider(this, factory).get(HomeViewModel::class.java)
+    }
+
+    override fun onClick(categoryName: String) {
+        val action = HomeFragmentDirections.actionHomeFragmentToCategoryFragment(categoryName)
+        findNavController().navigate(action)
     }
 
 }

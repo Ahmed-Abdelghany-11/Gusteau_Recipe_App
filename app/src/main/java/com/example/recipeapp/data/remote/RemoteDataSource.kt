@@ -15,5 +15,5 @@ interface RemoteDataSource {
     suspend fun getAllCategories(): CategoryList
 
     suspend fun getMealById(id: String): MealList
-
+    suspend fun getRecipesOfCategory(categoryName: String): MealList
 }
