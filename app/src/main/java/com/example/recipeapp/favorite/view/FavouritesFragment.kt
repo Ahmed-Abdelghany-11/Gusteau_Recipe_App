@@ -1,6 +1,5 @@
 package com.example.recipeapp.home.favorite.view
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -16,14 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
-import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.APIClient
 import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.favorite.adapter.FavAdapter
 import com.example.recipeapp.favorite.repo.FavRepoImpl
 import com.example.recipeapp.favorite.viewmodel.FavViewModel
 import com.example.recipeapp.favorite.viewmodel.FavViewModelFactory
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class FavouritesFragment : Fragment() {
@@ -46,7 +43,7 @@ class FavouritesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         gettingViewModelReady()
-        recyclerViewFav = view.findViewById(R.id.FavRv)
+        recyclerViewFav = view.findViewById(R.id.CategoryRv)
         authSharedPref = AuthSharedPref(requireContext())
         noFav = view.findViewById(R.id.no_fav)
 

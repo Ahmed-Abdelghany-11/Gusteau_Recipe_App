@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_detailsFragment2"
             app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -51,4 +54,13 @@
     <action
         android:id="@+id/action_global_to_homeFragment"
         app:destination="@id/homeFragment" />
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.example.recipeapp.category.view.CategoryFragment"
+        android:label="@string/categoryRecipes"
+        tools:layout="@layout/fragment_category" >
+        <argument
+            android:name="categoryName"
+            app:argType="string" />
+    </fragment>
 </navigation>
