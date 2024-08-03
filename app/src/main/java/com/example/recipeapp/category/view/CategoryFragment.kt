@@ -14,6 +14,7 @@ import com.example.recipeapp.category.viewModel.CategoryViewModel
 import com.example.recipeapp.data.remote.APIClient
 import com.example.recipeapp.data.remote.dto.Meal
 import androidx.navigation.fragment.navArgs
+import com.example.recipeapp.data.local.LocalDataSourceImpl
 
 
 class CategoryFragment : Fragment(R.layout.fragment_category) {
@@ -46,7 +47,8 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     private fun gettingViewModelReady() {
         val catViewModelFactory = CatViewModelFactory(
             CategoryRepoImp(
-                remoteDataSource = APIClient
+                remoteDataSource = APIClient,
+                localDataSource = LocalDataSourceImpl(requireContext())
             )
         )
         viewModel = ViewModelProvider(this, catViewModelFactory)[CategoryViewModel::class.java]

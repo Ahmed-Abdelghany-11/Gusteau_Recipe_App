@@ -57,7 +57,7 @@
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.example.recipeapp.category.view.CategoryFragment"
-        android:label="fragment_category"
+        android:label="@string/categoryRecipes"
         tools:layout="@layout/fragment_category" >
         <argument
             android:name="categoryName"
