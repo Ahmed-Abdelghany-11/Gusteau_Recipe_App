@@ -52,12 +52,13 @@ class SearchViewModel(
             searchRepository.deleteMeal(meal)
         }
 
-    suspend fun isFavouriteMeal(userId: Int, mealId: String) =
-        val isFav= false
+    fun isFavoriteMeal(userId: Int, mealId: String): LiveData<Boolean> {
+        val isFavorite = MutableLiveData<Boolean>()
         viewModelScope.launch {
-
+            isFavorite.postValue(searchRepository.isFavoriteMeal(userId, mealId))
         }
-
+        return isFavorite
+    }
 
 }
 

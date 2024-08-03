@@ -109,8 +109,7 @@ class SearchAdapter(
         holder.bind(meal)
 
         val userId = AuthSharedPref(holder.itemView.context).getUserId()
-        viewModel.isFavouriteMeal(userId, meal!!.idMeal)
-        viewModel.isFavMeal.observe(holder.itemView.context as LifecycleOwner) { isFav ->
+        viewModel.isFavoriteMeal(userId,meal!!.idMeal).observe(holder.itemView.context as LifecycleOwner) { isFav ->
             Log.d("isfav",isFav.toString())
             holder.getFavButton().setImageResource(
                 if (isFav == true) R.drawable.baseline_favorite_24
@@ -119,9 +118,7 @@ class SearchAdapter(
         }
 
         holder.getFavButton().setOnClickListener {
-            viewModel.isFavouriteMeal(userId,meal.idMeal)
-            viewModel.isFavouriteMeal(userId, meal.idMeal)
-            viewModel.isFavMeal.observe(holder.itemView.context as LifecycleOwner) { isFav ->
+            viewModel.isFavoriteMeal(userId,meal!!.idMeal).observe(holder.itemView.context as LifecycleOwner) { isFav ->
                 if (isFav == true) {
                     holder.showAlertDialog(holder.itemView.context, userId, meal)
                 } else {
