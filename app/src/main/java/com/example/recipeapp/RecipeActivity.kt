@@ -19,6 +19,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.onNavDestinationSelected
+import com.example.recipeapp.authentication.AuthActivity
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -49,23 +50,32 @@ class RecipeActivity : AppCompatActivity() {
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.homeFragment -> {
-                    navController.navigate(R.id.homeFragment, null, NavOptions.Builder()
-                        .setPopUpTo(R.id.homeFragment, true)
-                        .build())
+                    navController.navigate(
+                        R.id.homeFragment, null, NavOptions.Builder()
+                            .setPopUpTo(R.id.homeFragment, true)
+                            .build()
+                    )
                     true
                 }
+
                 R.id.favouritesFragment -> {
-                    navController.navigate(R.id.favouritesFragment, null, NavOptions.Builder()
-                        .setPopUpTo(R.id.homeFragment, true)
-                        .build())
+                    navController.navigate(
+                        R.id.favouritesFragment, null, NavOptions.Builder()
+                            .setPopUpTo(R.id.homeFragment, true)
+                            .build()
+                    )
                     true
                 }
+
                 R.id.searchFragment -> {
-                    navController.navigate(R.id.searchFragment, null, NavOptions.Builder()
-                        .setPopUpTo(R.id.homeFragment, true)
-                        .build())
+                    navController.navigate(
+                        R.id.searchFragment, null, NavOptions.Builder()
+                            .setPopUpTo(R.id.homeFragment, true)
+                            .build()
+                    )
                     true
                 }
+
                 else -> false
             }
         }
@@ -98,7 +108,7 @@ class RecipeActivity : AppCompatActivity() {
 ////                navController.navigate(R.id.action_global_to_noInternetFragment)
 //            }
 
-       // })
+        // })
 
 
     }
@@ -133,11 +143,11 @@ class RecipeActivity : AppCompatActivity() {
     }
 
     private fun navigateToLogin() {
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse("https://www.example.com/login")
-        }
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        val intent = Intent(this, AuthActivity::class.java)
+        intent.putExtra("login", true)
         startActivity(intent)
+        finishAffinity()
+
         // Clear login status
         AuthSharedPref(this).clearLoginStatus()
 
