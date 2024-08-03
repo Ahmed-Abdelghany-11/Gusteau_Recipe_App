@@ -1,8 +1,8 @@
-package com.example.recipeapp.home.details.viewmodel
+package com.example.recipeapp.details.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.recipeapp.home.details.repo.DetailsRepo
+import com.example.recipeapp.details.repo.DetailsRepo
 
 class DetailsViewModelFactory (private val repo : DetailsRepo) : ViewModelProvider.Factory {
 
