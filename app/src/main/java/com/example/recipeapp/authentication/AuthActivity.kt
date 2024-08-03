@@ -32,25 +32,28 @@ class AuthActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val navToLogin = intent.getBooleanExtra("login", false)
+        navController = findNavController(R.id.nav_host_fragment)
+        navigateToLogin(navToLogin)
 
-
-        handleDeepLink(intent)
 
         val connectivityManager = getSystemService(ConnectivityManager::class.java)
         //val currentNetwork = connectivityManager.activeNetwork
         var firstTime = true
-        connectivityManager.registerDefaultNetworkCallback(object: ConnectivityManager.NetworkCallback() {
+        connectivityManager.registerDefaultNetworkCallback(object :
+            ConnectivityManager.NetworkCallback() {
 
             override fun onAvailable(network: Network) {
                 if (!firstTime) {
                     Toast.makeText(applicationContext, "Internet is available", Toast.LENGTH_LONG)
                         .show()
 
-                }
-                else firstTime = false
+                } else firstTime = false
             }
+
             override fun onLost(network: Network) {
-                Toast.makeText(applicationContext, "Internet is unavailable", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Internet is unavailable", Toast.LENGTH_LONG)
+                    .show()
 //                showDialog()
 //                navController.navigate(R.id.action_global_to_noInternetFragment)
             }
@@ -58,26 +61,6 @@ class AuthActivity : AppCompatActivity() {
         })
 
 
-    }
-
-    private fun handleDeepLink(intent: Intent) {
-        val action = intent.action
-        val data = intent.data
-        if (Intent.ACTION_VIEW == action && data != null) {
-            val destination = data.path
-            if (destination == "/login") {
-                val navOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.auth_graph, true)
-                    .build()
-                navController.navigate(R.id.loginFragment, null, navOptions)
-            }
-
-        }
-    }
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        handleDeepLink(intent)
     }
 
 //    private fun showDialog() {
@@ -96,6 +79,16 @@ class AuthActivity : AppCompatActivity() {
 //            }
 //        }
 //    }
+
+    private fun navigateToLogin(navToLogin: Boolean) {
+        val navOption = NavOptions.Builder()
+            .setPopUpTo(R.id.splashFragment, true)
+            .build()
+
+        if (navToLogin) navController.navigate(R.id.loginFragment,null,navOption)
+        else navController.navigate(R.id.splashFragment,null,navOption)
+
+    }
 
 
 }

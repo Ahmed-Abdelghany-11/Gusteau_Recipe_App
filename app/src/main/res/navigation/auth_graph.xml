@@ -34,10 +34,6 @@
             app:destination="@id/recipeActivity"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
-        <deepLink
-            android:id="@+id/deepLink"
-            android:autoVerify="true"
-            app:uri="https://www.example.com/login" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
