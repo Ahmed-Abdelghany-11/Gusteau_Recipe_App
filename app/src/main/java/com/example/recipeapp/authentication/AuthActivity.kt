@@ -49,6 +49,14 @@ class AuthActivity : AppCompatActivity() {
         val connectivityManager = getSystemService(ConnectivityManager::class.java)
         //val currentNetwork = connectivityManager.activeNetwork
         connectivityManager.registerDefaultNetworkCallback(object: ConnectivityManager.NetworkCallback() {
+            var firstTime = true
+            override fun onAvailable(network: Network) {
+                if (firstTime) {
+                    Toast.makeText(applicationContext, "Internet is available", Toast.LENGTH_LONG)
+                        .show()
+                    firstTime = false
+                }
+            }
             override fun onLost(network: Network) {
                 Toast.makeText(applicationContext, "Internet is unavailable", Toast.LENGTH_LONG).show()
 //                showDialog()
