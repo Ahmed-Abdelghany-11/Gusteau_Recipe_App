@@ -1,9 +1,13 @@
 package com.example.recipeapp.authentication
 
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.Network
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -29,8 +33,15 @@ class AuthActivity : AppCompatActivity() {
             insets
         }
         navController = findNavController(R.id.nav_host_fragment)
+        val connectivityManager = getSystemService(ConnectivityManager::class.java)
+       // val currentNetwork = connectivityManager.getActiveNetwork()
+        connectivityManager.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
+            override fun onLost(network: Network) {
+                Toast.makeText(applicationContext, "Internet unavailable", Toast.LENGTH_LONG).show()
+            }
+        })
 
-        handleDeepLink(intent)
+                handleDeepLink(intent)
 
     }
 
