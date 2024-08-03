@@ -34,14 +34,9 @@ class SplashFragment : Fragment() {
             Handler(Looper.getMainLooper()).postDelayed({
                 if (isAdded) {
                     findNavController().navigate(
-                        R.id.action_splashFragment_to_loginFragment, null, NavOptions.Builder()
-                            .setPopUpTo(R.id.splashFragment, inclusive = true)
-                            .build()
+                        R.id.action_splashFragment_to_loginFragment, null
                     )
                 }
-
-
-
             }, 5000)
         }
     }
