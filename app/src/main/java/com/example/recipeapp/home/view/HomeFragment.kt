@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -56,10 +56,10 @@ class HomeFragment : Fragment() {
             recyclerViewRandom.adapter = randomAdapter
             processBarMeal.visibility = View.GONE
 
-            randomAdapter.setOnItemClickListener(object : RandomAdapter.OnItemClickListener{
+            randomAdapter.setOnItemClickListener(object : RandomAdapter.OnItemClickListener {
                 override fun onItemClick(position: Int) {
                     val meal = viewModel.getMyResponse.value?.meals?.get(position)
-                    val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(meal?.idMeal ?: "0")
+                    val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(meal!!)
                     findNavController().navigate(action)
                 }
 
@@ -70,8 +70,10 @@ class HomeFragment : Fragment() {
         val recyclerViewCategory = view.findViewById<RecyclerView>(R.id.recyclerViewCategories)
         val processBarCategory: ProgressBar = view.findViewById(R.id.progressBar_category)
 
-        recyclerViewCategory.layoutManager = LinearLayoutManager(requireContext(),
-            RecyclerView.HORIZONTAL, false)
+        recyclerViewCategory.layoutManager = LinearLayoutManager(
+            requireContext(),
+            RecyclerView.HORIZONTAL, false
+        )
 
         viewModel.getAllCategories()
         viewModel.getAllCategoriesResponse.observe(viewLifecycleOwner) { getMyResponse ->
@@ -84,8 +86,10 @@ class HomeFragment : Fragment() {
         val recyclerViewRecipe = view.findViewById<RecyclerView>(R.id.recyclerViewRecipes)
         val progressBarRecipe = view.findViewById<ProgressBar>(R.id.progressBar_recipe)
 
-        recyclerViewRecipe.layoutManager = LinearLayoutManager(requireContext(),
-            RecyclerView.HORIZONTAL, false)
+        recyclerViewRecipe.layoutManager = LinearLayoutManager(
+            requireContext(),
+            RecyclerView.HORIZONTAL, false
+        )
 
         viewModel.getMealsByRandomLetter()
         viewModel.getMealsByLetterResponse.observe(viewLifecycleOwner) { getMyResponse ->
@@ -94,7 +98,7 @@ class HomeFragment : Fragment() {
             recyclerViewRecipe.adapter = adapter
             progressBarRecipe.visibility = View.GONE
 
-            adapter.setOnItemClickListener(object : RecipeAdapter.OnItemClickListener{
+            adapter.setOnItemClickListener(object : RecipeAdapter.OnItemClickListener {
                 override fun onItemClick(position: Int) {
                     val meal = viewModel.getMealsByLetterResponse.value?.meals?.get(position)
                     Log.d("aaaaaaaaaaaaaaaaaaaaa", "onItemClick: ${meal}")
@@ -111,36 +115,36 @@ class HomeFragment : Fragment() {
             })
         }
 
-       /* cardView.setOnClickListener {
-            val myMeal = viewModel.getMyResponse.value?.meals?.get(0)
-            Log.d("aaaaaaaaaaaaaaaaaaaaa", "onItemClick: ${myMeal}")
-            val action = myMeal?.let { it1 ->
-                HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(
-                    it1
-                )
-            }
-            if (action != null) {
-                findNavController().navigate(action)
-            }
+        /* cardView.setOnClickListener {
+             val myMeal = viewModel.getMyResponse.value?.meals?.get(0)
+             Log.d("aaaaaaaaaaaaaaaaaaaaa", "onItemClick: ${myMeal}")
+             val action = myMeal?.let { it1 ->
+                 HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(
+                     it1
+                 )
+             }
+             if (action != null) {
+                 findNavController().navigate(action)
+             }
 
-            val meal = viewModel.getMyResponse.value?.meals
-            if (!meal.isNullOrEmpty()) {
-                recyclerViewRecipe.adapter = RecipeAdapter(meal,viewModel)
-                progressBarRecipe.visibility = View.GONE
-            }
-        }
-        Log.d("userId","${AuthSharedPref(requireContext()).getUserId()}")*/
+             val meal = viewModel.getMyResponse.value?.meals
+             if (!meal.isNullOrEmpty()) {
+                 recyclerViewRecipe.adapter = RecipeAdapter(meal,viewModel)
+                 progressBarRecipe.visibility = View.GONE
+             }
+         }
+         Log.d("userId","${AuthSharedPref(requireContext()).getUserId()}")*/
 
     }
 
-    private fun gettingViewModelReady(){
+    private fun gettingViewModelReady() {
         val factory = ViewModelFactory(
             repo = RetrofitRepoImp(
-                remoteDataSource = APIClient ,
+                remoteDataSource = APIClient,
                 localDataSource = LocalDataSourceImpl(requireContext())
             )
         )
-        viewModel = ViewModelProvider(this,factory).get(HomeViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory).get(HomeViewModel::class.java)
     }
 
 }
