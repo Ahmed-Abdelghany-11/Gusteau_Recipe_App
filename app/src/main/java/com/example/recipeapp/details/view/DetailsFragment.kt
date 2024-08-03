@@ -52,7 +52,7 @@ class DetailsFragment : Fragment() {
             val category = view.findViewById<TextView>(R.id.txtCategory)
             val details = view.findViewById<TextView>(R.id.txtdetails)
             val video = view.findViewById<YouTubePlayerView>(R.id.youtube_player_view)
-            val videoId = data.strYoutube?.substringAfterLast("v=")?.substringBefore("&")
+            val videoId = data.strYoutube?.substringAfterLast("v=")
             if (videoId != null) {
                 video.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
                     override fun onReady(youTubePlayer: YouTubePlayer) {
@@ -69,41 +69,21 @@ class DetailsFragment : Fragment() {
 
             val favBtn = view.findViewById<ImageView>(R.id.addToFav)
 
-            if (viewModel.isFavoriteMeal(userId, data.idMeal)) {
-                favBtn.setImageResource(R.drawable.baseline_favorite_24)
+
+            viewModel.isFavorite.observe(viewLifecycleOwner) { isFavorite ->
+                favBtn.setImageResource(
+                    if (isFavorite) R.drawable.baseline_favorite_24
+                    else R.drawable.baseline_favorite_border_24)
                 favBtn.setOnClickListener {
-                    MaterialAlertDialogBuilder(requireContext())
-                        .setTitle("Remove Meal From Favorites")
-                        .setMessage("Are you sure you want to remove this meal from favorites?")
-                        .setPositiveButton("Remove") { dialog, _ ->
-                            viewModel.deleteMeal(data)
-                            viewModel.deleteFromFav(
-                                userMealCrossRef = UserMealCrossRef(
-                                    userId,
-                                    data.idMeal
-                                )
-                            )
-                            favBtn.setImageResource(R.drawable.baseline_favorite_border_24)
-                            dialog.dismiss()
-                        }
-                        .setNegativeButton("Cancel") { dialog, _ ->
-                            dialog.dismiss()
-                        }
-                        .show()
-                }
-            } else {
-                favBtn.setImageResource(R.drawable.baseline_favorite_border_24)
-                favBtn.setOnClickListener {
-                    viewModel.insertMeal(data)
-                    viewModel.insertIntoFav(
-                        userMealCrossRef = UserMealCrossRef(
-                            userId,
-                            data.idMeal
-                        )
-                    )
-                    favBtn.setImageResource(R.drawable.baseline_favorite_24)
+                    if (isFavorite) {
+                        showRemoveFavoriteDialog(data, userId)
+                    } else {
+                        addFavoriteMeal(data, userId)
+                    }
                 }
             }
+
+            viewModel.isFavoriteMeal(userId, data.idMeal)
             details.text = data.strInstructions
             title.text = data.strMeal
             category.text = data.strCategory
@@ -112,7 +92,7 @@ class DetailsFragment : Fragment() {
                 .into(img)
 
         }
-        }
+    }
 
 
 
@@ -123,5 +103,27 @@ class DetailsFragment : Fragment() {
             )
         )
         viewModel = ViewModelProvider(this, detailsFactory)[DetailsViewModel::class.java]
+    }
+
+    private fun addFavoriteMeal(meal: Meal, userId: Int) {
+        viewModel.insertMeal(meal)
+        viewModel.insertIntoFav(UserMealCrossRef(userId, meal.idMeal))
+        viewModel.isFavoriteMeal(userId, meal.idMeal)
+    }
+
+    private fun showRemoveFavoriteDialog(meal: Meal, userId: Int) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Remove Meal From Favorites")
+            .setMessage("Are you sure you want to remove this meal from favorites?")
+            .setPositiveButton("Remove") { dialog, _ ->
+                viewModel.deleteMeal(meal)
+                viewModel.deleteFromFav(UserMealCrossRef(userId, meal.idMeal))
+                viewModel.isFavoriteMeal(userId, meal.idMeal)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 }
