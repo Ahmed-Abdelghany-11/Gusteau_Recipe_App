@@ -1,9 +1,12 @@
 package com.example.recipeapp.authentication
 
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.Network
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -13,6 +16,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.example.recipeapp.R
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -28,14 +32,7 @@ class AuthActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        navController = findNavController(R.id.nav_host_fragment)
-        val connectivityManager = getSystemService(ConnectivityManager::class.java)
-       // val currentNetwork = connectivityManager.getActiveNetwork()
-        connectivityManager.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
-            override fun onLost(network: Network) {
-                Toast.makeText(applicationContext, "Internet unavailable", Toast.LENGTH_LONG).show()
-            }
-        })
+
 
         handleDeepLink(intent)
 
@@ -81,22 +78,22 @@ class AuthActivity : AppCompatActivity() {
         handleDeepLink(intent)
     }
 
-    private fun showDialog() {
-        runOnUiThread {
-            if (!isFinishing && !isDestroyed) {
-                MaterialAlertDialogBuilder(this)
-                    .setTitle("Remove Meal From Favorites")
-                    .setMessage("Are you sure you want to remove this meal from favorites?")
-                    .setPositiveButton("Remove") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton("Cancel") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .show()
-            }
-        }
-    }
+//    private fun showDialog() {
+//        runOnUiThread {
+//            if (!isFinishing && !isDestroyed) {
+//                MaterialAlertDialogBuilder(this)
+//                    .setTitle("Remove Meal From Favorites")
+//                    .setMessage("Are you sure you want to remove this meal from favorites?")
+//                    .setPositiveButton("Remove") { dialog, _ ->
+//                        dialog.dismiss()
+//                    }
+//                    .setNegativeButton("Cancel") { dialog, _ ->
+//                        dialog.dismiss()
+//                    }
+//                    .show()
+//            }
+//        }
+//    }
 
 
 }
