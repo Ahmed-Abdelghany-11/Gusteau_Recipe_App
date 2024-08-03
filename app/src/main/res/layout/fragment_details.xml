@@ -93,12 +93,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardView"
                 app:srcCompat="@drawable/baseline_favorite_border_24" />
 
-            <TextView
+            <com.colormoon.readmoretextview.ReadMoreTextView
                 android:id="@+id/txtdetails"
                 android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
-                android:text="@string/bring_a_large_pot_of_water_to_a_boil_add_kosher_salt_to_the_boiling_water_then_add_the_pasta_cook_according_to_the_package_instructions_about_9_minutes_in_a_large_skillet_over_medium_high_heat_add_the_olive_oil_and_heat_until_the_oil_starts_to_shimmer_add_the_garlic_and_cook_stirring_until_fragrant_1_to_2_minutes_add_the_chopped_tomatoes_red_chile_flakes_italian_seasoning_and_salt_and_pepper_to_taste_bring_to_a_boil_and_cook_for_5_minutes_remove_from_the_heat_and_add_the_chopped_basil_drain_the_pasta_and_add_it_to_the_sauce_garnish_with_parmigiano_reggiano_flakes_and_more_basil_and_serve_warm"
+
+
+                android:text ="@string/bring_a_large_pot_of_water_to_a_boil_add_kosher_salt_to_the_boiling_water_then_add_the_pasta_cook_according_to_the_package_instructions_about_9_minutes_in_a_large_skillet_over_medium_high_heat_add_the_olive_oil_and_heat_until_the_oil_starts_to_shimmer_add_the_garlic_and_cook_stirring_until_fragrant_1_to_2_minutes_add_the_chopped_tomatoes_red_chile_flakes_italian_seasoning_and_salt_and_pepper_to_taste_bring_to_a_boil_and_cook_for_5_minutes_remove_from_the_heat_and_add_the_chopped_basil_drain_the_pasta_and_add_it_to_the_sauce_garnish_with_parmigiano_reggiano_flakes_and_more_basil_and_serve_warm"
                 app:layout_constraintEnd_toEndOf="@+id/addToFav"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txtTitle"
@@ -108,14 +110,14 @@
                 android:id="@+id/youtube_player_view"
                 android:layout_width="360dp"
                 android:layout_height="178dp"
-                app:autoPlay="true"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/txtdetails"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txtdetails"
                 app:layout_constraintTop_toBottomOf="@+id/txtdetails"
                 app:layout_constraintVertical_bias="0.567"
-                app:videoId="S0Q4gqBUs7c" />
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
