@@ -1,6 +1,5 @@
 package com.example.recipeapp.details.view
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +16,9 @@ import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
 import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.dto.Meal
-import com.example.recipeapp.home.details.repo.DetailsRepoImpl
-import com.example.recipeapp.home.details.viewmodel.DetailsViewModel
-import com.example.recipeapp.home.details.viewmodel.DetailsViewModelFactory
+import com.example.recipeapp.details.repo.DetailsRepoImpl
+import com.example.recipeapp.details.viewmodel.DetailsViewModel
+import com.example.recipeapp.details.viewmodel.DetailsViewModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener

@@ -1,4 +1,4 @@
-package com.example.recipeapp.home.details.repo
+package com.example.recipeapp.details.repo
 
 import com.example.recipeapp.data.local.LocalDataSource
 import com.example.recipeapp.data.local.model.UserMealCrossRef
