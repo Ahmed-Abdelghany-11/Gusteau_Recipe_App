@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.recipeapp.R
 import com.example.recipeapp.common.ChangeFavBtn
 import com.example.recipeapp.common.CheckInternetViewModel
@@ -37,7 +38,9 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
     private lateinit var searchView: SearchView
     private lateinit var searchAdapter: SearchAdapter
     private lateinit var noResultText: ImageView
+    private lateinit var noInternetAnim: LottieAnimationView
     private var userId: Int = 0
+    private var isDataDisplayed = false
 
     private var isInitialLoad= true
 
@@ -55,6 +58,8 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
         resultRv = view.findViewById(R.id.search_rv)
         searchView = view.findViewById(R.id.searchView)
         noResultText = view.findViewById(R.id.no_result)
+        noInternetAnim = view.findViewById(R.id.no_internet_anim)
+
 
         getViewModelReady()
 
@@ -62,6 +67,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
 
         checkInternetViewModel.isOnline.observe(viewLifecycleOwner) { isOnline ->
             if (isOnline) {
+                noInternetAnim.visibility = View.GONE
                 setUpSearchView()
                 searchViewModel.searchResultOfMeals.observe(viewLifecycleOwner) { meals ->
                     val meal = meals?.meals
@@ -69,22 +75,24 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
                         resultRv.visibility = View.VISIBLE
                         noResultText.visibility = View.GONE
                         setUpRecyclerView(meals)
+                        isDataDisplayed = true
                     } else {
                         resultRv.visibility = View.GONE
                         noResultText.visibility = View.VISIBLE
+                        isDataDisplayed = false
                     }
                 }
                 if (!isInitialLoad) {
                     Toast.makeText(requireContext(), "Internet restored", Toast.LENGTH_SHORT).show()
                 }
             } else {
+                if (!isDataDisplayed) {
+                    noInternetAnim.visibility = View.VISIBLE
+                }
                 Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
-                resultRv.visibility = View.GONE
-                noResultText.visibility = View.GONE
             }
             isInitialLoad = false
         }
-
     }
 
     private fun getViewModelReady() {
@@ -108,7 +116,6 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
     }
 
     private fun setUpSearchView() {
-        // handle listener to search view
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(p0: String?): Boolean {
                 if (!p0.isNullOrBlank()) {
@@ -117,6 +124,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
                     } else {
                         resultRv.visibility = View.GONE
                         noResultText.visibility = View.GONE
+                        noInternetAnim.visibility = View.VISIBLE
                     }
                 } else {
                     resultRv.visibility = View.GONE
@@ -132,6 +140,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
                     } else {
                         resultRv.visibility = View.GONE
                         noResultText.visibility = View.GONE
+                        noInternetAnim.visibility = View.VISIBLE
                     }
                 }
                 return true

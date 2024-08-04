@@ -100,5 +100,19 @@
         app:layout_constraintVertical_bias="0.5"
         app:layout_constraintDimensionRatio="1:1" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/no_internet_anim"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/no_internet_anim" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
