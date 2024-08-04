@@ -6,11 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.common.ChangeFavBtn
 import com.example.recipeapp.common.OnFavBtnClickListener
@@ -23,7 +26,6 @@ import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.home.view.adapter.RecipeAdapter
 import com.example.recipeapp.home.view.adapter.CategoryAdapter
 import com.example.recipeapp.home.view.adapter.OnCategoryClickListener
-import com.example.recipeapp.home.view.adapter.RandomAdapter
 import com.example.recipeapp.home.repo.RetrofitRepoImp
 import com.example.recipeapp.home.viewModel.HomeViewModel
 import com.example.recipeapp.home.viewModel.ViewModelFactory
@@ -49,26 +51,36 @@ class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
         userId = AuthSharedPref(requireContext()).getUserId()
         gettingViewModelReady()
 
-        //Random Recipe
-        val recyclerViewRandom = view.findViewById<RecyclerView>(R.id.recyclerViewRandom)
-        val processBarMeal: ProgressBar = view.findViewById(R.id.progressBar_random)
+        // Random Recipe
+        val textView = view.findViewById<TextView>(R.id.RandomTextView)
+        val imageView = view.findViewById<ImageView>(R.id.RandomImageView)
+        val imageButton = view.findViewById<ImageView>(R.id.randomFav)
+        val card = view.findViewById<CardView>(R.id.cardViewRandom)
+        val progressBarMeal: ProgressBar = view.findViewById(R.id.progressBar_random)
 
-        recyclerViewRandom.layoutManager = LinearLayoutManager(requireContext())
         viewModel.getMyResponse()
         viewModel.getMyResponse.observe(viewLifecycleOwner) { getMyResponse ->
-            val randomMeal = getMyResponse?.meals
-            val randomAdapter = RandomAdapter(randomMeal, viewModel)
-            recyclerViewRandom.adapter = randomAdapter
-            processBarMeal.visibility = View.GONE
+            val randomMeal = getMyResponse?.meals?.get(0)
+            randomMeal?.let { meal ->
+                textView.text = meal.strMeal
+                Glide.with(requireContext())
+                    .load(meal.strMealThumb)
+                    .placeholder(R.drawable.baseline_image_24)
+                    .centerCrop()
+                    .into(imageView)
 
-            randomAdapter.setOnItemClickListener(object : RandomAdapter.OnItemClickListener {
-                override fun onItemClick(position: Int) {
-                    val meal = viewModel.getMyResponse.value?.meals?.get(position)
-                    val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(meal!!)
-                    findNavController().navigate(action)
+                changeFavBtn(meal,imageButton)
+
+                imageButton.setOnClickListener {
+                    onFavBtnClick(meal, imageButton)
                 }
 
-            })
+                card.setOnClickListener {
+                    onMealClick(meal)
+                }
+
+                progressBarMeal.visibility = View.GONE
+            }
         }
 
         //Categories
