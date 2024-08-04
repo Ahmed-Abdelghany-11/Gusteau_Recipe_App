@@ -57,12 +57,12 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
         noResultText = view.findViewById(R.id.no_result)
 
         getViewModelReady()
-        setUpSearchView()
 
         // observe result
 
         checkInternetViewModel.isOnline.observe(viewLifecycleOwner) { isOnline ->
             if (isOnline) {
+                setUpSearchView()
                 searchViewModel.searchResultOfMeals.observe(viewLifecycleOwner) { meals ->
                     val meal = meals?.meals
                     if (!meal.isNullOrEmpty()) {
@@ -79,6 +79,8 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
                 }
             } else {
                 Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
+                resultRv.visibility = View.GONE
+                noResultText.visibility = View.GONE
             }
             isInitialLoad = false
         }
@@ -106,12 +108,16 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
     }
 
     private fun setUpSearchView() {
-
         // handle listener to search view
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(p0: String?): Boolean {
                 if (!p0.isNullOrBlank()) {
-                    searchViewModel.getSearchResult(p0)
+                    if (checkInternetViewModel.isOnline.value == true) {
+                        searchViewModel.getSearchResult(p0)
+                    } else {
+                        resultRv.visibility = View.GONE
+                        noResultText.visibility = View.GONE
+                    }
                 } else {
                     resultRv.visibility = View.GONE
                     noResultText.visibility = View.GONE
@@ -121,7 +127,12 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
 
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 if (!p0.isNullOrBlank()) {
-                    searchViewModel.getSearchResult(p0)
+                    if (checkInternetViewModel.isOnline.value == true) {
+                        searchViewModel.getSearchResult(p0)
+                    } else {
+                        resultRv.visibility = View.GONE
+                        noResultText.visibility = View.GONE
+                    }
                 }
                 return true
             }
