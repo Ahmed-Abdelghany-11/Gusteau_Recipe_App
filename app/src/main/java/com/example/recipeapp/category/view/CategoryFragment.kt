@@ -32,13 +32,13 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
     private lateinit var categoriesAdapter: CatRecipesAdapter
     private lateinit var catRecyclerView: RecyclerView
     private val args: CategoryFragmentArgs by navArgs()
-    private var userId: Int = 0
+    private lateinit var authSharedPref: AuthSharedPref
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userId = AuthSharedPref(requireContext()).getUserId()
+        authSharedPref = AuthSharedPref(requireContext())
 
         gettingViewModelReady()
         catRecyclerView = view.findViewById(R.id.CategoryRv)
@@ -72,6 +72,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
     }
 
     override fun onFavBtnClick(meal: Meal, btn: ImageView) {
+        val userId = authSharedPref.getUserId()
 
         viewModel.isFavoriteMeal(userId, meal.idMeal).observe(viewLifecycleOwner) { isFav ->
             if (isFav) showAlertDialog(userId, meal, btn)
@@ -122,7 +123,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
 
     override fun changeFavBtn(meal: Meal, btn: ImageView) {
 
-        viewModel.isFavoriteMeal(userId, meal.idMeal).observe(viewLifecycleOwner) { isFav ->
+        viewModel.isFavoriteMeal(authSharedPref.getUserId(), meal.idMeal).observe(viewLifecycleOwner) { isFav ->
             btn.setImageResource(
                 if (isFav) R.drawable.baseline_favorite_24
                 else R.drawable.baseline_favorite_border_24

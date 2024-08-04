@@ -34,8 +34,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
     OnFavBtnClickListener, ChangeFavBtn {
     private lateinit var viewModel: HomeViewModel
-    private var userId: Int = 0
-
+  private lateinit var authSharedPref: AuthSharedPref
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +47,7 @@ class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         var mealId: String? = null
         super.onViewCreated(view, savedInstanceState)
-        userId = AuthSharedPref(requireContext()).getUserId()
+        authSharedPref=AuthSharedPref(requireContext())
         gettingViewModelReady()
 
         // Random Recipe
@@ -139,7 +138,7 @@ class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
     }
 
     override fun onFavBtnClick(meal: Meal, btn: ImageView) {
-
+         val userId=authSharedPref.getUserId()
         viewModel.isFavoriteMeal(userId, meal.idMeal).observe(viewLifecycleOwner) { isFav ->
             if (isFav) showAlertDialog(userId, meal, btn)
             else {
@@ -189,7 +188,7 @@ class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
 
     override fun changeFavBtn(meal: Meal, btn: ImageView) {
 
-        viewModel.isFavoriteMeal(userId, meal.idMeal).observe(viewLifecycleOwner) { isFav ->
+        viewModel.isFavoriteMeal(authSharedPref.getUserId(), meal.idMeal).observe(viewLifecycleOwner) { isFav ->
             btn.setImageResource(
                 if (isFav) R.drawable.baseline_favorite_24
                 else R.drawable.baseline_favorite_border_24
