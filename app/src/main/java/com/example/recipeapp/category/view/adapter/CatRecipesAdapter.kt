@@ -1,7 +1,6 @@
-package com.example.recipeapp.category.adapter
+package com.example.recipeapp.category.view.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,23 +14,15 @@ import com.example.recipeapp.category.viewModel.CategoryViewModel
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.dto.Meal
-import com.example.recipeapp.favorite.viewmodel.FavViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class CatRecipesAdapter(private val mealList : MutableList<Meal>, val viewmodel : CategoryViewModel) :RecyclerView.Adapter<CatRecipesAdapter.CategoryHolder>() {
-    private var myListener: OnItemClickListener? = null
+class CatRecipesAdapter(private val mealList: MutableList<Meal>, val viewmodel: CategoryViewModel) :
+    RecyclerView.Adapter<CatRecipesAdapter.CategoryHolder>() {
 
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
-    }
-
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        myListener = listener
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.favs_items, parent, false)
-        return CategoryHolder(view, myListener)
+        return CategoryHolder(view)
     }
 
     override fun onBindViewHolder(holder: CategoryHolder, position: Int) {
@@ -39,38 +30,35 @@ class CatRecipesAdapter(private val mealList : MutableList<Meal>, val viewmodel 
         holder.bind(meal)
 
         val userId = AuthSharedPref(holder.itemView.context).getUserId()
-        viewmodel.isFavoriteMeal(userId,meal!!.idMeal).observe(holder.itemView.context as LifecycleOwner) { isFav ->
-            holder.btn.setImageResource(
-                if (isFav == true) R.drawable.baseline_favorite_24
-                else R.drawable.baseline_favorite_border_24
-            )
-        }
+        viewmodel.isFavoriteMeal(userId, meal.idMeal)
+            .observe(holder.itemView.context as LifecycleOwner) { isFav ->
+                holder.btn.setImageResource(
+                    if (isFav == true) R.drawable.baseline_favorite_24
+                    else R.drawable.baseline_favorite_border_24
+                )
+            }
 
         holder.btn.setOnClickListener {
-            viewmodel.isFavoriteMeal(userId,meal!!.idMeal).observe(holder.itemView.context as LifecycleOwner) { isFav ->
-                if (isFav == true) {
-                    holder.showAlertDialog(holder.itemView.context, userId, meal)
-                } else {
-                    addMealToFav(userId, meal)
-                    holder.btn.setImageResource(R.drawable.baseline_favorite_24)
+            viewmodel.isFavoriteMeal(userId, meal.idMeal)
+                .observe(holder.itemView.context as LifecycleOwner) { isFav ->
+                    if (isFav == true) {
+                        holder.showAlertDialog(holder.itemView.context, userId, meal)
+                    } else {
+                        addMealToFav(userId, meal)
+                        holder.btn.setImageResource(R.drawable.baseline_favorite_24)
+                    }
                 }
-            }
         }
     }
 
     override fun getItemCount() = mealList.size
 
-    inner class CategoryHolder(private val view: View, listener: OnItemClickListener?) :
+    inner class CategoryHolder(private val view: View) :
         RecyclerView.ViewHolder(view) {
         private val name: TextView = view.findViewById(R.id.meal_name)
         private val image: ImageView = view.findViewById(R.id.image)
         val btn: ImageView = view.findViewById(R.id.heart_button)
 
-        init {
-            itemView.setOnClickListener {
-                listener?.onItemClick(adapterPosition)
-            }
-        }
 
         fun bind(meal: Meal) {
             name.text = meal.strMeal
@@ -112,8 +100,6 @@ class CatRecipesAdapter(private val mealList : MutableList<Meal>, val viewmodel 
             )
         )
     }
-
-
 
 
 }
