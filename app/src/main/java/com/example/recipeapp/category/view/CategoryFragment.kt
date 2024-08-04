@@ -64,11 +64,10 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
                 viewModel.categoryRecipes.observe(viewLifecycleOwner) { mealList ->
                     setUpRecyclerView(mealList.meals as MutableList<Meal>)
                 }
-                if (!isInitialLoad) {
-                    Toast.makeText(requireContext(), "Internet restored", Toast.LENGTH_SHORT).show()
-                }
-            } else {
+            } else if(isInitialLoad) {
                 showNoInternetAnim()
+            }
+            else{
                 Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
             }
             isInitialLoad = false
