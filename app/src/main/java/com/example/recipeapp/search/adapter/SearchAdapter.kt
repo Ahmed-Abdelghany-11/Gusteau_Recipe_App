@@ -12,6 +12,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
+import com.example.recipeapp.common.OnMealClickListener
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.dto.Meal
@@ -20,32 +21,36 @@ import com.example.recipeapp.search.viewmodel.SearchViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SearchAdapter(
-    private var mealList: MealList, private val viewModel: SearchViewModel,
-) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
-    private var myListener: OnItemClickListener? = null
+    private var mealList: MealList,
+    private val onMealClickListener: OnMealClickListener,
+    private val changeFavBtn: ChangeFavBtn,
+    private val onFavBtnClickListener: OnFavBtnClickListener
 
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
-    }
+    ) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
+    //private var myListener: OnItemClickListener? = null
 
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        myListener = listener
-    }
+//    interface OnItemClickListener {
+//        fun onItemClick(position: Int)
+//    }
+//
+//    fun setOnItemClickListener(listener: OnItemClickListener) {
+//        myListener = listener
+//    }
 
-    inner class SearchViewHolder(private val view: View, listener: OnItemClickListener?) :
+    inner class SearchViewHolder(private val view: View) :
         RecyclerView.ViewHolder(view) {
         private var title: TextView? = null
         private var imageView: ImageView? = null
         private var catrgory: TextView? = null
         private var country: TextView? = null
-        private var favbtn: ImageButton? = null
+        var favbtn: ImageButton? = null
         val userId = AuthSharedPref(itemView.context).getUserId()
 
-        init {
-            itemView.setOnClickListener {
-                listener?.onItemClick(adapterPosition)
-            }
-        }
+//        init {
+//            itemView.setOnClickListener {
+//                listener?.onItemClick(adapterPosition)
+//            }
+//        }
 
         fun getTitle(): TextView {
             return title ?: view.findViewById(R.id.meal_title)
@@ -82,26 +87,13 @@ class SearchAdapter(
 
         }
 
-         fun showAlertDialog(context: Context, userId: Int, meal: Meal) {
-            MaterialAlertDialogBuilder(context)
-                .setTitle("Remove Meal From Favorites")
-                .setMessage("Are you sure you want to remove this meal from favorites?")
-                .setPositiveButton("Remove") { dialog, _ ->
-                    deleteFromFav(userId, meal)
-                    dialog.dismiss()
-                    getFavButton().setImageResource(R.drawable.baseline_favorite_border_24)
-                }
-                .setNegativeButton("Cancel") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .show()
-        }
+
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.search_item, parent, false)
-        return SearchViewHolder(view, myListener)
+        return SearchViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
@@ -109,47 +101,40 @@ class SearchAdapter(
         holder.bind(meal)
 
         val userId = AuthSharedPref(holder.itemView.context).getUserId()
-        viewModel.isFavoriteMeal(userId,meal!!.idMeal).observe(holder.itemView.context as LifecycleOwner) { isFav ->
-            Log.d("isfav",isFav.toString())
-            holder.getFavButton().setImageResource(
-                if (isFav == true) R.drawable.baseline_favorite_24
-                else R.drawable.baseline_favorite_border_24
-            )
-        }
 
-        holder.getFavButton().setOnClickListener {
-            viewModel.isFavoriteMeal(userId,meal!!.idMeal).observe(holder.itemView.context as LifecycleOwner) { isFav ->
-                if (isFav == true) {
-                    holder.showAlertDialog(holder.itemView.context, userId, meal)
-                } else {
-                    addMealToFav(userId, meal)
-                    holder.getFavButton().setImageResource(R.drawable.baseline_favorite_24)
-                }
+        holder.itemView.setOnClickListener {
+            if (meal != null) {
+                onMealClickListener.onMealClick(meal)
             }
         }
+        holder.favbtn?.setOnClickListener {
+            onFavBtnClickListener.onFavBtnClick(meal, holder.favbtn)
+        }
+//        viewModel.isFavoriteMeal(userId,meal!!.idMeal).observe(holder.itemView.context as LifecycleOwner) { isFav ->
+//            Log.d("isfav",isFav.toString())
+//            holder.getFavButton().setImageResource(
+//                if (isFav == true) R.drawable.baseline_favorite_24
+//                else R.drawable.baseline_favorite_border_24
+//            )
+//        }
+//
+//        holder.getFavButton().setOnClickListener {
+//            viewModel.isFavoriteMeal(userId,meal!!.idMeal).observe(holder.itemView.context as LifecycleOwner) { isFav ->
+//                if (isFav == true) {
+//                    holder.showAlertDialog(holder.itemView.context, userId, meal)
+//                } else {
+//                    addMealToFav(userId, meal)
+//                    holder.getFavButton().setImageResource(R.drawable.baseline_favorite_24)
+//                }
+//            }
+//        }
     }
 
     override fun getItemCount() = mealList.meals.size ?: 0
 
-    private fun addMealToFav(userId: Int, meal: Meal) {
-        viewModel.insertMeal(meal)
-        viewModel.insertIntoFav(
-            userMealCrossRef = UserMealCrossRef(
-                userId,
-                meal.idMeal
-            )
-        )
-    }
 
-    private fun deleteFromFav(userId: Int, meal: Meal) {
-        viewModel.deleteMeal(meal)
-        viewModel.deleteFromFav(
-            userMealCrossRef = UserMealCrossRef(
-                userId,
-                meal.idMeal
-            )
-        )
-    }
+
+
 
 
 }
