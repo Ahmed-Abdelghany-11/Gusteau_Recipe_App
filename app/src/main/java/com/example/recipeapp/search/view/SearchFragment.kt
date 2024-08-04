@@ -1,24 +1,17 @@
 package com.example.recipeapp.search.view
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SearchView
-import android.widget.TextView
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
-import com.example.recipeapp.authentication.login.repo.LoginRepoImp
-import com.example.recipeapp.authentication.login.viewmodel.LoginViewModel
-import com.example.recipeapp.authentication.login.viewmodel.LoginViewModelFactory
-import com.example.recipeapp.category.view.CategoryFragmentDirections
+import com.example.recipeapp.common.ChangeFavBtn
+import com.example.recipeapp.common.OnFavBtnClickListener
 import com.example.recipeapp.common.OnMealClickListener
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
@@ -26,9 +19,7 @@ import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.APIClient
 import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.data.remote.dto.MealList
-import com.example.recipeapp.search.adapter.ChangeFavBtn
-import com.example.recipeapp.search.adapter.OnFavBtnClickListener
-import com.example.recipeapp.search.adapter.SearchAdapter
+import com.example.recipeapp.search.view.adapter.SearchAdapter
 import com.example.recipeapp.search.repo.SearchRepoImp
 import com.example.recipeapp.search.viewmodel.SearchViewModel
 import com.example.recipeapp.search.viewmodel.SearchViewModelFactory
@@ -36,7 +27,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
-OnFavBtnClickListener, ChangeFavBtn{
+    OnFavBtnClickListener, ChangeFavBtn {
 
     private lateinit var searchViewModel: SearchViewModel
     private lateinit var resultRv: RecyclerView
@@ -57,18 +48,14 @@ OnFavBtnClickListener, ChangeFavBtn{
 
         getViewModelReady()
         setUpSearchView()
-        setUpSearchView()
-
 
         // observe result
-
-
         searchViewModel.searchResultOfMeals.observe(viewLifecycleOwner) { meals ->
             val meal = meals?.meals
             if (!meal.isNullOrEmpty()) {
                 resultRv.visibility = View.VISIBLE
                 noResultText.visibility = View.GONE
-                setUpRecyclerView(meals, searchViewModel)
+                setUpRecyclerView(meals)
             } else {
                 resultRv.visibility = View.GONE
                 noResultText.visibility = View.VISIBLE
@@ -89,7 +76,7 @@ OnFavBtnClickListener, ChangeFavBtn{
 
     }
 
-    private fun setUpRecyclerView(meals: MealList= MealList(emptyList()), viewModel: SearchViewModel) {
+    private fun setUpRecyclerView(meals: MealList= MealList(emptyList())) {
         searchAdapter = SearchAdapter(meals, this, this, this)
         resultRv.layoutManager = LinearLayoutManager(requireContext())
         resultRv.adapter = searchAdapter
@@ -124,24 +111,29 @@ OnFavBtnClickListener, ChangeFavBtn{
         findNavController().navigate(action)
     }
 
-    override fun onFavBtnClick(meal: Meal?, btn: ImageView?) {
-        searchViewModel.isFavoriteMeal(userId,meal!!.idMeal).observe(viewLifecycleOwner) { isFav ->
-            if (btn != null) {
-                if (isFav) showAlertDialog(userId, meal, btn)
-                else {
-                    addMealToFav(userId, meal)
-                    btn.setImageResource(R.drawable.baseline_favorite_24)
-                }
+    override fun onFavBtnClick(meal: Meal, btn: ImageView) {
+        searchViewModel.isFavoriteMeal(userId, meal.idMeal).observe(viewLifecycleOwner) { isFav ->
+            if (isFav) showAlertDialog(userId, meal, btn)
+            else {
+                addMealToFav(userId, meal)
+                btn.setImageResource(R.drawable.baseline_favorite_24)
             }
         }
     }
 
     override fun changeFavBtn(meal: Meal, btn: ImageView) {
-        TODO("Not yet implemented")
+        searchViewModel.isFavoriteMeal(userId, meal.idMeal).observe(viewLifecycleOwner) { isFav ->
+            btn.setImageResource(
+                if (isFav) R.drawable.baseline_favorite_24
+                else R.drawable.baseline_favorite_border_24
+            )
+
+
+        }
     }
 
 
-    fun showAlertDialog(userId: Int, meal: Meal, btn: ImageView) {
+    private fun showAlertDialog(userId: Int, meal: Meal, btn: ImageView) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Remove Meal From Favorites")
             .setMessage("Are you sure you want to remove this meal from favorites?")
@@ -173,4 +165,5 @@ OnFavBtnClickListener, ChangeFavBtn{
             )
         )
     }
+
 }
