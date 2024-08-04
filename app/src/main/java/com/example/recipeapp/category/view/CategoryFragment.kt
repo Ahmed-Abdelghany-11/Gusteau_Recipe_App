@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +19,7 @@ import com.example.recipeapp.data.remote.APIClient
 import com.example.recipeapp.data.remote.dto.Meal
 import androidx.navigation.fragment.navArgs
 import com.example.recipeapp.common.ChangeFavBtn
+import com.example.recipeapp.common.CheckInternetViewModel
 import com.example.recipeapp.common.OnFavBtnClickListener
 import com.example.recipeapp.common.OnMealClickListener
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
@@ -34,6 +37,12 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
     private val args: CategoryFragmentArgs by navArgs()
     private lateinit var authSharedPref: AuthSharedPref
 
+    private var isInitialLoad= true
+
+    private val checkInternetViewModel: CheckInternetViewModel by viewModels {
+        ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,11 +50,23 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
         authSharedPref = AuthSharedPref(requireContext())
 
         gettingViewModelReady()
-        catRecyclerView = view.findViewById(R.id.CategoryRv)
-        viewModel.getRecipesOfCategory(args.categoryName)
-        viewModel.categoryRecipes.observe(viewLifecycleOwner) { mealList ->
-            setUpRecyclerView(mealList.meals as MutableList<Meal>)
+        checkInternetViewModel.isOnline.observe(viewLifecycleOwner) { isOnline ->
+            if (isOnline) {
+                catRecyclerView = view.findViewById(R.id.CategoryRv)
+                viewModel.getRecipesOfCategory(args.categoryName)
+                viewModel.categoryRecipes.observe(viewLifecycleOwner) { mealList ->
+                    setUpRecyclerView(mealList.meals as MutableList<Meal>)
+                }
+                if (!isInitialLoad) {
+                    Toast.makeText(requireContext(), "Internet restored", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
+            }
+            isInitialLoad = false
         }
+
+
     }
 
 

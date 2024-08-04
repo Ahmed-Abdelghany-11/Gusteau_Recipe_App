@@ -5,12 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.ImageView
 import android.widget.SearchView
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
 import com.example.recipeapp.common.ChangeFavBtn
+import com.example.recipeapp.common.CheckInternetViewModel
 import com.example.recipeapp.common.OnFavBtnClickListener
 import com.example.recipeapp.common.OnMealClickListener
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
@@ -36,6 +39,13 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
     private lateinit var noResultText: ImageView
     private var userId: Int = 0
 
+    private var isInitialLoad= true
+
+    private val checkInternetViewModel: CheckInternetViewModel by viewModels {
+        ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+    }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,17 +60,29 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
         setUpSearchView()
 
         // observe result
-        searchViewModel.searchResultOfMeals.observe(viewLifecycleOwner) { meals ->
-            val meal = meals?.meals
-            if (!meal.isNullOrEmpty()) {
-                resultRv.visibility = View.VISIBLE
-                noResultText.visibility = View.GONE
-                setUpRecyclerView(meals)
+
+        checkInternetViewModel.isOnline.observe(viewLifecycleOwner) { isOnline ->
+            if (isOnline) {
+                searchViewModel.searchResultOfMeals.observe(viewLifecycleOwner) { meals ->
+                    val meal = meals?.meals
+                    if (!meal.isNullOrEmpty()) {
+                        resultRv.visibility = View.VISIBLE
+                        noResultText.visibility = View.GONE
+                        setUpRecyclerView(meals)
+                    } else {
+                        resultRv.visibility = View.GONE
+                        noResultText.visibility = View.VISIBLE
+                    }
+                }
+                if (!isInitialLoad) {
+                    Toast.makeText(requireContext(), "Internet restored", Toast.LENGTH_SHORT).show()
+                }
             } else {
-                resultRv.visibility = View.GONE
-                noResultText.visibility = View.VISIBLE
+                Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
             }
+            isInitialLoad = false
         }
+
     }
 
     private fun getViewModelReady() {
