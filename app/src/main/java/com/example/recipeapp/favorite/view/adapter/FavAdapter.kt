@@ -8,12 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
+import com.example.recipeapp.common.OnMealClickListener
 import com.example.recipeapp.data.remote.dto.Meal
 
 class FavAdapter(
     val mealList: MutableList<Meal>,
     private val onFavBtnClickListener: OnFavBtnClickListener,
-    private val onFavMealClickListener: OnFavMealClickListener,
+    private val onMealClickListener: OnMealClickListener,
 ) : RecyclerView.Adapter<FavAdapter.FavViewHolder>() {
 
 
@@ -31,7 +32,7 @@ class FavAdapter(
         }
 
         holder.itemView.setOnClickListener {
-            onFavMealClickListener.onMealClick(meal)
+            onMealClickListener.onMealClick(meal)
         }
     }
 

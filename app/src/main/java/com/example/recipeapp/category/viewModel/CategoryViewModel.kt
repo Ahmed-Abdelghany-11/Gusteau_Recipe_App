@@ -11,16 +11,20 @@ import com.example.recipeapp.data.remote.dto.MealList
 import kotlinx.coroutines.launch
 
 class CategoryViewModel(
-    private val categoryRepo: CategoryRepo
-): ViewModel() {
+    private val categoryRepo: CategoryRepo,
+) : ViewModel() {
 
-    private val _categoryRecipes= MutableLiveData<MealList>()
-    val categoryRecipes:LiveData<MealList>
-        get()= _categoryRecipes
+    private val _categoryRecipes = MutableLiveData<MealList>()
+    val categoryRecipes: LiveData<MealList>
+        get() = _categoryRecipes
 
 
+    private val _isFavoriteMeal = MutableLiveData<Boolean>()
+    val isFavoriteMeal: LiveData<Boolean>
+        get() = _isFavoriteMeal
 
-    fun getRecipesOfCategory(categoryName:String)=
+
+    fun getRecipesOfCategory(categoryName: String) =
         viewModelScope.launch {
             _categoryRecipes.postValue(categoryRepo.getRecipesOfCategory(categoryName))
         }
@@ -47,12 +51,13 @@ class CategoryViewModel(
             categoryRepo.deleteMeal(meal)
         }
 
-    fun isFavoriteMeal(userId: Int, mealId: String): LiveData<Boolean> {
-        val isFavorite = MutableLiveData<Boolean>()
+    fun isFavoriteMeal(userId: Int, mealId: String): MutableLiveData<Boolean> {
+        val isFav = MutableLiveData<Boolean>()
         viewModelScope.launch {
-            isFavorite.postValue(categoryRepo.isFavoriteMeal(userId, mealId))
+            isFav.postValue(categoryRepo.isFavoriteMeal(userId, mealId))
         }
-        return isFavorite
+        return isFav
     }
+
 
 }

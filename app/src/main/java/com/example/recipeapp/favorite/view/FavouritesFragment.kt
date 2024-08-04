@@ -22,13 +22,13 @@ import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.favorite.view.adapter.FavAdapter
 import com.example.recipeapp.favorite.repo.FavRepoImpl
 import com.example.recipeapp.favorite.view.adapter.OnFavBtnClickListener
-import com.example.recipeapp.favorite.view.adapter.OnFavMealClickListener
+import com.example.recipeapp.common.OnMealClickListener
 import com.example.recipeapp.favorite.viewmodel.FavViewModel
 import com.example.recipeapp.favorite.viewmodel.FavViewModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
-class FavouritesFragment : Fragment(), OnFavBtnClickListener, OnFavMealClickListener {
+class FavouritesFragment : Fragment(), OnFavBtnClickListener, OnMealClickListener {
 
     private lateinit var viewModel: FavViewModel
     private lateinit var favAdapter: FavAdapter
