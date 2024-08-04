@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
+import com.example.recipeapp.common.ChangeFavBtn
+import com.example.recipeapp.common.OnFavBtnClickListener
 import com.example.recipeapp.common.OnMealClickListener
 import com.example.recipeapp.data.remote.dto.Meal
 

@@ -1,4 +1,4 @@
-package com.example.recipeapp.home.adapter
+package com.example.recipeapp.home.view.adapter
 
 interface OnCategoryClickListener {
     fun onClick(categoryName:String)
