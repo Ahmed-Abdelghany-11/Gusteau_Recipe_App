@@ -39,48 +39,33 @@ class AuthActivity : AppCompatActivity() {
         navigateToLogin(navToLogin)
 
 
-        val connectivityManager = getSystemService(ConnectivityManager::class.java)
-        //val currentNetwork = connectivityManager.activeNetwork
-        var firstTime = true
-        connectivityManager.registerDefaultNetworkCallback(object :
-            ConnectivityManager.NetworkCallback() {
 
-            override fun onAvailable(network: Network) {
-                if (!firstTime) {
-                    Toast.makeText(applicationContext, "Internet is available", Toast.LENGTH_LONG)
-                        .show()
-
-                } else firstTime = false
-            }
-
-            override fun onLost(network: Network) {
-                Toast.makeText(applicationContext, "Internet is unavailable", Toast.LENGTH_LONG)
-                    .show()
-//                showDialog()
-//                navController.navigate(R.id.action_global_to_noInternetFragment)
-            }
-
-        })
+//        val connectivityManager = getSystemService(ConnectivityManager::class.java)
+//        //val currentNetwork = connectivityManager.activeNetwork
+//        var firstTime = true
+//        connectivityManager.registerDefaultNetworkCallback(object :
+//            ConnectivityManager.NetworkCallback() {
+//
+//            override fun onAvailable(network: Network) {
+//                if (!firstTime) {
+//                    Toast.makeText(applicationContext, "Internet is available", Toast.LENGTH_LONG)
+//                        .show()
+//
+//                } else firstTime = false
+//            }
+//
+//            override fun onLost(network: Network) {
+//                Toast.makeText(applicationContext, "Internet is unavailable", Toast.LENGTH_LONG)
+//                    .show()
+////                showDialog()
+////                navController.navigate(R.id.action_global_to_noInternetFragment)
+//            }
+//
+//        })
 
 
     }
 
-//    private fun showDialog() {
-//        runOnUiThread {
-//            if (!isFinishing && !isDestroyed) {
-//                MaterialAlertDialogBuilder(this)
-//                    .setTitle("Remove Meal From Favorites")
-//                    .setMessage("Are you sure you want to remove this meal from favorites?")
-//                    .setPositiveButton("Remove") { dialog, _ ->
-//                        dialog.dismiss()
-//                    }
-//                    .setNegativeButton("Cancel") { dialog, _ ->
-//                        dialog.dismiss()
-//                    }
-//                    .show()
-//            }
-//        }
-//    }
 
     private fun navigateToLogin(navToLogin: Boolean) {
         val navOption = NavOptions.Builder()

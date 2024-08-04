@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipeapp.R
 import com.example.recipeapp.common.ChangeFavBtn
+import com.example.recipeapp.common.CheckInternetViewModel
 import com.example.recipeapp.common.OnFavBtnClickListener
 import com.example.recipeapp.common.OnMealClickListener
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
@@ -34,7 +37,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
     OnFavBtnClickListener, ChangeFavBtn {
     private lateinit var viewModel: HomeViewModel
-  private lateinit var authSharedPref: AuthSharedPref
+
+    private var isInitialLoad= true
+
+    private val checkInternetViewModel: CheckInternetViewModel by viewModels {
+        ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+    }
+
+    private lateinit var authSharedPref: AuthSharedPref
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,8 +57,26 @@ class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         var mealId: String? = null
         super.onViewCreated(view, savedInstanceState)
-        authSharedPref=AuthSharedPref(requireContext())
+        authSharedPref = AuthSharedPref(requireContext())
         gettingViewModelReady()
+
+
+//        internetViewModel = ViewModelProvider(this)[CheckInternetViewModel::class]
+
+        checkInternetViewModel.isOnline.observe(viewLifecycleOwner) { isOnline ->
+            if (isOnline) {
+                fetchData(view)
+                if (!isInitialLoad) {
+                    Toast.makeText(requireContext(), "Internet restored", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
+            }
+            isInitialLoad = false
+        }
+    }
+
+    private fun fetchData(view: View) {
 
         // Random Recipe
         val textView = view.findViewById<TextView>(R.id.RandomTextView)
@@ -68,7 +96,7 @@ class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
                     .centerCrop()
                     .into(imageView)
 
-                changeFavBtn(meal,imageButton)
+                changeFavBtn(meal, imageButton)
 
                 imageButton.setOnClickListener {
                     onFavBtnClick(meal, imageButton)
@@ -83,7 +111,8 @@ class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
         }
 
         //Categories
-        val recyclerViewCategory = view.findViewById<RecyclerView>(R.id.recyclerViewCategories)
+        val recyclerViewCategory =
+            view.findViewById<RecyclerView>(R.id.recyclerViewCategories)
         val processBarCategory: ProgressBar = view.findViewById(R.id.progressBar_category)
 
         recyclerViewCategory.layoutManager = LinearLayoutManager(
@@ -114,7 +143,6 @@ class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
             recyclerViewRecipe.adapter = adapter
             progressBarRecipe.visibility = View.GONE
         }
-
     }
 
     private fun gettingViewModelReady() {
@@ -138,7 +166,7 @@ class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
     }
 
     override fun onFavBtnClick(meal: Meal, btn: ImageView) {
-         val userId=authSharedPref.getUserId()
+        val userId = authSharedPref.getUserId()
         viewModel.isFavoriteMeal(userId, meal.idMeal).observe(viewLifecycleOwner) { isFav ->
             if (isFav) showAlertDialog(userId, meal, btn)
             else {
@@ -188,14 +216,15 @@ class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
 
     override fun changeFavBtn(meal: Meal, btn: ImageView) {
 
-        viewModel.isFavoriteMeal(authSharedPref.getUserId(), meal.idMeal).observe(viewLifecycleOwner) { isFav ->
-            btn.setImageResource(
-                if (isFav) R.drawable.baseline_favorite_24
-                else R.drawable.baseline_favorite_border_24
-            )
+        viewModel.isFavoriteMeal(authSharedPref.getUserId(), meal.idMeal)
+            .observe(viewLifecycleOwner) { isFav ->
+                btn.setImageResource(
+                    if (isFav) R.drawable.baseline_favorite_24
+                    else R.drawable.baseline_favorite_border_24
+                )
 
 
-        }
+            }
     }
 
 }
