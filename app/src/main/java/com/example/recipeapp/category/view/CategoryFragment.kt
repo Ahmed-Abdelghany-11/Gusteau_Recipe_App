@@ -52,6 +52,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
 
         authSharedPref = AuthSharedPref(requireContext())
         noInternetAnim = view.findViewById(R.id.no_internet_anim)
+        catRecyclerView= view.findViewById(R.id.CategoryRv)
 
 
         gettingViewModelReady()
@@ -77,12 +78,14 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
     }
 
     fun showNoInternetAnim() {
-       noInternetAnim.visibility = View.VISIBLE
+        catRecyclerView.visibility= View.GONE
+        noInternetAnim.visibility = View.VISIBLE
         noInternetAnim.playAnimation()
     }
 
     fun hideNoInternetAnim() {
-       noInternetAnim.cancelAnimation()
+        catRecyclerView.visibility=View.VISIBLE
+        noInternetAnim.cancelAnimation()
         noInternetAnim.visibility = View.GONE
     }
 
