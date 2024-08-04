@@ -1,6 +1,5 @@
-package com.example.recipeapp.category.view.adapter
+package com.example.recipeapp.common
 
-import android.view.View
 import android.widget.ImageView
 import com.example.recipeapp.data.remote.dto.Meal
 

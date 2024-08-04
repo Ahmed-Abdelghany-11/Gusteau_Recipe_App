@@ -1,4 +1,4 @@
-package com.example.recipeapp.home.adapter
+package com.example.recipeapp.home.view.adapter
 
 import android.content.Context
 import android.util.Log
@@ -18,8 +18,7 @@ import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.home.viewModel.HomeViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-
-class RecipeAdapter(private val meals: List<Meal?>?, private val viewModel : HomeViewModel) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
+class RandomAdapter (private val meals: List<Meal?>?, private val viewModel : HomeViewModel) : RecyclerView.Adapter<RandomAdapter.ViewHolder>() {
     var myListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
@@ -32,7 +31,7 @@ class RecipeAdapter(private val meals: List<Meal?>?, private val viewModel : Hom
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.single_recipe, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.random_recipe, parent, false)
         return ViewHolder(view, myListener)
     }
 
@@ -42,7 +41,7 @@ class RecipeAdapter(private val meals: List<Meal?>?, private val viewModel : Hom
         Glide.with(holder.itemView.context)
             .load(meal?.strMealThumb)
             .placeholder(R.drawable.baseline_image_24)
-            .circleCrop()
+            .centerCrop()
             .into(holder.getImageView())
 
         val userId = AuthSharedPref(holder.itemView.context).getUserId()
@@ -84,20 +83,20 @@ class RecipeAdapter(private val meals: List<Meal?>?, private val viewModel : Hom
         }
 
         fun getTextView(): TextView {
-            return textView ?: view.findViewById(R.id.textRecipe)
+            return textView ?: view.findViewById(R.id.RandomTextView)
         }
 
         fun getImageView(): ImageView {
-            return imageView ?: view.findViewById(R.id.imageRecipe)
+            return imageView ?: view.findViewById(R.id.RandomImageView)
         }
 
         fun getFavButton(): ImageButton {
-            return favbtn ?: view.findViewById(R.id.fav)
+            return favbtn ?: view.findViewById(R.id.randomFav)
         }
 
     }
 
-    private fun addFavMeal(context: Context,meal: Meal){
+    private fun addFavMeal(context: Context, meal: Meal){
         val userId= AuthSharedPref(context).getUserId()
         viewModel.insertMeal(meal)
         viewModel.insertIntoFav(
@@ -124,13 +123,15 @@ class RecipeAdapter(private val meals: List<Meal?>?, private val viewModel : Hom
             .show()
     }
 
-    private fun removeMeal(context: Context,meal: Meal) {
+    private fun removeMeal(context: Context, meal: Meal) {
         val userId= AuthSharedPref(context).getUserId()
         viewModel.deleteMeal(meal)
-        viewModel.deleteFromFav(UserMealCrossRef(
+        viewModel.deleteFromFav(
+            UserMealCrossRef(
             id= userId,
             idMeal = meal.idMeal
-        ))
+        )
+        )
     }
 
 }

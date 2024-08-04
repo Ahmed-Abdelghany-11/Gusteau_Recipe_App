@@ -1,35 +1,38 @@
 package com.example.recipeapp.home.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.recipeapp.R
+import com.example.recipeapp.common.ChangeFavBtn
+import com.example.recipeapp.common.OnFavBtnClickListener
+import com.example.recipeapp.common.OnMealClickListener
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
 import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.APIClient
-import com.example.recipeapp.home.adapter.RecipeAdapter
-import com.example.recipeapp.home.adapter.CategoryAdapter
-import com.example.recipeapp.home.adapter.OnCategoryClickListener
-import com.example.recipeapp.home.adapter.RandomAdapter
+import com.example.recipeapp.data.remote.dto.Meal
+import com.example.recipeapp.home.view.adapter.RecipeAdapter
+import com.example.recipeapp.home.view.adapter.CategoryAdapter
+import com.example.recipeapp.home.view.adapter.OnCategoryClickListener
+import com.example.recipeapp.home.view.adapter.RandomAdapter
 import com.example.recipeapp.home.repo.RetrofitRepoImp
 import com.example.recipeapp.home.viewModel.HomeViewModel
 import com.example.recipeapp.home.viewModel.ViewModelFactory
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class HomeFragment : Fragment(), OnCategoryClickListener {
+class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
+    OnFavBtnClickListener, ChangeFavBtn {
     private lateinit var viewModel: HomeViewModel
+    private var userId: Int = 0
 
 
     override fun onCreateView(
@@ -43,6 +46,7 @@ class HomeFragment : Fragment(), OnCategoryClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         var mealId: String? = null
         super.onViewCreated(view, savedInstanceState)
+        userId = AuthSharedPref(requireContext()).getUserId()
         gettingViewModelReady()
 
         //Random Recipe
@@ -95,46 +99,10 @@ class HomeFragment : Fragment(), OnCategoryClickListener {
         viewModel.getMealsByRandomLetter()
         viewModel.getMealsByLetterResponse.observe(viewLifecycleOwner) { getMyResponse ->
             val meals = getMyResponse?.meals
-            val adapter = RecipeAdapter(meals, viewModel)
+            val adapter = RecipeAdapter(meals, this, this, this)
             recyclerViewRecipe.adapter = adapter
             progressBarRecipe.visibility = View.GONE
-
-            adapter.setOnItemClickListener(object : RecipeAdapter.OnItemClickListener {
-                override fun onItemClick(position: Int) {
-                    val meal = viewModel.getMealsByLetterResponse.value?.meals?.get(position)
-                    Log.d("aaaaaaaaaaaaaaaaaaaaa", "onItemClick: ${meal}")
-                    val action = meal?.let {
-                        HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(
-                            it
-                        )
-                    }
-                    if (action != null) {
-                        findNavController().navigate(action)
-                    }
-                }
-
-            })
         }
-
-        /* cardView.setOnClickListener {
-             val myMeal = viewModel.getMyResponse.value?.meals?.get(0)
-             Log.d("aaaaaaaaaaaaaaaaaaaaa", "onItemClick: ${myMeal}")
-             val action = myMeal?.let { it1 ->
-                 HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(
-                     it1
-                 )
-             }
-             if (action != null) {
-                 findNavController().navigate(action)
-             }
-
-             val meal = viewModel.getMyResponse.value?.meals
-             if (!meal.isNullOrEmpty()) {
-                 recyclerViewRecipe.adapter = RecipeAdapter(meal,viewModel)
-                 progressBarRecipe.visibility = View.GONE
-             }
-         }
-         Log.d("userId","${AuthSharedPref(requireContext()).getUserId()}")*/
 
     }
 
@@ -151,6 +119,72 @@ class HomeFragment : Fragment(), OnCategoryClickListener {
     override fun onClick(categoryName: String) {
         val action = HomeFragmentDirections.actionHomeFragmentToCategoryFragment(categoryName)
         findNavController().navigate(action)
+    }
+
+    override fun onMealClick(meal: Meal) {
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(meal)
+        findNavController().navigate(action)
+    }
+
+    override fun onFavBtnClick(meal: Meal, btn: ImageView) {
+
+        viewModel.isFavoriteMeal(userId, meal.idMeal).observe(viewLifecycleOwner) { isFav ->
+            if (isFav) showAlertDialog(userId, meal, btn)
+            else {
+                addMealToFav(userId, meal)
+                btn.setImageResource(R.drawable.baseline_favorite_24)
+            }
+        }
+    }
+
+
+    private fun showAlertDialog(userId: Int, meal: Meal, btn: ImageView) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Remove Meal From Favorites")
+            .setMessage("Are you sure you want to remove this meal from favorites?")
+            .setPositiveButton("Remove") { dialog, _ ->
+                deleteFromFav(userId, meal)
+                dialog.dismiss()
+                btn.setImageResource(R.drawable.baseline_favorite_border_24)
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+
+    private fun addMealToFav(userId: Int, meal: Meal) {
+        viewModel.insertMeal(meal)
+        viewModel.insertIntoFav(
+            userMealCrossRef = UserMealCrossRef(
+                userId,
+                meal.idMeal
+            )
+        )
+
+    }
+
+    private fun deleteFromFav(userId: Int, meal: Meal) {
+        viewModel.deleteMeal(meal)
+        viewModel.deleteFromFav(
+            userMealCrossRef = UserMealCrossRef(
+                userId,
+                meal.idMeal
+            )
+        )
+    }
+
+    override fun changeFavBtn(meal: Meal, btn: ImageView) {
+
+        viewModel.isFavoriteMeal(userId, meal.idMeal).observe(viewLifecycleOwner) { isFav ->
+            btn.setImageResource(
+                if (isFav) R.drawable.baseline_favorite_24
+                else R.drawable.baseline_favorite_border_24
+            )
+
+
+        }
     }
 
 }

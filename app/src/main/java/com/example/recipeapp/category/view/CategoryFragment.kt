@@ -16,8 +16,8 @@ import com.example.recipeapp.category.viewModel.CategoryViewModel
 import com.example.recipeapp.data.remote.APIClient
 import com.example.recipeapp.data.remote.dto.Meal
 import androidx.navigation.fragment.navArgs
-import com.example.recipeapp.category.view.adapter.ChangeFavBtn
-import com.example.recipeapp.category.view.adapter.OnFavBtnClickListener
+import com.example.recipeapp.common.ChangeFavBtn
+import com.example.recipeapp.common.OnFavBtnClickListener
 import com.example.recipeapp.common.OnMealClickListener
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
