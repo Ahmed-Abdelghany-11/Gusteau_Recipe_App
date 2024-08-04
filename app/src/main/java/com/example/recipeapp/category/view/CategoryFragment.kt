@@ -18,6 +18,7 @@ import com.example.recipeapp.category.viewModel.CategoryViewModel
 import com.example.recipeapp.data.remote.APIClient
 import com.example.recipeapp.data.remote.dto.Meal
 import androidx.navigation.fragment.navArgs
+import com.airbnb.lottie.LottieAnimationView
 import com.example.recipeapp.common.ChangeFavBtn
 import com.example.recipeapp.common.CheckInternetViewModel
 import com.example.recipeapp.common.OnFavBtnClickListener
@@ -36,6 +37,8 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
     private lateinit var catRecyclerView: RecyclerView
     private val args: CategoryFragmentArgs by navArgs()
     private lateinit var authSharedPref: AuthSharedPref
+    private lateinit var noInternetAnim: LottieAnimationView
+
 
     private var isInitialLoad= true
 
@@ -48,10 +51,13 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
         super.onViewCreated(view, savedInstanceState)
 
         authSharedPref = AuthSharedPref(requireContext())
+        noInternetAnim = view.findViewById(R.id.no_internet_anim)
+
 
         gettingViewModelReady()
         checkInternetViewModel.isOnline.observe(viewLifecycleOwner) { isOnline ->
             if (isOnline) {
+                hideNoInternetAnim()
                 catRecyclerView = view.findViewById(R.id.CategoryRv)
                 viewModel.getRecipesOfCategory(args.categoryName)
                 viewModel.categoryRecipes.observe(viewLifecycleOwner) { mealList ->
@@ -61,12 +67,23 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
                     Toast.makeText(requireContext(), "Internet restored", Toast.LENGTH_SHORT).show()
                 }
             } else {
+                showNoInternetAnim()
                 Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
             }
             isInitialLoad = false
         }
 
 
+    }
+
+    fun showNoInternetAnim() {
+       noInternetAnim.visibility = View.VISIBLE
+        noInternetAnim.playAnimation()
+    }
+
+    fun hideNoInternetAnim() {
+       noInternetAnim.cancelAnimation()
+        noInternetAnim.visibility = View.GONE
     }
 
 
