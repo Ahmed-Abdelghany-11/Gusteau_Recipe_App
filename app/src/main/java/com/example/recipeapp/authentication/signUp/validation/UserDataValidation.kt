@@ -6,11 +6,11 @@ import java.util.regex.Pattern
 
 object UserDataValidation {
 
-    private const val namePattern = "^[A-Za-z]{3,}(?: [A-Za-z]{3,})+$"
+    private const val namePattern =  "^[A-Za-z]{3,}(?: [A-Za-z]{3,})?$"
     private const val passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,20}$"
 
     private fun isValidName(name: String): Boolean {
-        return name.isNotBlank() && Pattern.matches(namePattern, name)
+        return name.isNotBlank() && Pattern.matches(namePattern, name.trim())
     }
 
     private fun isValidEmail(email: String) =
@@ -30,7 +30,7 @@ object UserDataValidation {
         val errors = mutableMapOf<String, String>()
 
         if (!isValidName(user.name)) {
-            errors["name"] = "Invalid name. Only letters are allowed."
+            errors["name"] = "Invalid name. Only letters are allowed and at least 3 characters"
         }
 
         if (!isValidEmail(user.email)) {
