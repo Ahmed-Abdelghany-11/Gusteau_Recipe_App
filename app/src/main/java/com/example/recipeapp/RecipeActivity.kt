@@ -23,6 +23,7 @@ import com.example.recipeapp.authentication.AuthActivity
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 
 class RecipeActivity : AppCompatActivity() {
     private lateinit var navController: NavController

@@ -2,9 +2,11 @@ package com.example.recipeapp.details.repo
 
 import com.example.recipeapp.data.local.LocalDataSource
 import com.example.recipeapp.data.local.model.UserMealCrossRef
+import com.example.recipeapp.data.remote.RemoteDataSource
 import com.example.recipeapp.data.remote.dto.Meal
+import com.example.recipeapp.data.remote.dto.MealList
 
-class DetailsRepoImpl(private val localDataSource: LocalDataSource): DetailsRepo {
+class DetailsRepoImpl(private val localDataSource: LocalDataSource, private val remoteDataSource: RemoteDataSource): DetailsRepo {
     override suspend fun insertIntoFav(userMealCrossRef: UserMealCrossRef) {
         localDataSource.insertIntoFav(userMealCrossRef)
     }
@@ -23,6 +25,10 @@ class DetailsRepoImpl(private val localDataSource: LocalDataSource): DetailsRepo
 
     override suspend fun isFavoriteMeal(userId: Int, mealId: String) : Boolean {
         return localDataSource.isFavoriteMeal(userId, mealId)
+    }
+
+    override suspend fun getMealById(id: String): MealList {
+        return remoteDataSource.getMealById(id)
     }
 
 

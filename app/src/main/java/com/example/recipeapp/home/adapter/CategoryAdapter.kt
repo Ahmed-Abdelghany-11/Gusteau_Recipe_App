@@ -25,7 +25,7 @@ class CategoryAdapter (private val category: List<Category>,val onCategoryClickL
             .into(holder.getImageView())
 
         holder.itemView.setOnClickListener {
-            onCategoryClickListener.onClick(category[position].strCategory)
+            category[position].strCategory?.let { it1 -> onCategoryClickListener.onClick(it1) }
         }
     }
 
