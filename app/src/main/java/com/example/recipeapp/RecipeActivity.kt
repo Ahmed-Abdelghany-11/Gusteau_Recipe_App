@@ -11,16 +11,20 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.onNavDestinationSelected
 import com.example.recipeapp.authentication.AuthActivity
+import com.example.recipeapp.common.CheckInternetViewModel
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -28,6 +32,7 @@ import com.google.android.material.snackbar.Snackbar
 
 class RecipeActivity : AppCompatActivity() {
     private lateinit var navController: NavController
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,29 +98,8 @@ class RecipeActivity : AppCompatActivity() {
             }
         })
 
-//        val connectivityManager = getSystemService(ConnectivityManager::class.java)
-//        //val currentNetwork = connectivityManager.activeNetwork
-//        var firstTime = true
-//        connectivityManager.registerDefaultNetworkCallback(object: ConnectivityManager.NetworkCallback() {
-//
-//            override fun onAvailable(network: Network) {
-//                if (!firstTime) {
-//                    //Toast.makeText(applicationContext, "Internet is available", Toast.LENGTH_LONG)
-//                        //.show()
-//
-//                }
-//                //else firstTime = false
-//            }
-//            override fun onLost(network: Network) {
-//                //Toast.makeText(applicationContext, "Internet is unavailable", Toast.LENGTH_LONG).show()
-////                showDialog()
-////                navController.navigate(R.id.action_global_to_noInternetFragment)
-//            }
-
-        // })
-
-
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.options_menu, menu)
