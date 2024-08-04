@@ -34,7 +34,7 @@
         tools:layout="@layout/fragment_about_us" />
     <fragment
         android:id="@+id/favouritesFragment"
-        android:name="com.example.recipeapp.home.favorite.view.FavouritesFragment"
+        android:name="com.example.recipeapp.favorite.view.FavouritesFragment"
         android:label="@string/favourites"
         tools:layout="@layout/fragment_favourites" >
         <action
