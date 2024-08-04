@@ -173,6 +173,7 @@ class DetailsFragment : Fragment() {
             override fun onPause() {
                 super.onPause()
                 youtubePlayer?.pause()
+                youtubePlayer = null
             }
 
             override fun onDestroyView() {
