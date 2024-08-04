@@ -1,4 +1,4 @@
-package com.example.recipeapp.favorite.view.adapter
+package com.example.recipeapp.category.view.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,34 +11,37 @@ import com.example.recipeapp.R
 import com.example.recipeapp.common.OnMealClickListener
 import com.example.recipeapp.data.remote.dto.Meal
 
-class FavAdapter(
+class CatRecipesAdapter(
     val mealList: MutableList<Meal>,
-    private val onFavBtnClickListener: OnFavBtnClickListener,
     private val onMealClickListener: OnMealClickListener,
-) : RecyclerView.Adapter<FavAdapter.FavViewHolder>() {
+    private val onFavBtnClickListener: OnFavBtnClickListener,
+    private val changeFavBtn: ChangeFavBtn,
+) :
+    RecyclerView.Adapter<CatRecipesAdapter.CategoryHolder>() {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.favs_items, parent, false)
-        return FavViewHolder(view)
+        return CategoryHolder(view)
     }
 
-    override fun onBindViewHolder(holder: FavViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CategoryHolder, position: Int) {
         val meal = mealList[position]
         holder.bind(meal)
-
-        holder.btn.setOnClickListener {
-            onFavBtnClickListener.onFavBtnClick(meal)
-        }
 
         holder.itemView.setOnClickListener {
             onMealClickListener.onMealClick(meal)
         }
+
+        holder.btn.setOnClickListener {
+            onFavBtnClickListener.onFavBtnClick(meal, holder.btn)
+        }
+
     }
 
     override fun getItemCount() = mealList.size
 
-    inner class FavViewHolder(private val view: View) :
+    inner class CategoryHolder(private val view: View) :
         RecyclerView.ViewHolder(view) {
         private val name: TextView = view.findViewById(R.id.meal_name)
         private val image: ImageView = view.findViewById(R.id.image)
@@ -48,11 +51,11 @@ class FavAdapter(
         fun bind(meal: Meal) {
             name.text = meal.strMeal
             Glide.with(view.context).load(meal.strMealThumb).into(image)
-            btn.setImageResource(R.drawable.baseline_favorite_24)
+
+            changeFavBtn.changeFavBtn(meal,btn)
+
         }
 
 
     }
-
-
 }
