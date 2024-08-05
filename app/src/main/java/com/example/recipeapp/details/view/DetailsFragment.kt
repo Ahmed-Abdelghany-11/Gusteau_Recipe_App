@@ -47,7 +47,7 @@ class DetailsFragment : Fragment() {
     private lateinit var details: ReadMoreTextView
     private lateinit var favBtn: ImageView
 
-    private var isInitialLoad= true
+    private var isInitialLoad = true
 
     private val checkInternetViewModel: CheckInternetViewModel by viewModels {
         ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
@@ -101,41 +101,94 @@ class DetailsFragment : Fragment() {
                 }
             }
 
-
-            //check if we will the data is from the api or from the local database
-            if (data.strArea == null) {
-                checkInternetViewModel.isOnline.observe(viewLifecycleOwner){ isOnline ->
-                    if (isOnline) {
+            // Observe the internet connection status
+            checkInternetViewModel.isOnline.observe(viewLifecycleOwner) { isOnline ->
+                if (isOnline) {
+                    if (data.strArea == null) {
                         fetchData(data)
                         if (!isInitialLoad) {
-                            Toast.makeText(requireContext(), "Internet restored", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Internet restored",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     } else {
-                        Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
-                    }
-                    isInitialLoad = false
-                }
-            } else {
+                        // Handle case where data.strArea is not null
+                        details.text = data.strInstructions
+                        title.text = data.strMeal
+                        category.text = data.strCategory
+                        Glide.with(requireContext())
+                            .load(data.strMealThumb)
+                            .into(img)
 
-                details.text = data.strInstructions
-                title.text = data.strMeal
-                category.text = data.strCategory
-                Glide.with(requireContext())
-                    .load(data.strMealThumb)
-                    .into(img)
-
-                val videoId = data.strYoutube?.substringAfterLast("v=")
-                if (videoId != null) {
-                    video.addYouTubePlayerListener(object :
-                        AbstractYouTubePlayerListener() {
-                        override fun onReady(youTubePlayer: YouTubePlayer) {
-                            youtubePlayer = youTubePlayer
-                            youtubePlayer?.loadVideo(videoId, 0f)
+                        val videoId = data.strYoutube?.substringAfterLast("v=")
+                        if (videoId != null) {
+                            video.addYouTubePlayerListener(object :
+                                AbstractYouTubePlayerListener() {
+                                override fun onReady(youTubePlayer: YouTubePlayer) {
+                                    youtubePlayer = youTubePlayer
+                                    youtubePlayer?.loadVideo(videoId, 0f)
+                                }
+                            })
                         }
-                    })
+                    }
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "No internet connection",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-
+                isInitialLoad = false
             }
+
+
+
+
+            //check if we will the data is from the api or from the local database
+//            if (data.strArea == null) {
+//                checkInternetViewModel.isOnline.observe(viewLifecycleOwner) { isOnline ->
+//                    if (isOnline) {
+//                        fetchData(data)
+//                        if (!isInitialLoad) {
+//                            Toast.makeText(
+//                                requireContext(),
+//                                "Internet restored",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                        }
+//                    } else {
+//                        Toast.makeText(
+//                            requireContext(),
+//                            "No internet connection",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                    isInitialLoad = false
+//                }
+//            }
+//            else {
+//
+//                details.text = data.strInstructions
+//                title.text = data.strMeal
+//                category.text = data.strCategory
+//                Glide.with(requireContext())
+//                    .load(data.strMealThumb)
+//                    .into(img)
+//
+//                val videoId = data.strYoutube?.substringAfterLast("v=")
+//                if (videoId != null) {
+//                    video.addYouTubePlayerListener(object :
+//                        AbstractYouTubePlayerListener() {
+//                        override fun onReady(youTubePlayer: YouTubePlayer) {
+//                            youtubePlayer = youTubePlayer
+//                            youtubePlayer?.loadVideo(videoId, 0f)
+//                        }
+//                    })
+//                }
+//
+//            }
         }
     }
 
