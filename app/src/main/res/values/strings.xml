@@ -50,4 +50,6 @@
     <string name="no_internet">No internet</string>
     <string name="recipes">Recipes</string>
     <string name="categoryRecipes">Category</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="back_online">Back Online</string>
 </resources>

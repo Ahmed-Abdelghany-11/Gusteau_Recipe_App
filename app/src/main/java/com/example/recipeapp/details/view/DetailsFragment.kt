@@ -47,7 +47,7 @@ class DetailsFragment : Fragment() {
     private lateinit var details: ReadMoreTextView
     private lateinit var favBtn: ImageView
 
-    private var isInitialLoad= true
+    private var isInitialLoad = true
 
     private val checkInternetViewModel: CheckInternetViewModel by viewModels {
         ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
@@ -66,7 +66,6 @@ class DetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
 
-            //get the views
             title = view.findViewById(R.id.txtTitle)
             img = view.findViewById(R.id.image)
             category = view.findViewById(R.id.txtCategory)
@@ -74,16 +73,13 @@ class DetailsFragment : Fragment() {
             video = view.findViewById(R.id.youtube_player_view)
             favBtn = view.findViewById(R.id.addToFav)
 
-            //get the data from args
             val data: Meal = args.MealData
 
-            // get the view model ready and get the user id
             gettingViewModelReady()
             authSharedPref = AuthSharedPref(requireContext())
             val userId = authSharedPref.getUserId()
             details.setTrimLength(2)
 
-            //check if the meal is favorite or not
             viewModel.isFavoriteMeal(userId, data.idMeal)
 
             //observe the isFavorite value and set the image resource
@@ -101,40 +97,47 @@ class DetailsFragment : Fragment() {
                 }
             }
 
-
-            //check if we will the data is from the api or from the local database
-            if (data.strArea == null) {
-                checkInternetViewModel.isOnline.observe(viewLifecycleOwner){ isOnline ->
-                    if (isOnline) {
+            // Observe the internet connection status
+            checkInternetViewModel.isOnline.observe(viewLifecycleOwner) { isOnline ->
+                if (isOnline) {
+                    if (data.strArea == null) {
                         fetchData(data)
-                        if (!isInitialLoad) {
-                            Toast.makeText(requireContext(), "Internet restored", Toast.LENGTH_SHORT).show()
-                        }
+
                     } else {
-                        Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
-                    }
-                    isInitialLoad = false
-                }
-            } else {
+                        // Handle case where data.strArea is not null
+                        details.text = data.strInstructions
+                        title.text = data.strMeal
+                        category.text = data.strCategory
+                        Glide.with(requireContext())
+                            .load(data.strMealThumb)
+                            .into(img)
 
-                details.text = data.strInstructions
-                title.text = data.strMeal
-                category.text = data.strCategory
-                Glide.with(requireContext())
-                    .load(data.strMealThumb)
-                    .into(img)
-
-                val videoId = data.strYoutube?.substringAfterLast("v=")
-                if (videoId != null) {
-                    video.addYouTubePlayerListener(object :
-                        AbstractYouTubePlayerListener() {
-                        override fun onReady(youTubePlayer: YouTubePlayer) {
-                            youtubePlayer = youTubePlayer
-                            youtubePlayer?.loadVideo(videoId, 0f)
+                        val videoId = data.strYoutube?.substringAfterLast("v=")
+                        if (videoId != null) {
+                            video.addYouTubePlayerListener(object :
+                                AbstractYouTubePlayerListener() {
+                                override fun onReady(youTubePlayer: YouTubePlayer) {
+                                    youtubePlayer = youTubePlayer
+                                    youtubePlayer?.loadVideo(videoId, 0f)
+                                }
+                            })
                         }
-                    })
-                }
-
+                    }
+                    /*if (!isInitialLoad) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Internet restored",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }*/
+                } /*else {
+                    Toast.makeText(
+                        requireContext(),
+                        "No internet connection",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }*/
+                isInitialLoad = false
             }
         }
     }

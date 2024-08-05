@@ -56,7 +56,7 @@ class FavouritesFragment : Fragment(), OnFavBtnClickListener, OnMealClickListene
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        checkInternetViewModel.isOnline.observe(viewLifecycleOwner){ isOnline ->
+/*        checkInternetViewModel.isOnline.observe(viewLifecycleOwner){ isOnline ->
             if (isOnline) {
                 if (!isInitialLoad) {
                     Toast.makeText(requireContext(), "Internet restored", Toast.LENGTH_SHORT).show()
@@ -65,7 +65,7 @@ class FavouritesFragment : Fragment(), OnFavBtnClickListener, OnMealClickListene
                 Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
             }
             isInitialLoad = false
-        }
+        }*/
 
         gettingViewModelReady()
         recyclerViewFav = view.findViewById(R.id.CategoryRv)

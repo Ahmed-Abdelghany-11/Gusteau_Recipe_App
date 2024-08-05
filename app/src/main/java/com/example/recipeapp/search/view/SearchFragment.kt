@@ -58,7 +58,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
         resultRv = view.findViewById(R.id.search_rv)
         searchView = view.findViewById(R.id.searchView)
         noResultText = view.findViewById(R.id.no_result)
-        noInternetAnim = view.findViewById(R.id.no_internet_anim)
+//        noInternetAnim = view.findViewById(R.id.no_internet_anim)
 
 
         getViewModelReady()
@@ -67,7 +67,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
 
         checkInternetViewModel.isOnline.observe(viewLifecycleOwner) { isOnline ->
             if (isOnline) {
-                noInternetAnim.visibility = View.GONE
+//                noInternetAnim.visibility = View.GONE
                 setUpSearchView()
                 searchViewModel.searchResultOfMeals.observe(viewLifecycleOwner) { meals ->
                     val meal = meals?.meals
@@ -82,15 +82,15 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
                         isDataDisplayed = false
                     }
                 }
-                if (!isInitialLoad) {
+                /*if (!isInitialLoad) {
                     Toast.makeText(requireContext(), "Internet restored", Toast.LENGTH_SHORT).show()
-                }
-            } else {
+                }*/
+            } /*else {
                 if (!isDataDisplayed) {
                     noInternetAnim.visibility = View.VISIBLE
                 }
                 Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
-            }
+            }*/
             isInitialLoad = false
         }
     }
@@ -124,7 +124,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
                     } else {
                         resultRv.visibility = View.GONE
                         noResultText.visibility = View.GONE
-                        noInternetAnim.visibility = View.VISIBLE
+//                        noInternetAnim.visibility = View.VISIBLE
                     }
                 } else {
                     resultRv.visibility = View.GONE
@@ -140,7 +140,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
                     } else {
                         resultRv.visibility = View.GONE
                         noResultText.visibility = View.GONE
-                        noInternetAnim.visibility = View.VISIBLE
+//                        noInternetAnim.visibility = View.VISIBLE
                     }
                 }
                 return true

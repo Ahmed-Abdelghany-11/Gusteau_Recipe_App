@@ -66,12 +66,12 @@ class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
         checkInternetViewModel.isOnline.observe(viewLifecycleOwner) { isOnline ->
             if (isOnline) {
                 fetchData(view)
-                if (!isInitialLoad) {
+               /* if (!isInitialLoad) {
                     Toast.makeText(requireContext(), "Internet restored", Toast.LENGTH_SHORT).show()
-                }
-            } else {
+                }*/
+            } /*else {
                 Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
-            }
+            }*/
             isInitialLoad = false
         }
     }
