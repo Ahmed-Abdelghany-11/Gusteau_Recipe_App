@@ -102,13 +102,7 @@ class DetailsFragment : Fragment() {
                 if (isOnline) {
                     if (data.strArea == null) {
                         fetchData(data)
-                        if (!isInitialLoad) {
-                            Toast.makeText(
-                                requireContext(),
-                                "Internet restored",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+
                     } else {
                         // Handle case where data.strArea is not null
                         details.text = data.strInstructions
@@ -128,6 +122,13 @@ class DetailsFragment : Fragment() {
                                 }
                             })
                         }
+                    }
+                    if (!isInitialLoad) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Internet restored",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
                     Toast.makeText(
