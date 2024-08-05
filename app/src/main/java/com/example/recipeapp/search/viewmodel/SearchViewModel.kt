@@ -1,5 +1,6 @@
 package com.example.recipeapp.search.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,9 +27,13 @@ class SearchViewModel(
         get() = _isFavMeal
 
     fun getSearchResult(name: String) =
-        viewModelScope.launch {
-            val result = searchRepository.getMealByName(name) ?: MealList(emptyList())
-            _searchResultOfMeals.postValue(result)
+        try {
+            viewModelScope.launch {
+                val result = searchRepository.getMealByName(name) ?: MealList(emptyList())
+                _searchResultOfMeals.postValue(result)
+            }
+        }catch (e: Exception) {
+            Log.d("Exception", e.printStackTrace().toString())
         }
 
     fun insertIntoFav(userMealCrossRef: UserMealCrossRef) {

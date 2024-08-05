@@ -1,5 +1,6 @@
 package com.example.recipeapp.details.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -49,9 +50,12 @@ class DetailsViewModel(private val repo : DetailsRepo) :ViewModel(){
          }
     }
 
-    fun getMealById(userId: String) {
+    fun getMealById(userId: String) =
+        try{
         viewModelScope.launch {
             _meal.postValue(repo.getMealById(userId))
         }
-    }
+    }catch (e: Exception) {
+            Log.d("Exception", e.printStackTrace().toString())
+        }
 }

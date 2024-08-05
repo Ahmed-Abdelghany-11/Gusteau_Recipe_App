@@ -102,6 +102,7 @@ class DetailsFragment : Fragment() {
 
                     } else {
                         // Handle case where data.strArea is not null
+                        details.setTrimLength(2)
                         details.text = data.strInstructions
                         title.text = data.strMeal
                         category.text = data.strCategory

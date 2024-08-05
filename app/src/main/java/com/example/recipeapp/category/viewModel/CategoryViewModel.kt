@@ -1,5 +1,6 @@
 package com.example.recipeapp.category.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,8 +26,12 @@ class CategoryViewModel(
 
 
     fun getRecipesOfCategory(categoryName: String) =
-        viewModelScope.launch {
-            _categoryRecipes.postValue(categoryRepo.getRecipesOfCategory(categoryName))
+        try {
+            viewModelScope.launch {
+                _categoryRecipes.postValue(categoryRepo.getRecipesOfCategory(categoryName))
+            }
+        }catch (e: Exception) {
+            Log.d("Exception", e.printStackTrace().toString())
         }
 
 

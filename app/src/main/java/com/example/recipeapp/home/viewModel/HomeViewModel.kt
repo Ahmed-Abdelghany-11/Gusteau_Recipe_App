@@ -1,5 +1,6 @@
 package com.example.recipeapp.home.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,8 +13,9 @@ import com.example.recipeapp.data.remote.dto.MealList
 import com.example.recipeapp.home.repo.RetrofitRepoImp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.net.SocketTimeoutException
 
-class HomeViewModel (private val myRepo : RetrofitRepoImp) : ViewModel() {
+class HomeViewModel(private val myRepo: RetrofitRepoImp) : ViewModel() {
     private val _getMyResponse = MutableLiveData<MealList?>()
     val getMyResponse: LiveData<MealList?> = _getMyResponse
 
@@ -32,14 +34,23 @@ class HomeViewModel (private val myRepo : RetrofitRepoImp) : ViewModel() {
 
     fun getMyResponse() {
         viewModelScope.launch {
-            _getMyResponse.postValue(myRepo.getMyResponse())
+            try {
+                _getMyResponse.postValue(myRepo.getMyResponse())
+            } catch (e: SocketTimeoutException) {
+                Log.d("timeout", e.printStackTrace().toString())
+            }
         }
     }
 
     fun getMealsByRandomLetter() {
-        viewModelScope.launch {
-            fetchMealsByRandomLetter()
+        try {
+            viewModelScope.launch {
+                fetchMealsByRandomLetter()
+            }
+        } catch (e: Exception) {
+            Log.d("Exception", e.printStackTrace().toString())
         }
+
     }
 
     private suspend fun fetchMealsByRandomLetter() {
@@ -48,48 +59,57 @@ class HomeViewModel (private val myRepo : RetrofitRepoImp) : ViewModel() {
         if (response?.meals.isNullOrEmpty()) {
             fetchMealsByRandomLetter()
         } else {
-            _getMealsByLetterResponse.postValue(response)
+            try {
+                _getMealsByLetterResponse.postValue(response)
+            } catch (e: Exception) {
+                Log.d("Exception", e.printStackTrace().toString())
+            }
         }
     }
 
-    fun getAllCategories() {
-        viewModelScope.launch {
-            _getAllCategoriesResponse.postValue(myRepo.getAllCategories())
-        }
-    }
-
-    fun insertIntoFav(userMealCrossRef: UserMealCrossRef) {
-        viewModelScope.launch {
-            myRepo.insertIntoFav(userMealCrossRef)
-        }
-    }
-    fun insertMeal(meal: Meal)=
-        viewModelScope.launch {
-            myRepo.insertMeal(meal)
+        fun getAllCategories() {
+            try {
+                viewModelScope.launch {
+                    _getAllCategoriesResponse.postValue(myRepo.getAllCategories())
+                }
+            } catch (e: Exception) {
+                Log.d("Exception", e.printStackTrace().toString())
+            }
         }
 
-    fun deleteMeal(meal: Meal)=
-        viewModelScope.launch {
-            myRepo.deleteMeal(meal)
+        fun insertIntoFav(userMealCrossRef: UserMealCrossRef) {
+            viewModelScope.launch {
+                myRepo.insertIntoFav(userMealCrossRef)
+            }
         }
 
-    fun deleteFromFav(userMealCrossRef: UserMealCrossRef) {
-        viewModelScope.launch(Dispatchers.IO) {
-            myRepo.deleteFromFav(userMealCrossRef)
-        }
-    }
+        fun insertMeal(meal: Meal) =
+            viewModelScope.launch {
+                myRepo.insertMeal(meal)
+            }
 
-    fun isFavoriteMeal(userId: Int, mealId: String): LiveData<Boolean> {
-        val isFavorite = MutableLiveData<Boolean>()
-        viewModelScope.launch {
-            isFavorite.postValue(myRepo.isFavoriteMeal(userId, mealId))
-        }
-        return isFavorite
-    }
+        fun deleteMeal(meal: Meal) =
+            viewModelScope.launch {
+                myRepo.deleteMeal(meal)
+            }
 
-    fun gerUserWithMeals(userId:Int){
-        viewModelScope.launch {
-            _userFavMeals.postValue(myRepo.getUserWithMeals(userId))
+        fun deleteFromFav(userMealCrossRef: UserMealCrossRef) {
+            viewModelScope.launch(Dispatchers.IO) {
+                myRepo.deleteFromFav(userMealCrossRef)
+            }
+        }
+
+        fun isFavoriteMeal(userId: Int, mealId: String): LiveData<Boolean> {
+            val isFavorite = MutableLiveData<Boolean>()
+            viewModelScope.launch {
+                isFavorite.postValue(myRepo.isFavoriteMeal(userId, mealId))
+            }
+            return isFavorite
+        }
+
+        fun gerUserWithMeals(userId: Int) {
+            viewModelScope.launch {
+                _userFavMeals.postValue(myRepo.getUserWithMeals(userId))
+            }
         }
     }
-}
