@@ -46,7 +46,8 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         super.onViewCreated(view, savedInstanceState)
 
         appNameTextView = view.findViewById(R.id.app_name)
-        appNameTextView.text = "Welcome To ${getString(R.string.app_name)}"
+        appNameTextView.text = "Welcome to ${getString(R.string.app_name)}"
+        appNameTextView.typeface = androidx.core.content.res.ResourcesCompat.getFont(requireContext(), R.font.splash_font)
     }
 
 
