@@ -41,6 +41,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
     private var userId: Int = 0
     private var isDataDisplayed = false
 
+    private var isInitialLoad= true
 
     private val checkInternetViewModel: CheckInternetViewModel by viewModels {
         ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
@@ -80,7 +81,12 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
                         isDataDisplayed = false
                     }
                 }
+            } else {
+                if (!isDataDisplayed) {
+                    noInternetAnim.visibility = View.VISIBLE
+                }
             }
+            isInitialLoad = false
         }
     }
 
