@@ -1,13 +1,11 @@
 package com.example.recipeapp.details.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -47,7 +45,6 @@ class DetailsFragment : Fragment() {
     private lateinit var details: ReadMoreTextView
     private lateinit var favBtn: ImageView
 
-    private var isInitialLoad = true
 
     private val checkInternetViewModel: CheckInternetViewModel by viewModels {
         ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
@@ -123,21 +120,7 @@ class DetailsFragment : Fragment() {
                             })
                         }
                     }
-                    if (!isInitialLoad) {
-                        Toast.makeText(
-                            requireContext(),
-                            "Internet restored",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "No internet connection",
-                        Toast.LENGTH_SHORT
-                    ).show()
                 }
-                isInitialLoad = false
             }
         }
     }

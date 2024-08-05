@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.ImageView
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -82,14 +81,10 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
                         isDataDisplayed = false
                     }
                 }
-                if (!isInitialLoad) {
-                    Toast.makeText(requireContext(), "Internet restored", Toast.LENGTH_SHORT).show()
-                }
             } else {
                 if (!isDataDisplayed) {
                     noInternetAnim.visibility = View.VISIBLE
                 }
-                Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
             }
             isInitialLoad = false
         }

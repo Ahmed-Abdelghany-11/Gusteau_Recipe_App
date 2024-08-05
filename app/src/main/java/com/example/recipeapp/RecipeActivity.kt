@@ -5,9 +5,12 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
@@ -32,6 +35,14 @@ import com.google.android.material.snackbar.Snackbar
 
 class RecipeActivity : AppCompatActivity() {
     private lateinit var navController: NavController
+    private var isInitialLoad= true
+
+    private val checkInternetViewModel: CheckInternetViewModel by viewModels {
+        ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+    }
+
+    private lateinit var noInternet : TextView
+    private lateinit var internetBack : TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,6 +108,24 @@ class RecipeActivity : AppCompatActivity() {
                     finishAffinity()
             }
         })
+
+        noInternet = findViewById(R.id.noInternetTextView)
+        internetBack = findViewById(R.id.InternetRestored)
+        checkInternetViewModel.isOnline.observe(this){ isOnline ->
+            if (isOnline) {
+                if (!isInitialLoad) {
+                   internetBack.visibility = View.VISIBLE
+                    noInternet.visibility = View.GONE
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        internetBack.visibility = View.GONE
+                    }, 1000)
+                }
+            } else {
+                noInternet.visibility = View.VISIBLE
+                internetBack.visibility = View.GONE
+            }
+            isInitialLoad = false
+        }
 
     }
 
