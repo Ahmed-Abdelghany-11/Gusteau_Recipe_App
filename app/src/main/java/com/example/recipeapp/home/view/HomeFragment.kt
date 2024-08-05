@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -38,7 +37,6 @@ class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
     OnFavBtnClickListener, ChangeFavBtn {
     private lateinit var viewModel: HomeViewModel
 
-    private var isInitialLoad= true
 
     private val checkInternetViewModel: CheckInternetViewModel by viewModels {
         ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
@@ -55,7 +53,6 @@ class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        var mealId: String? = null
         super.onViewCreated(view, savedInstanceState)
         authSharedPref = AuthSharedPref(requireContext())
         gettingViewModelReady()
@@ -66,13 +63,7 @@ class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
         checkInternetViewModel.isOnline.observe(viewLifecycleOwner) { isOnline ->
             if (isOnline) {
                 fetchData(view)
-               /* if (!isInitialLoad) {
-                    Toast.makeText(requireContext(), "Internet restored", Toast.LENGTH_SHORT).show()
-                }*/
-            } /*else {
-                Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
-            }*/
-            isInitialLoad = false
+            }
         }
     }
 

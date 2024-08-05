@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.ImageView
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -42,7 +41,6 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
     private var userId: Int = 0
     private var isDataDisplayed = false
 
-    private var isInitialLoad= true
 
     private val checkInternetViewModel: CheckInternetViewModel by viewModels {
         ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
@@ -58,7 +56,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
         resultRv = view.findViewById(R.id.search_rv)
         searchView = view.findViewById(R.id.searchView)
         noResultText = view.findViewById(R.id.no_result)
-//        noInternetAnim = view.findViewById(R.id.no_internet_anim)
+        noInternetAnim = view.findViewById(R.id.no_internet_anim)
 
 
         getViewModelReady()
@@ -67,7 +65,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
 
         checkInternetViewModel.isOnline.observe(viewLifecycleOwner) { isOnline ->
             if (isOnline) {
-//                noInternetAnim.visibility = View.GONE
+                noInternetAnim.visibility = View.GONE
                 setUpSearchView()
                 searchViewModel.searchResultOfMeals.observe(viewLifecycleOwner) { meals ->
                     val meal = meals?.meals
@@ -82,16 +80,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
                         isDataDisplayed = false
                     }
                 }
-                /*if (!isInitialLoad) {
-                    Toast.makeText(requireContext(), "Internet restored", Toast.LENGTH_SHORT).show()
-                }*/
-            } /*else {
-                if (!isDataDisplayed) {
-                    noInternetAnim.visibility = View.VISIBLE
-                }
-                Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
-            }*/
-            isInitialLoad = false
+            }
         }
     }
 
@@ -124,7 +113,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
                     } else {
                         resultRv.visibility = View.GONE
                         noResultText.visibility = View.GONE
-//                        noInternetAnim.visibility = View.VISIBLE
+                        noInternetAnim.visibility = View.VISIBLE
                     }
                 } else {
                     resultRv.visibility = View.GONE
@@ -140,7 +129,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
                     } else {
                         resultRv.visibility = View.GONE
                         noResultText.visibility = View.GONE
-//                        noInternetAnim.visibility = View.VISIBLE
+                        noInternetAnim.visibility = View.VISIBLE
                     }
                 }
                 return true

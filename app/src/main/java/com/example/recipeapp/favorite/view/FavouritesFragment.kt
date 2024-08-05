@@ -2,21 +2,17 @@ package com.example.recipeapp.favorite.view
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.R
-import com.example.recipeapp.common.CheckInternetViewModel
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
 import com.example.recipeapp.data.local.model.UserMealCrossRef
@@ -39,11 +35,6 @@ class FavouritesFragment : Fragment(), OnFavBtnClickListener, OnMealClickListene
     private lateinit var authSharedPref: AuthSharedPref
     private lateinit var noFav: ImageView
 
-    private var isInitialLoad= true
-
-    private val checkInternetViewModel: CheckInternetViewModel by viewModels {
-        ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,17 +47,6 @@ class FavouritesFragment : Fragment(), OnFavBtnClickListener, OnMealClickListene
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-/*        checkInternetViewModel.isOnline.observe(viewLifecycleOwner){ isOnline ->
-            if (isOnline) {
-                if (!isInitialLoad) {
-                    Toast.makeText(requireContext(), "Internet restored", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show()
-            }
-            isInitialLoad = false
-        }*/
-
         gettingViewModelReady()
         recyclerViewFav = view.findViewById(R.id.CategoryRv)
         authSharedPref = AuthSharedPref(requireContext())
@@ -76,8 +56,7 @@ class FavouritesFragment : Fragment(), OnFavBtnClickListener, OnMealClickListene
         viewModel.gerUserWithMeals(userId)
 
         viewModel.userFavMeals.observe(viewLifecycleOwner) { userFavMeals ->
-            Log.d("FavouritesFragment", "Observed favorite meals: ${userFavMeals}")
-            if (userFavMeals != null && !userFavMeals.meals.isNullOrEmpty()) {
+            if (userFavMeals != null && userFavMeals.meals.isNotEmpty()) {
                 recyclerViewFav.visibility = View.VISIBLE
                 noFav.visibility = View.GONE
                 setUpRecyclerView(userFavMeals.meals as MutableList<Meal>, recyclerViewFav)
