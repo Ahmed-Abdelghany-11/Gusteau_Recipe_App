@@ -36,8 +36,8 @@ class HomeViewModel(private val myRepo: RetrofitRepoImp) : ViewModel() {
         viewModelScope.launch {
             try {
                 _getMyResponse.postValue(myRepo.getMyResponse())
-            } catch (e: SocketTimeoutException) {
-                Log.d("timeout", e.printStackTrace().toString())
+            } catch (e: Exception) {
+                Log.d("Exception", e.printStackTrace().toString())
             }
         }
     }
