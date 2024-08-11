@@ -3,23 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/RecipesCardView"
-    android:layout_width="250dp"
-    android:layout_height="wrap_content"
+    android:layout_width="270dp"
+    android:layout_height="220dp"
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
-    android:layout_gravity="center"
     app:cardCornerRadius="16dp"
     app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="20dp">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/imageRecipe"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_marginTop="8dp"
+            android:layout_height="160dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -29,13 +28,14 @@
             android:id="@+id/textRecipe"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/recipe_title"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,11 +44,14 @@
 
         <ImageButton
             android:id="@+id/fav"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="fitXY"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:background="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/imageRecipe"
+            app:layout_constraintTop_toTopOf="@id/imageRecipe"
             app:srcCompat="@drawable/baseline_favorite_border_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
