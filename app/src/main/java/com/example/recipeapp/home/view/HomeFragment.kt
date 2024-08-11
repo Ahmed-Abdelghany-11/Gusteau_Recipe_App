@@ -15,9 +15,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.recipeapp.deleteMealDialog.view.DeleteFavDialogFragment
+import com.example.recipeapp.deleteMealDialog.view.DeleteFavDialogFragmentArgs
 import com.example.recipeapp.R
 import com.example.recipeapp.common.ChangeFavBtn
 import com.example.recipeapp.common.CheckInternetViewModel
+import com.example.recipeapp.common.OnDeleteMealListener
 import com.example.recipeapp.common.OnFavBtnClickListener
 import com.example.recipeapp.common.OnMealClickListener
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
@@ -31,12 +34,12 @@ import com.example.recipeapp.home.view.adapter.OnCategoryClickListener
 import com.example.recipeapp.home.repo.RetrofitRepoImp
 import com.example.recipeapp.home.viewModel.HomeViewModel
 import com.example.recipeapp.home.viewModel.ViewModelFactory
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
-    OnFavBtnClickListener, ChangeFavBtn {
+    OnFavBtnClickListener, ChangeFavBtn,OnDeleteMealListener {
     private lateinit var viewModel: HomeViewModel
-
+    private lateinit var recipesAdapter: RecipeAdapter
+private lateinit var btnToUpdate:ImageView
 
     private val checkInternetViewModel: CheckInternetViewModel by viewModels {
         ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
@@ -130,8 +133,8 @@ class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
         viewModel.getMealsByRandomLetter()
         viewModel.getMealsByLetterResponse.observe(viewLifecycleOwner) { getMyResponse ->
             val meals = getMyResponse?.meals
-            val adapter = RecipeAdapter(meals, this, this, this)
-            recyclerViewRecipe.adapter = adapter
+            recipesAdapter = RecipeAdapter(meals, this, this, this)
+            recyclerViewRecipe.adapter = recipesAdapter
             progressBarRecipe.visibility = View.GONE
         }
     }
@@ -157,49 +160,46 @@ class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
     }
 
     override fun onFavBtnClick(meal: Meal, btn: ImageView) {
+        btnToUpdate=btn
         val userId = authSharedPref.getUserId()
         viewModel.isFavoriteMeal(userId, meal.idMeal).observe(viewLifecycleOwner) { isFav ->
-            if (isFav) showAlertDialog(userId, meal, btn)
+            if (isFav) showAlertDialog(meal)
             else {
-                addMealToFav(userId, meal)
+                addMealToFav(meal)
                 btn.setImageResource(R.drawable.baseline_favorite_24)
             }
         }
     }
 
 
-    private fun showAlertDialog(userId: Int, meal: Meal, btn: ImageView) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Remove Meal From Favorites")
-            .setMessage("Are you sure you want to remove this meal from favorites?")
-            .setPositiveButton("Remove") { dialog, _ ->
-                deleteFromFav(userId, meal)
-                dialog.dismiss()
-                btn.setImageResource(R.drawable.baseline_favorite_border_24)
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+    private fun showAlertDialog(meal: Meal) {
+        val dialog = DeleteFavDialogFragment()
+        val args = DeleteFavDialogFragmentArgs(meal)
+        dialog.arguments = args.toBundle()
+        dialog.show(childFragmentManager, "DeleteFavDialogFragment")
     }
 
+    override fun confirmDelete(meal: Meal) {
+        deleteFromFav(meal)
+        btnToUpdate.setImageResource(R.drawable.baseline_favorite_border_24)
+    }
 
-    private fun addMealToFav(userId: Int, meal: Meal) {
+    private fun addMealToFav(meal: Meal) {
         viewModel.insertMeal(meal)
         viewModel.insertIntoFav(
             userMealCrossRef = UserMealCrossRef(
-                userId,
+                authSharedPref.getUserId(),
                 meal.idMeal
             )
         )
 
     }
 
-    private fun deleteFromFav(userId: Int, meal: Meal) {
+    private fun deleteFromFav( meal: Meal) {
         viewModel.deleteMeal(meal)
         viewModel.deleteFromFav(
             userMealCrossRef = UserMealCrossRef(
-                userId,
+                authSharedPref.getUserId(),
                 meal.idMeal
             )
         )

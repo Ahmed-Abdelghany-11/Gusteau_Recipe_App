@@ -12,7 +12,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recipeapp.deleteMealDialog.view.DeleteFavDialogFragment
+import com.example.recipeapp.deleteMealDialog.view.DeleteFavDialogFragmentArgs
 import com.example.recipeapp.R
+import com.example.recipeapp.common.OnDeleteMealListener
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
 import com.example.recipeapp.data.local.model.UserMealCrossRef
@@ -22,12 +25,14 @@ import com.example.recipeapp.favorite.view.adapter.FavAdapter
 import com.example.recipeapp.favorite.repo.FavRepoImpl
 import com.example.recipeapp.favorite.view.adapter.OnFavBtnClickListener
 import com.example.recipeapp.common.OnMealClickListener
+import com.example.recipeapp.favorite.view.adapter.OnDeleteFavMealListener
 import com.example.recipeapp.favorite.viewmodel.FavViewModel
 import com.example.recipeapp.favorite.viewmodel.FavViewModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
-class FavouritesFragment : Fragment(), OnFavBtnClickListener, OnMealClickListener {
+class FavouritesFragment : Fragment(), OnFavBtnClickListener, OnMealClickListener,
+    OnDeleteFavMealListener {
 
     private lateinit var viewModel: FavViewModel
     private lateinit var favAdapter: FavAdapter
@@ -102,7 +107,7 @@ class FavouritesFragment : Fragment(), OnFavBtnClickListener, OnMealClickListene
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val meal = favAdapter.mealList[position]
-                showFunAlertDialog(requireContext(), meal, position)
+                onFavBtnClick(meal)
             }
         }
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
@@ -110,20 +115,20 @@ class FavouritesFragment : Fragment(), OnFavBtnClickListener, OnMealClickListene
     }
 
 
-    private fun showFunAlertDialog(context: Context, meal: Meal, position: Int) {
-        MaterialAlertDialogBuilder(context)
-            .setTitle("Remove Meal From Favorites")
-            .setMessage("Are you sure you want to remove this meal from favorites?")
-            .setPositiveButton("Remove") { dialog, _ ->
-                removeMeal(meal, position)
-                dialog.dismiss()
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                favAdapter.notifyItemChanged(favAdapter.mealList.indexOf(meal))
-                dialog.dismiss()
-            }
-            .show()
-    }
+//    private fun showFunAlertDialog(context: Context, meal: Meal, position: Int) {
+//        MaterialAlertDialogBuilder(context)
+//            .setTitle("Remove Meal From Favorites")
+//            .setMessage("Are you sure you want to remove this meal from favorites?")
+//            .setPositiveButton("Remove") { dialog, _ ->
+//                removeMeal(meal, position)
+//                dialog.dismiss()
+//            }
+//            .setNegativeButton("Cancel") { dialog, _ ->
+//                favAdapter.notifyItemChanged(favAdapter.mealList.indexOf(meal))
+//                dialog.dismiss()
+//            }
+//            .show()
+//    }
 
     private fun removeMeal(meal: Meal, position: Int) {
         val userId = authSharedPref.getUserId()
@@ -137,7 +142,6 @@ class FavouritesFragment : Fragment(), OnFavBtnClickListener, OnMealClickListene
         // delete from adapter
         favAdapter.mealList.removeAt(position)
         favAdapter.notifyItemRemoved(position)
-
         viewModel.gerUserWithMeals(userId)
 
     }
@@ -148,8 +152,20 @@ class FavouritesFragment : Fragment(), OnFavBtnClickListener, OnMealClickListene
     }
 
     override fun onFavBtnClick(meal: Meal) {
-        val position = favAdapter.mealList.indexOf(meal)
-        showFunAlertDialog(requireContext(), meal, position)
+
+        val dialog = DeleteFavDialogFragment()
+        val args = DeleteFavDialogFragmentArgs(meal)
+        dialog.arguments = args.toBundle()
+        dialog.show(childFragmentManager, "DeleteFavDialogFragment")
+    }
+
+    override fun confirmDelete(meal: Meal) {
+        val position= favAdapter.mealList.indexOf(meal)
+       removeMeal(meal, position)
+    }
+
+    override fun cancel(meal: Meal) {
+        favAdapter.notifyItemChanged(favAdapter.mealList.indexOf(meal))
     }
 
 

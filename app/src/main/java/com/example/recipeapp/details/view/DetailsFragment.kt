@@ -13,8 +13,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.colormoon.readmoretextview.ReadMoreTextView
+import com.example.recipeapp.deleteMealDialog.view.DeleteFavDialogFragment
+import com.example.recipeapp.deleteMealDialog.view.DeleteFavDialogFragmentArgs
 import com.example.recipeapp.R
 import com.example.recipeapp.common.CheckInternetViewModel
+import com.example.recipeapp.common.OnDeleteMealListener
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
 import com.example.recipeapp.data.local.model.UserMealCrossRef
@@ -24,14 +27,13 @@ import com.example.recipeapp.data.remote.dto.MealList
 import com.example.recipeapp.details.repo.DetailsRepoImpl
 import com.example.recipeapp.details.viewmodel.DetailsViewModel
 import com.example.recipeapp.details.viewmodel.DetailsViewModelFactory
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import kotlinx.coroutines.launch
 
 
-class DetailsFragment : Fragment() {
+class DetailsFragment : Fragment(),OnDeleteMealListener {
 
 
     private val args by navArgs<DetailsFragmentArgs>()
@@ -87,9 +89,9 @@ class DetailsFragment : Fragment() {
                 )
                 favBtn.setOnClickListener {
                     if (isFavorite) {
-                        showRemoveFavoriteDialog(data, userId)
+                        showAlertDialog(data)
                     } else {
-                        addFavoriteMeal(data, userId)
+                        addFavoriteMeal(data)
                     }
                 }
             }
@@ -137,31 +139,17 @@ class DetailsFragment : Fragment() {
         viewModel = ViewModelProvider(this, detailsFactory)[DetailsViewModel::class.java]
     }
 
-    private fun addFavoriteMeal(meal: Meal, userId: Int) {
+    private fun addFavoriteMeal(meal: Meal) {
         viewModel.insertMeal(meal)
-        viewModel.insertIntoFav(UserMealCrossRef(userId, meal.idMeal))
-        viewModel.isFavoriteMeal(userId, meal.idMeal)
+        viewModel.insertIntoFav(UserMealCrossRef(authSharedPref.getUserId(), meal.idMeal))
+        viewModel.isFavoriteMeal(authSharedPref.getUserId(), meal.idMeal)
     }
 
-    private fun showRemoveFavoriteDialog(meal: Meal, userId: Int) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Remove Meal From Favorites")
-            .setMessage("Are you sure you want to remove this meal from favorites?")
-            .setPositiveButton("Remove") { dialog, _ ->
-                viewModel.deleteMeal(meal)
-                viewModel.deleteFromFav(UserMealCrossRef(userId, meal.idMeal))
-                viewModel.isFavoriteMeal(userId, meal.idMeal)
-                dialog.dismiss()
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
-    }
 
     override fun onPause() {
         super.onPause()
         youtubePlayer?.pause()
+        youtubePlayer?.mute()
         youtubePlayer = null
     }
 
@@ -195,5 +183,30 @@ class DetailsFragment : Fragment() {
             }
         }
     }
+
+
+    private fun showAlertDialog(meal: Meal) {
+        val dialog = DeleteFavDialogFragment()
+        val args = DeleteFavDialogFragmentArgs(meal)
+        dialog.arguments = args.toBundle()
+        dialog.show(childFragmentManager, "DeleteFavDialogFragment")
+    }
+
+    override fun confirmDelete(meal: Meal) {
+        deleteFromFav(meal)
+    }
+
+    private fun deleteFromFav(meal: Meal) {
+        viewModel.deleteMeal(meal)
+        viewModel.deleteFromFav(
+            userMealCrossRef = UserMealCrossRef(
+                authSharedPref.getUserId(),
+                meal.idMeal
+            )
+        )
+        viewModel.isFavoriteMeal(authSharedPref.getUserId(), meal.idMeal)
+
+    }
+
 }
 

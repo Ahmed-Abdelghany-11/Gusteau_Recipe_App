@@ -8,6 +8,8 @@
     <color name="favorite">#E20C03</color>
     <color name="babyblue">#89CFF0</color>
     <color name="lightGray">#767676</color>
+    <color name="RED">#F00</color>
+    <color name="light_gray">#D7F0E7E7</color>
 
 
 </resources>
