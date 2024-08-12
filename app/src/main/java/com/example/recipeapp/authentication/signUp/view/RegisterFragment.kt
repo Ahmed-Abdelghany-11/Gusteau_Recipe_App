@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.transition.Visibility
 import com.example.recipeapp.R
 import com.example.recipeapp.authentication.signUp.repo.SignUpRepoImp
 import com.example.recipeapp.authentication.signUp.validation.UserDataValidation
@@ -19,7 +17,6 @@ import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
 import com.example.recipeapp.data.local.model.UserData
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

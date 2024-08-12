@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.recipeapp.authentication.login.repo.LoginRepository
-import com.example.recipeapp.authentication.signUp.viewmodel.SignUpViewModel
 
 class LoginViewModelFactory(val loginRepository: LoginRepository, val context: Context):ViewModelProvider.Factory {
 
