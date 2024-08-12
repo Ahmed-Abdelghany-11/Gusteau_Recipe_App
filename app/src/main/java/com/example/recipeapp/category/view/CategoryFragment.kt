@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -55,6 +56,9 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
 
         authSharedPref = AuthSharedPref(requireContext())
         noInternetAnim = view.findViewById(R.id.no_internet_anim)
+        catRecyclerView= view.findViewById(R.id.CategoryRv)
+        val categoryNameTextView: TextView = view.findViewById(R.id.categoryName)
+        categoryNameTextView.text = args.categoryName
         catRecyclerView = view.findViewById(R.id.CategoryRv)
         userId = AuthSharedPref(requireContext()).getUserId()
 
