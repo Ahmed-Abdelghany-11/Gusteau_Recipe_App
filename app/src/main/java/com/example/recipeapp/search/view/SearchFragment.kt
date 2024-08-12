@@ -11,9 +11,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
+import com.example.recipeapp.deleteMealDialog.view.DeleteFavDialogFragment
+import com.example.recipeapp.deleteMealDialog.view.DeleteFavDialogFragmentArgs
 import com.example.recipeapp.R
 import com.example.recipeapp.common.ChangeFavBtn
 import com.example.recipeapp.common.CheckInternetViewModel
+import com.example.recipeapp.common.OnDeleteMealListener
 import com.example.recipeapp.common.OnFavBtnClickListener
 import com.example.recipeapp.common.OnMealClickListener
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
@@ -26,11 +29,10 @@ import com.example.recipeapp.search.view.adapter.SearchAdapter
 import com.example.recipeapp.search.repo.SearchRepoImp
 import com.example.recipeapp.search.viewmodel.SearchViewModel
 import com.example.recipeapp.search.viewmodel.SearchViewModelFactory
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
-    OnFavBtnClickListener, ChangeFavBtn {
+    OnFavBtnClickListener, ChangeFavBtn, OnDeleteMealListener {
 
     private lateinit var searchViewModel: SearchViewModel
     private lateinit var resultRv: RecyclerView
@@ -38,15 +40,16 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
     private lateinit var searchAdapter: SearchAdapter
     private lateinit var noResultText: ImageView
     private lateinit var noInternetAnim: LottieAnimationView
+    private lateinit var btnToUpdate: ImageView // Store the button to update
+
     private var userId: Int = 0
     private var isDataDisplayed = false
 
-    private var isInitialLoad= true
+    private var isInitialLoad = true
 
     private val checkInternetViewModel: CheckInternetViewModel by viewModels {
         ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
     }
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -103,7 +106,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
 
     }
 
-    private fun setUpRecyclerView(meals: MealList= MealList(emptyList())) {
+    private fun setUpRecyclerView(meals: MealList = MealList(emptyList())) {
         searchAdapter = SearchAdapter(meals, this, this, this)
         resultRv.layoutManager = LinearLayoutManager(requireContext())
         resultRv.adapter = searchAdapter
@@ -149,10 +152,11 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
     }
 
     override fun onFavBtnClick(meal: Meal, btn: ImageView) {
+        btnToUpdate=btn
         searchViewModel.isFavoriteMeal(userId, meal.idMeal).observe(viewLifecycleOwner) { isFav ->
-            if (isFav) showAlertDialog(userId, meal, btn)
+            if (isFav) showAlertDialog(meal)
             else {
-                addMealToFav(userId, meal)
+                addMealToFav(meal)
                 btn.setImageResource(R.drawable.baseline_favorite_24)
             }
         }
@@ -170,21 +174,20 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
     }
 
 
-    private fun showAlertDialog(userId: Int, meal: Meal, btn: ImageView) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Remove Meal From Favorites")
-            .setMessage("Are you sure you want to remove this meal from favorites?")
-            .setPositiveButton("Remove") { dialog, _ ->
-                deleteFromFav(userId, meal)
-                dialog.dismiss()
-                btn.setImageResource(R.drawable.baseline_favorite_border_24)
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+    private fun showAlertDialog(meal: Meal) {
+
+        val dialog = DeleteFavDialogFragment()
+        val args = DeleteFavDialogFragmentArgs(meal)
+        dialog.arguments = args.toBundle()
+        dialog.show(childFragmentManager, "DeleteFavDialogFragment")
     }
-    fun deleteFromFav(userId: Int, meal: Meal) {
+
+    override fun confirmDelete(meal: Meal) {
+        deleteFromFav(meal)
+        btnToUpdate.setImageResource(R.drawable.baseline_favorite_border_24)
+    }
+
+    fun deleteFromFav(meal: Meal) {
         searchViewModel.deleteMeal(meal)
         searchViewModel.deleteFromFav(
             userMealCrossRef = UserMealCrossRef(
@@ -193,7 +196,8 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
             )
         )
     }
-    private fun addMealToFav(userId: Int, meal: Meal) {
+
+    private fun addMealToFav(meal: Meal) {
         searchViewModel.insertMeal(meal)
         searchViewModel.insertIntoFav(
             userMealCrossRef = UserMealCrossRef(
@@ -202,5 +206,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), OnMealClickListener,
             )
         )
     }
+
+
 
 }
