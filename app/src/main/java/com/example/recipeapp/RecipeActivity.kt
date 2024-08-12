@@ -27,13 +27,17 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.onNavDestinationSelected
 import com.example.recipeapp.authentication.AuthActivity
+import com.example.recipeapp.authentication.signout.view.SignOutDialogFragment
 import com.example.recipeapp.common.CheckInternetViewModel
+import com.example.recipeapp.common.OnSignOutClickListener
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
+import com.example.recipeapp.deleteMealDialog.view.DeleteFavDialogFragment
+import com.example.recipeapp.deleteMealDialog.view.DeleteFavDialogFragmentArgs
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 
-class RecipeActivity : AppCompatActivity() {
+class RecipeActivity : AppCompatActivity(),OnSignOutClickListener {
     private lateinit var navController: NavController
     private var isInitialLoad= true
 
@@ -149,26 +153,9 @@ class RecipeActivity : AppCompatActivity() {
     }
 
     private fun showSignOutDialog() {
-        MaterialAlertDialogBuilder(this)
-            .setTitle("Sign Out")
-            .setMessage("Are You Sure That You Want To Sign Out")
-            .setPositiveButton("Sure") { _, _ ->
-                navigateToLogin()
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
+      navController.navigate(R.id.signOutDialogFragment2)
     }
 
-    private fun navigateToLogin() {
-        val intent = Intent(this, AuthActivity::class.java)
-        intent.putExtra("login", true)
-        startActivity(intent)
-        finishAffinity()
-
-        // Clear login status
-        AuthSharedPref(this).clearLoginStatus()
-
-    }
 
     private fun hideSystemUI() {
         @Suppress("DEPRECATION")
@@ -181,5 +168,14 @@ class RecipeActivity : AppCompatActivity() {
                         or View.SYSTEM_UI_FLAG_FULLSCREEN
                 )
     }
+
+    override fun signOut() {
+        val intent = Intent(this, AuthActivity::class.java)
+        intent.putExtra("login", true)
+        startActivity(intent)
+        finishAffinity()
+
+        // Clear login status
+        AuthSharedPref(this).clearLoginStatus()    }
 
 }

@@ -19,18 +19,20 @@ import com.example.recipeapp.data.remote.APIClient
 import com.example.recipeapp.data.remote.dto.Meal
 import androidx.navigation.fragment.navArgs
 import com.airbnb.lottie.LottieAnimationView
+import com.example.recipeapp.deleteMealDialog.view.DeleteFavDialogFragment
+import com.example.recipeapp.deleteMealDialog.view.DeleteFavDialogFragmentArgs
 import com.example.recipeapp.common.ChangeFavBtn
 import com.example.recipeapp.common.CheckInternetViewModel
+import com.example.recipeapp.common.OnDeleteMealListener
 import com.example.recipeapp.common.OnFavBtnClickListener
 import com.example.recipeapp.common.OnMealClickListener
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
 import com.example.recipeapp.data.local.model.UserMealCrossRef
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListener,
-    OnFavBtnClickListener, ChangeFavBtn {
+    OnFavBtnClickListener, ChangeFavBtn, OnDeleteMealListener {
 
     private lateinit var viewModel: CategoryViewModel
     private lateinit var categoriesAdapter: CatRecipesAdapter
@@ -38,9 +40,11 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
     private val args: CategoryFragmentArgs by navArgs()
     private lateinit var authSharedPref: AuthSharedPref
     private lateinit var noInternetAnim: LottieAnimationView
+    private lateinit var btnToUpdate: ImageView
+    private var userId = 0
 
 
-    private var isInitialLoad= true
+    private var isInitialLoad = true
 
     private val checkInternetViewModel: CheckInternetViewModel by viewModels {
         ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
@@ -55,6 +59,8 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
         catRecyclerView= view.findViewById(R.id.CategoryRv)
         val categoryNameTextView: TextView = view.findViewById(R.id.categoryName)
         categoryNameTextView.text = args.categoryName
+        catRecyclerView = view.findViewById(R.id.CategoryRv)
+        userId = AuthSharedPref(requireContext()).getUserId()
 
 
         gettingViewModelReady()
@@ -66,7 +72,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
                 viewModel.categoryRecipes.observe(viewLifecycleOwner) { mealList ->
                     setUpRecyclerView(mealList.meals as MutableList<Meal>)
                 }
-            } else if(isInitialLoad) {
+            } else if (isInitialLoad) {
                 showNoInternetAnim()
             }
             isInitialLoad = false
@@ -76,13 +82,13 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
     }
 
     fun showNoInternetAnim() {
-        catRecyclerView.visibility= View.GONE
+        catRecyclerView.visibility = View.GONE
         noInternetAnim.visibility = View.VISIBLE
         noInternetAnim.playAnimation()
     }
 
     fun hideNoInternetAnim() {
-        catRecyclerView.visibility=View.VISIBLE
+        catRecyclerView.visibility = View.VISIBLE
         noInternetAnim.cancelAnimation()
         noInternetAnim.visibility = View.GONE
     }
@@ -111,35 +117,31 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
     }
 
     override fun onFavBtnClick(meal: Meal, btn: ImageView) {
-        val userId = authSharedPref.getUserId()
-
+        btnToUpdate = btn
         viewModel.isFavoriteMeal(userId, meal.idMeal).observe(viewLifecycleOwner) { isFav ->
-            if (isFav) showAlertDialog(userId, meal, btn)
+            if (isFav) showAlertDialog(meal)
             else {
-                addMealToFav(userId, meal)
+                addMealToFav(meal)
                 btn.setImageResource(R.drawable.baseline_favorite_24)
             }
         }
     }
 
 
-    private fun showAlertDialog(userId: Int, meal: Meal, btn: ImageView) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Remove Meal From Favorites")
-            .setMessage("Are you sure you want to remove this meal from favorites?")
-            .setPositiveButton("Remove") { dialog, _ ->
-                deleteFromFav(userId, meal)
-                dialog.dismiss()
-                btn.setImageResource(R.drawable.baseline_favorite_border_24)
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+    private fun showAlertDialog(meal: Meal) {
+        val dialog = DeleteFavDialogFragment()
+        val args = DeleteFavDialogFragmentArgs(meal)
+        dialog.arguments = args.toBundle()
+        dialog.show(childFragmentManager, "DeleteFavDialogFragment")
+    }
+
+    override fun confirmDelete(meal: Meal) {
+        deleteFromFav(meal)
+        btnToUpdate.setImageResource(R.drawable.baseline_favorite_border_24)
     }
 
 
-    private fun addMealToFav(userId: Int, meal: Meal) {
+    private fun addMealToFav(meal: Meal) {
         viewModel.insertMeal(meal)
         viewModel.insertIntoFav(
             userMealCrossRef = UserMealCrossRef(
@@ -150,7 +152,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
 
     }
 
-    private fun deleteFromFav(userId: Int, meal: Meal) {
+    private fun deleteFromFav(meal: Meal) {
         viewModel.deleteMeal(meal)
         viewModel.deleteFromFav(
             userMealCrossRef = UserMealCrossRef(
@@ -162,14 +164,15 @@ class CategoryFragment : Fragment(R.layout.fragment_category), OnMealClickListen
 
     override fun changeFavBtn(meal: Meal, btn: ImageView) {
 
-        viewModel.isFavoriteMeal(authSharedPref.getUserId(), meal.idMeal).observe(viewLifecycleOwner) { isFav ->
-            btn.setImageResource(
-                if (isFav) R.drawable.baseline_favorite_24
-                else R.drawable.baseline_favorite_border_24
-            )
+        viewModel.isFavoriteMeal(authSharedPref.getUserId(), meal.idMeal)
+            .observe(viewLifecycleOwner) { isFav ->
+                btn.setImageResource(
+                    if (isFav) R.drawable.baseline_favorite_24
+                    else R.drawable.baseline_favorite_border_24
+                )
 
 
-        }
+            }
     }
 
 

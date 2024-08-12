@@ -66,4 +66,24 @@
             android:id="@+id/action_categoryFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/deleteFavDialogFragment"
+        android:name="com.example.recipeapp.deleteMealDialog.view.DeleteFavDialogFragment"
+        android:label="fragment_delete_fav_dialog"
+        tools:layout="@layout/fragment_delete_fav_dialog" >
+
+        <argument
+            android:name="meal"
+            app:argType="com.example.recipeapp.data.remote.dto.Meal" />
+    </dialog>
+    <action
+        android:id="@+id/action_global_deleteFavDialogFragment"
+        app:destination="@id/deleteFavDialogFragment"
+      />
+    <dialog
+        android:id="@+id/signOutDialogFragment2"
+        android:name="com.example.recipeapp.authentication.signout.view.SignOutDialogFragment"
+        android:label="SignOutDialogFragment" >
+    </dialog>
+
 </navigation>

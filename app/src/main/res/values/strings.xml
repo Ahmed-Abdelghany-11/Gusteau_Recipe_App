@@ -53,4 +53,9 @@
     <string name="no_internet_connection">No internet connection</string>
     <string name="back_online">Back Online</string>
     <string name="explore_global_flavors">Where You Can Explore Global Flavors</string>
+    <string name="are_you_sure">Are You Sure?</string>
+    <string name="confirm_delete">Do you really want to delete this meal from favorites?</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="confirm_signout">Do you really want to sign out?</string>
 </resources>
