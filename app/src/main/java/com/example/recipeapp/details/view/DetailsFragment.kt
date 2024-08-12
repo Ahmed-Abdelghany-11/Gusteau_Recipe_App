@@ -119,6 +119,7 @@ class DetailsFragment : Fragment(),OnDeleteMealListener {
                                 override fun onReady(youTubePlayer: YouTubePlayer) {
                                     youtubePlayer = youTubePlayer
                                     youtubePlayer?.loadVideo(videoId, 0f)
+                                    youtubePlayer?.mute()
                                 }
                             })
                         }
@@ -177,6 +178,7 @@ class DetailsFragment : Fragment(),OnDeleteMealListener {
                     override fun onReady(youTubePlayer: YouTubePlayer) {
                         youtubePlayer = youTubePlayer
                         youtubePlayer?.loadVideo(videoId, 0f)
+                        youtubePlayer?.mute()
                     }
                 })
 
