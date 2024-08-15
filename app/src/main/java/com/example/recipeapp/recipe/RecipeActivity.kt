@@ -137,10 +137,19 @@ class RecipeActivity : AppCompatActivity(), OnSignOutClickListener {
                 true
             }
 
+            R.id.mode -> {
+                showModeDialog()
+                true
+            }
+
             else -> {
                 item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
             }
         }
+    }
+
+    private fun showModeDialog() {
+        navController.navigate(R.id.modeFragment)
     }
 
     private fun showSignOutDialog() {

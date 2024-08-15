@@ -9,4 +9,9 @@
         android:id="@+id/signOut"
         android:icon="@drawable/baseline_exit_to_app_24"
         android:title="@string/sign_out" />
+
+    <item
+        android:id="@+id/mode"
+        android:icon="@drawable/mode"
+        android:title="@string/change_mode" />
 </menu>

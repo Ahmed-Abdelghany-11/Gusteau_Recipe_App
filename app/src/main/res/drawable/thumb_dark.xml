@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item>
+
+        <shape android:shape="rectangle">
+            <corners
+                android:radius="16dp"/>
+            <solid android:color="@color/white" />
+
+            <size
+                android:width="90dp"
+                android:height="50dp">
+
+            </size>
+        </shape>
+    </item>
+    <item
+        android:drawable="@drawable/baseline_nightlight_round_24"
+        android:bottom="5dp"
+        android:left="5dp"
+        android:right="5dp"
+        android:top="5dp">
+
+    </item>
+
+</layer-list>
