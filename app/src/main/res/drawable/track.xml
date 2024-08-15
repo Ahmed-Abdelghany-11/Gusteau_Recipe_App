@@ -9,7 +9,7 @@
                 android:color="@color/light_gray"/>
             <size
                 android:height="50dp"
-                android:width="100dp"/>
+                android:width="85dp"/>
             <corners
                 android:radius="20dp"/>
         </shape>

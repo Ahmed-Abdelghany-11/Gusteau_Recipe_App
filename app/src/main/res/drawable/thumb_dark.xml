@@ -10,7 +10,7 @@
             <solid android:color="@color/light_gray" />
 
             <size
-                android:width="90dp"
+                android:width="85dp"
                 android:height="50dp">
 
             </size>
