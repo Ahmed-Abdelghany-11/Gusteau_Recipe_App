@@ -36,10 +36,10 @@
 
     <TextView
         android:id="@+id/textView3"
+        style="@style/textColor"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="@string/welcome_back"
-        android:textColor="@color/black"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
@@ -55,14 +55,15 @@
         android:layout_marginTop="54dp"
         android:hint="@string/email"
         app:endIconMode="clear_text"
+        app:endIconTint="@color/gray"
         app:errorEnabled="true"
         app:errorIconDrawable="@drawable/ic_error"
-        app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:startIconDrawable="@drawable/email">
+        app:startIconDrawable="@drawable/email"
+        app:startIconTint="@color/gray">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
@@ -85,13 +86,15 @@
         android:layout_marginTop="18dp"
         android:hint="@string/password"
         app:endIconMode="password_toggle"
+        app:endIconTint="@color/gray"
         app:errorEnabled="true"
         app:errorIconDrawable="@drawable/ic_error"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_email"
-        app:startIconDrawable="@drawable/baseline_lock_24">
+        app:startIconDrawable="@drawable/baseline_lock_24"
+        app:startIconTint="@color/gray">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
@@ -140,11 +143,11 @@
 
     <TextView
         android:id="@+id/Recipes"
+        style="@style/textColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingEnd="4dp"
         android:text="@string/don_t_have_an_account"
-        android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/signIn_textView"

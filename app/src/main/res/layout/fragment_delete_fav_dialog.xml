@@ -13,6 +13,7 @@
         android:layout_marginHorizontal="20dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="10dp"
+        style="@style/cardBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

@@ -5,6 +5,16 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <style name="cardBackground" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/white</item>
+    </style>
+
+
+
+
+    <style name="textColor" >
+        <item name="color">@color/light_gray</item>
+    </style>
     <style name="Theme.RecipeApp" parent="Base.Theme.RecipeApp" />
 
     <style name="BarTheme" parent="Widget.MaterialComponents.BottomAppBar">
@@ -51,6 +61,7 @@
     </style>
 
     <style name="fieldCorners" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/white</item>
         <item name="boxCornerRadiusBottomEnd">20dp</item>
         <item name="boxCornerRadiusTopEnd">20dp</item>
         <item name="boxCornerRadiusBottomStart">20dp</item>

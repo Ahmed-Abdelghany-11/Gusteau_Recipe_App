@@ -35,11 +35,11 @@
 
     <TextView
         android:id="@+id/textView3"
+        style="@style/textColor"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/sign_up_help_text"
-        android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
@@ -215,7 +215,7 @@
         android:layout_marginBottom="48dp"
         android:paddingEnd="4dp"
         android:text="@string/already_a_member"
-        android:textColor="@color/black"
+        style="@style/textColor"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/signIn_textView"
         app:layout_constraintHorizontal_bias="0.5"

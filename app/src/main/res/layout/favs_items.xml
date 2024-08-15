@@ -18,6 +18,7 @@
         android:layout_marginBottom="20dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="4dp"
+        style="@style/cardBackground"
         app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout

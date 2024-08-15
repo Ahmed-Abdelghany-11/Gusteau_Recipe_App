@@ -85,7 +85,7 @@
         android:name="com.example.recipeapp.authentication.signout.view.SignOutDialogFragment"
         android:label="SignOutDialogFragment" >
     </dialog>
-    <fragment
+    <dialog
         android:id="@+id/modeFragment"
         android:name="com.example.recipeapp.recipe.modeDialog.view.ModeFragment"
         android:label="fragment_mode"

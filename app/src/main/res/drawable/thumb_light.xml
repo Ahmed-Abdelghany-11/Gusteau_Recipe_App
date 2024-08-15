@@ -3,9 +3,11 @@
 
 
     <item>
+
         <shape android:shape="rectangle">
-            <corners android:radius="16dp" />
-            <solid android:color="@color/white" />
+            <corners
+                android:radius="16dp"/>
+            <solid android:color="@color/light_gray" />
 
             <size
                 android:width="90dp"
@@ -16,10 +18,7 @@
     </item>
     <item
         android:drawable="@drawable/baseline_light_mode_24"
-        android:bottom="5dp"
-        android:left="5dp"
-        android:right="5dp"
-        android:top="5dp">
+        android:gravity="center">
 
     </item>
 
