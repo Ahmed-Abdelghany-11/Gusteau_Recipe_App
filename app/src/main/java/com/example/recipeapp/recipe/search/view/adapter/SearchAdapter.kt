@@ -12,7 +12,7 @@ import com.example.recipeapp.R
 import com.example.recipeapp.recipe.common.ChangeFavBtn
 import com.example.recipeapp.recipe.common.OnFavBtnClickListener
 import com.example.recipeapp.recipe.common.OnMealClickListener
-import com.example.recipeapp.data.SharedPreference.AuthSharedPref
+import com.example.recipeapp.data.sharedPreference.AuthSharedPref
 import com.example.recipeapp.data.remote.dto.Meal
 import com.example.recipeapp.data.remote.dto.MealList
 

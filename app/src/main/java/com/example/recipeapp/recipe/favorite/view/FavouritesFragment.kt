@@ -2,9 +2,7 @@ package com.example.recipeapp.recipe.favorite.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -14,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.recipe.deleteMealDialog.view.DeleteFavDialogFragment
 import com.example.recipeapp.recipe.deleteMealDialog.view.DeleteFavDialogFragmentArgs
 import com.example.recipeapp.R
-import com.example.recipeapp.data.SharedPreference.AuthSharedPref
+import com.example.recipeapp.data.sharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
 import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.APIClient

@@ -1,9 +1,7 @@
 package com.example.recipeapp.recipe.home.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -23,7 +21,7 @@ import com.example.recipeapp.recipe.common.CheckInternetViewModel
 import com.example.recipeapp.recipe.common.OnDeleteMealListener
 import com.example.recipeapp.recipe.common.OnFavBtnClickListener
 import com.example.recipeapp.recipe.common.OnMealClickListener
-import com.example.recipeapp.data.SharedPreference.AuthSharedPref
+import com.example.recipeapp.data.sharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
 import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.APIClient

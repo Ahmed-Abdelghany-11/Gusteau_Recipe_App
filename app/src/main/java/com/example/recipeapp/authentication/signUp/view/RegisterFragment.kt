@@ -13,7 +13,7 @@ import com.example.recipeapp.authentication.signUp.repo.SignUpRepoImp
 import com.example.recipeapp.authentication.signUp.validation.UserDataValidation
 import com.example.recipeapp.authentication.signUp.viewmodel.SignUpViewModel
 import com.example.recipeapp.authentication.signUp.viewmodel.SignUpViewModelFactory
-import com.example.recipeapp.data.SharedPreference.AuthSharedPref
+import com.example.recipeapp.data.sharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
 import com.example.recipeapp.data.local.model.UserData
 import com.google.android.material.button.MaterialButton

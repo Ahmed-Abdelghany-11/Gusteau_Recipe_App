@@ -9,6 +9,10 @@
         <item name="cardBackgroundColor">@color/white</item>
     </style>
 
+<!--    <style name="fieldTextColor">-->
+<!--        <item name="itemTextColor">@color/black</item>-->
+<!--    </style>-->
+
     <style name="textColor" >
         <item name="textFillColor">@color/black</item>
     </style>

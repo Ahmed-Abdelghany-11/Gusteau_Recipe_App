@@ -26,29 +26,33 @@ import com.example.recipeapp.R
 import com.example.recipeapp.authentication.AuthActivity
 import com.example.recipeapp.recipe.common.CheckInternetViewModel
 import com.example.recipeapp.recipe.common.OnSignOutClickListener
-import com.example.recipeapp.data.SharedPreference.AuthSharedPref
+import com.example.recipeapp.data.sharedPreference.AuthSharedPref
+import com.example.recipeapp.data.sharedPreference.SettingSharedPref
+import com.example.recipeapp.recipe.modeDialog.repo.ModeRepoImp
 import com.example.recipeapp.recipe.modeDialog.viewModel.ModeViewModel
+import com.example.recipeapp.recipe.modeDialog.viewModel.ModeViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class RecipeActivity : AppCompatActivity(), OnSignOutClickListener {
     private lateinit var navController: NavController
-    private var isInitialLoad= true
+    private var isInitialLoad = true
 
     private val checkInternetViewModel: CheckInternetViewModel by viewModels {
         ViewModelProvider.AndroidViewModelFactory.getInstance(application)
     }
 
-    private val modeViewModel: ModeViewModel by viewModels()
+    private lateinit var modeViewModel: ModeViewModel
 
-    private lateinit var noInternet : TextView
-    private lateinit var internetBack : TextView
+    private lateinit var noInternet: TextView
+    private lateinit var internetBack: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        modeViewModel.initializeDarkMode(this)
+        gettingViewModelReady()
+        modeViewModel.initializeDarkMode()
         modeViewModel.isDarkMode.observe(this) { isDarkMode ->
             applyTheme(isDarkMode)
         }
@@ -116,10 +120,10 @@ class RecipeActivity : AppCompatActivity(), OnSignOutClickListener {
 
         noInternet = findViewById(R.id.noInternetTextView)
         internetBack = findViewById(R.id.InternetRestored)
-        checkInternetViewModel.isOnline.observe(this){ isOnline ->
+        checkInternetViewModel.isOnline.observe(this) { isOnline ->
             if (isOnline) {
                 if (!isInitialLoad) {
-                   internetBack.visibility = View.VISIBLE
+                    internetBack.visibility = View.VISIBLE
                     noInternet.visibility = View.GONE
                     Handler(Looper.getMainLooper()).postDelayed({
                         internetBack.visibility = View.GONE
@@ -163,7 +167,7 @@ class RecipeActivity : AppCompatActivity(), OnSignOutClickListener {
     }
 
     private fun showSignOutDialog() {
-      navController.navigate(R.id.signOutDialogFragment2)
+        navController.navigate(R.id.signOutDialogFragment2)
     }
 
 
@@ -190,13 +194,22 @@ class RecipeActivity : AppCompatActivity(), OnSignOutClickListener {
 
     }
 
-    private fun applyTheme(isDarkMode: Boolean) {
+     fun applyTheme(isDarkMode: Boolean) {
         val mode = if (isDarkMode) {
             AppCompatDelegate.MODE_NIGHT_YES
         } else {
             AppCompatDelegate.MODE_NIGHT_NO
         }
         AppCompatDelegate.setDefaultNightMode(mode)
+    }
+
+    private fun gettingViewModelReady() {
+        val modeViewModelFactory = ModeViewModelFactory(
+            ModeRepoImp(
+                settingSharedPref = SettingSharedPref(this)
+            )
+        )
+        modeViewModel = ViewModelProvider(this, modeViewModelFactory)[ModeViewModel::class.java]
     }
 
 }
