@@ -60,6 +60,7 @@
     <style name="fieldCorners" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxBackgroundColor">@color/white</item>
         <item name="boxCornerRadiusBottomEnd">20dp</item>
+        <item name ="android:textColorHint">@color/gray </item>
         <item name="boxCornerRadiusTopEnd">20dp</item>
         <item name="boxCornerRadiusBottomStart">20dp</item>
         <item name="boxCornerRadiusTopStart">20dp</item>
