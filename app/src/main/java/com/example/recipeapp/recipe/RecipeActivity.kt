@@ -12,6 +12,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -26,6 +27,7 @@ import com.example.recipeapp.authentication.AuthActivity
 import com.example.recipeapp.recipe.common.CheckInternetViewModel
 import com.example.recipeapp.recipe.common.OnSignOutClickListener
 import com.example.recipeapp.data.SharedPreference.AuthSharedPref
+import com.example.recipeapp.recipe.modeDialog.viewModel.ModeViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class RecipeActivity : AppCompatActivity(), OnSignOutClickListener {
@@ -36,6 +38,8 @@ class RecipeActivity : AppCompatActivity(), OnSignOutClickListener {
         ViewModelProvider.AndroidViewModelFactory.getInstance(application)
     }
 
+    private val modeViewModel: ModeViewModel by viewModels()
+
     private lateinit var noInternet : TextView
     private lateinit var internetBack : TextView
 
@@ -43,6 +47,12 @@ class RecipeActivity : AppCompatActivity(), OnSignOutClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        modeViewModel.initializeDarkMode(this)
+        modeViewModel.isDarkMode.observe(this) { isDarkMode ->
+            applyTheme(isDarkMode)
+        }
+
         setContentView(R.layout.activity_recipe)
         hideSystemUI()
 
@@ -176,6 +186,17 @@ class RecipeActivity : AppCompatActivity(), OnSignOutClickListener {
         finishAffinity()
 
         // Clear login status
-        AuthSharedPref(this).clearLoginStatus()    }
+        AuthSharedPref(this).clearLoginStatus()
+
+    }
+
+    private fun applyTheme(isDarkMode: Boolean) {
+        val mode = if (isDarkMode) {
+            AppCompatDelegate.MODE_NIGHT_YES
+        } else {
+            AppCompatDelegate.MODE_NIGHT_NO
+        }
+        AppCompatDelegate.setDefaultNightMode(mode)
+    }
 
 }
