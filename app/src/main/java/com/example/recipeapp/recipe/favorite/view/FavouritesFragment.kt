@@ -47,7 +47,7 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites), OnFavBtnClick
         noFav = view.findViewById(R.id.no_fav)
 
         val userId = authSharedPref.getUserId()
-        viewModel.gerUserWithMeals(userId)
+        viewModel.getUserWithMeals(userId)
 
         viewModel.userFavMeals.observe(viewLifecycleOwner) { userFavMeals ->
             if (userFavMeals != null && userFavMeals.meals.isNotEmpty()) {
@@ -131,7 +131,7 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites), OnFavBtnClick
         // delete from adapter
         favAdapter.mealList.removeAt(position)
         favAdapter.notifyItemRemoved(position)
-        viewModel.gerUserWithMeals(userId)
+        viewModel.getUserWithMeals(userId)
 
     }
 

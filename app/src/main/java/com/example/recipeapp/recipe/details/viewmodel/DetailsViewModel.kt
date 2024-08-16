@@ -11,7 +11,7 @@ import com.example.recipeapp.data.remote.dto.MealList
 import com.example.recipeapp.recipe.details.repo.DetailsRepo
 import kotlinx.coroutines.launch
 
-class DetailsViewModel(private val repo : DetailsRepo) :ViewModel(){
+class DetailsViewModel(private val repo: DetailsRepo) : ViewModel() {
 
     private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> get() = _isFavorite
@@ -21,41 +21,62 @@ class DetailsViewModel(private val repo : DetailsRepo) :ViewModel(){
 
     fun insertIntoFav(userMealCrossRef: UserMealCrossRef) {
         viewModelScope.launch {
-            repo.insertIntoFav(userMealCrossRef)
+            try {
+                repo.insertIntoFav(userMealCrossRef)
+            } catch (e: Exception) {
+                Log.e("DetailsViewModel", "Error inserting into favorites: ${e.message}")
+            }
         }
     }
 
     fun deleteFromFav(userMealCrossRef: UserMealCrossRef) {
         viewModelScope.launch {
-            repo.deleteFromFav(userMealCrossRef)
+            try {
+                repo.deleteFromFav(userMealCrossRef)
+            } catch (e: Exception) {
+                Log.e("DetailsViewModel", "Error deleting from favorites: ${e.message}")
+            }
         }
     }
 
     fun insertMeal(meal: Meal) {
         viewModelScope.launch {
-            repo.insertMeal(meal)
+            try {
+                repo.insertMeal(meal)
+            } catch (e: Exception) {
+                Log.e("DetailsViewModel", "Error inserting meal: ${e.message}")
+            }
         }
     }
 
     fun deleteMeal(meal: Meal) {
         viewModelScope.launch {
-            repo.deleteMeal(meal)
+            try {
+                repo.deleteMeal(meal)
+            } catch (e: Exception) {
+                Log.e("DetailsViewModel", "Error deleting meal: ${e.message}")
+            }
         }
     }
 
-     fun isFavoriteMeal(userId: Int, mealId: String)  {
-         viewModelScope.launch {
-             val isFavorite = repo.isFavoriteMeal(userId, mealId)
-             _isFavorite.postValue(isFavorite)
-         }
-    }
-
-    fun getMealById(userId: String) =
-        try{
+    fun isFavoriteMeal(userId: Int, mealId: String) {
         viewModelScope.launch {
-            _meal.postValue(repo.getMealById(userId))
+            try {
+                val isFavorite = repo.isFavoriteMeal(userId, mealId)
+                _isFavorite.postValue(isFavorite)
+            } catch (e: Exception) {
+                Log.e("DetailsViewModel", "Error checking if meal is favorite: ${e.message}")
+            }
         }
-    }catch (e: Exception) {
-            Log.d("Exception", e.printStackTrace().toString())
+    }
+
+    fun getMealById(userId: String) {
+        viewModelScope.launch {
+            try {
+                _meal.postValue(repo.getMealById(userId))
+            } catch (e: Exception) {
+                Log.e("DetailsViewModel", "Error fetching meal by ID: ${e.message}")
+            }
         }
+    }
 }

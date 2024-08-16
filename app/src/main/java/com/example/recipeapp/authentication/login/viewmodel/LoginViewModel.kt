@@ -14,44 +14,44 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val loginRepository: LoginRepository,
-    private val context: Context
+    private val context: Context,
 ) : ViewModel() {
 
-    // first check email
     private val _isEmailExists = MutableLiveData<Boolean>()
     val isEmailExists: LiveData<Boolean>
         get() = _isEmailExists
-
 
     private val _isUserExists = MutableLiveData<Boolean>()
     val isUserExists: LiveData<Boolean>
         get() = _isUserExists
 
-
-
-
-    fun isUserExists(email: String, password: String) =
-        viewModelScope.launch {
+    fun isUserExists(email: String, password: String) = viewModelScope.launch {
+        try {
             _isUserExists.postValue(loginRepository.isUserExists(email, password))
-        }
-
-
-    fun isEmailAlreadyExists(email: String) =
-        viewModelScope.launch {
-            _isEmailExists.postValue(loginRepository.isEmailAlreadyExists(email))
-        }
-
-
-
-    fun saveUserIdInSharedPref(email: String, password: String) {
-        viewModelScope.launch {
-            val deferredId = async(Dispatchers.IO) {
-                loginRepository.getUserIdByEmailAndPassword(email, password)
-            }
-            AuthSharedPref(context).saveUserId(deferredId.await())
-            Log.d("userrid", deferredId.await().toString())
+        } catch (e: Exception) {
+            Log.e("LoginViewModel", "Error checking if user exists: ${e.message}")
         }
     }
 
+    fun isEmailAlreadyExists(email: String) = viewModelScope.launch {
+        try {
+            _isEmailExists.postValue(loginRepository.isEmailAlreadyExists(email))
+        } catch (e: Exception) {
+            Log.e("LoginViewModel", "Error checking if email exists: ${e.message}")
+        }
+    }
 
+    fun saveUserIdInSharedPref(email: String, password: String) {
+        viewModelScope.launch {
+            try {
+                val deferredId = async(Dispatchers.IO) {
+                    loginRepository.getUserIdByEmailAndPassword(email, password)
+                }
+                val userId = deferredId.await()
+                AuthSharedPref(context).saveUserId(userId)
+            } catch (e: Exception) {
+                Log.e("LoginViewModel", "Error saving user ID: ${e.message}")
+            }
+        }
+    }
 }

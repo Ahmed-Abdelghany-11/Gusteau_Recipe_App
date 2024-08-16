@@ -19,50 +19,69 @@ class CategoryViewModel(
     val categoryRecipes: LiveData<MealList>
         get() = _categoryRecipes
 
-
     private val _isFavoriteMeal = MutableLiveData<Boolean>()
     val isFavoriteMeal: LiveData<Boolean>
         get() = _isFavoriteMeal
 
-
-    fun getRecipesOfCategory(categoryName: String) =
-        try {
-            viewModelScope.launch {
-                _categoryRecipes.postValue(categoryRepo.getRecipesOfCategory(categoryName))
-            }
-        }catch (e: Exception) {
-            Log.d("Exception", e.printStackTrace().toString())
-        }
-
-
-    fun insertIntoFav(userMealCrossRef: UserMealCrossRef) {
+    fun getRecipesOfCategory(categoryName: String) {
         viewModelScope.launch {
-            categoryRepo.insertIntoFav(userMealCrossRef)
+            try {
+                _categoryRecipes.postValue(categoryRepo.getRecipesOfCategory(categoryName))
+            } catch (e: Exception) {
+                Log.e("CategoryViewModel", "Error fetching recipes: ${e.message}")
+            }
         }
     }
 
-    fun deleteFromFav(userMealCrossRef: UserMealCrossRef) =
+    fun insertIntoFav(userMealCrossRef: UserMealCrossRef) {
         viewModelScope.launch {
-            categoryRepo.deleteFromFav(userMealCrossRef)
+            try {
+                categoryRepo.insertIntoFav(userMealCrossRef)
+            } catch (e: Exception) {
+                Log.e("CategoryViewModel", "Error inserting into favorites: ${e.message}")
+            }
         }
+    }
 
-    fun insertMeal(meal: Meal) =
+    fun deleteFromFav(userMealCrossRef: UserMealCrossRef) {
         viewModelScope.launch {
-            categoryRepo.insertMeal(meal)
+            try {
+                categoryRepo.deleteFromFav(userMealCrossRef)
+            } catch (e: Exception) {
+                Log.e("CategoryViewModel", "Error deleting from favorites: ${e.message}")
+            }
         }
+    }
 
-    fun deleteMeal(meal: Meal) =
+    fun insertMeal(meal: Meal) {
         viewModelScope.launch {
-            categoryRepo.deleteMeal(meal)
+            try {
+                categoryRepo.insertMeal(meal)
+            } catch (e: Exception) {
+                Log.e("CategoryViewModel", "Error inserting meal: ${e.message}")
+            }
         }
+    }
+
+    fun deleteMeal(meal: Meal) {
+        viewModelScope.launch {
+            try {
+                categoryRepo.deleteMeal(meal)
+            } catch (e: Exception) {
+                Log.e("CategoryViewModel", "Error deleting meal: ${e.message}")
+            }
+        }
+    }
 
     fun isFavoriteMeal(userId: Int, mealId: String): MutableLiveData<Boolean> {
         val isFav = MutableLiveData<Boolean>()
         viewModelScope.launch {
-            isFav.postValue(categoryRepo.isFavoriteMeal(userId, mealId))
+            try {
+                isFav.postValue(categoryRepo.isFavoriteMeal(userId, mealId))
+            } catch (e: Exception) {
+                Log.e("CategoryViewModel", "Error checking if meal is favorite: ${e.message}")
+            }
         }
         return isFav
     }
-
-
 }
