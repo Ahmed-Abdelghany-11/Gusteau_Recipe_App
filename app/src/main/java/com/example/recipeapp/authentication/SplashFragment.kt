@@ -3,15 +3,12 @@ package com.example.recipeapp.authentication
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.recipeapp.R
-import com.example.recipeapp.data.SharedPreference.AuthSharedPref
+import com.example.recipeapp.data.sharedPreference.AuthSharedPref
 
 class SplashFragment : Fragment(R.layout.fragment_splash) {
 

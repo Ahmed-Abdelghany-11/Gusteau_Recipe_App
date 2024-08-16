@@ -5,16 +5,27 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <style name="cardBackground" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/white</item>
+    </style>
+
+<!--    <style name="fieldTextColor">-->
+<!--        <item name="itemTextColor">@color/black</item>-->
+<!--    </style>-->
+
+    <style name="textColor" >
+        <item name="textFillColor">@color/black</item>
+    </style>
     <style name="Theme.RecipeApp" parent="Base.Theme.RecipeApp" />
 
     <style name="BarTheme" parent="Widget.MaterialComponents.BottomAppBar">
         <item name="backgroundTint">@color/white</item>
     </style>
 
-    <style name="NavTheme" parent="Widget.MaterialComponents.BottomNavigationView">
+    <style name="NavTheme">
         <item name="backgroundTint">@color/white</item>
         <item name="itemIconTint">@color/lightGreen</item> // icon color
-        <item name="itemTextColor">@color/gray</item> // text color
+        <item name="itemTextColor">@color/black</item> // text color
     </style>
 
     <style name="FloatTheme" parent="Widget.MaterialComponents.FloatingActionButton">
@@ -51,7 +62,9 @@
     </style>
 
     <style name="fieldCorners" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/white</item>
         <item name="boxCornerRadiusBottomEnd">20dp</item>
+        <item name ="android:textColorHint">@color/gray </item>
         <item name="boxCornerRadiusTopEnd">20dp</item>
         <item name="boxCornerRadiusBottomStart">20dp</item>
         <item name="boxCornerRadiusTopStart">20dp</item>
@@ -62,7 +75,7 @@
 
     <style name="Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="indicatorColor">@color/gray</item>
-        <item name="indicatorSize">2dp</item>
+        <item name="indicatorSize">1dp</item>
     </style>
 
 

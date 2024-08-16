@@ -23,44 +23,66 @@ class SearchViewModel(
     val isFavMeal: LiveData<Boolean>
         get() = _isFavMeal
 
-    fun getSearchResult(name: String) =
-        try {
-            viewModelScope.launch {
+    fun getSearchResult(name: String) {
+        viewModelScope.launch {
+            try {
                 val result = searchRepository.getMealByName(name) ?: MealList(emptyList())
                 _searchResultOfMeals.postValue(result)
+            } catch (e: Exception) {
+                Log.e("SearchViewModel", "Error fetching search results: ${e.message}")
             }
-        }catch (e: Exception) {
-            Log.d("Exception", e.printStackTrace().toString())
-        }
-
-    fun insertIntoFav(userMealCrossRef: UserMealCrossRef) {
-        viewModelScope.launch {
-            searchRepository.insertIntoFav(userMealCrossRef)
         }
     }
 
-    fun deleteFromFav(userMealCrossRef: UserMealCrossRef) =
+    fun insertIntoFav(userMealCrossRef: UserMealCrossRef) {
         viewModelScope.launch {
-            searchRepository.deleteFromFav(userMealCrossRef)
+            try {
+                searchRepository.insertIntoFav(userMealCrossRef)
+            } catch (e: Exception) {
+                Log.e("SearchViewModel", "Error inserting into favorites: ${e.message}")
+            }
         }
+    }
 
-    fun insertMeal(meal: Meal) =
+    fun deleteFromFav(userMealCrossRef: UserMealCrossRef) {
         viewModelScope.launch {
-            searchRepository.insertMeal(meal)
+            try {
+                searchRepository.deleteFromFav(userMealCrossRef)
+            } catch (e: Exception) {
+                Log.e("SearchViewModel", "Error deleting from favorites: ${e.message}")
+            }
         }
+    }
 
-    fun deleteMeal(meal: Meal) =
+    fun insertMeal(meal: Meal) {
         viewModelScope.launch {
-            searchRepository.deleteMeal(meal)
+            try {
+                searchRepository.insertMeal(meal)
+            } catch (e: Exception) {
+                Log.e("SearchViewModel", "Error inserting meal: ${e.message}")
+            }
         }
+    }
+
+    fun deleteMeal(meal: Meal) {
+        viewModelScope.launch {
+            try {
+                searchRepository.deleteMeal(meal)
+            } catch (e: Exception) {
+                Log.e("SearchViewModel", "Error deleting meal: ${e.message}")
+            }
+        }
+    }
 
     fun isFavoriteMeal(userId: Int, mealId: String): LiveData<Boolean> {
         val isFavorite = MutableLiveData<Boolean>()
         viewModelScope.launch {
-            isFavorite.postValue(searchRepository.isFavoriteMeal(userId, mealId))
+            try {
+                isFavorite.postValue(searchRepository.isFavoriteMeal(userId, mealId))
+            } catch (e: Exception) {
+                Log.e("SearchViewModel", "Error checking if meal is favorite: ${e.message}")
+            }
         }
         return isFavorite
     }
-
 }
-

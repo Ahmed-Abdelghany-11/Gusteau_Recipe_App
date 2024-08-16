@@ -12,6 +12,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -25,24 +26,37 @@ import com.example.recipeapp.R
 import com.example.recipeapp.authentication.AuthActivity
 import com.example.recipeapp.recipe.common.CheckInternetViewModel
 import com.example.recipeapp.recipe.common.OnSignOutClickListener
-import com.example.recipeapp.data.SharedPreference.AuthSharedPref
+import com.example.recipeapp.data.sharedPreference.AuthSharedPref
+import com.example.recipeapp.data.sharedPreference.SettingSharedPref
+import com.example.recipeapp.recipe.modeDialog.repo.ModeRepoImp
+import com.example.recipeapp.recipe.modeDialog.viewModel.ModeViewModel
+import com.example.recipeapp.recipe.modeDialog.viewModel.ModeViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class RecipeActivity : AppCompatActivity(), OnSignOutClickListener {
     private lateinit var navController: NavController
-    private var isInitialLoad= true
+    private var isInitialLoad = true
 
     private val checkInternetViewModel: CheckInternetViewModel by viewModels {
         ViewModelProvider.AndroidViewModelFactory.getInstance(application)
     }
 
-    private lateinit var noInternet : TextView
-    private lateinit var internetBack : TextView
+    private lateinit var modeViewModel: ModeViewModel
+
+    private lateinit var noInternet: TextView
+    private lateinit var internetBack: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        gettingViewModelReady()
+        modeViewModel.initializeDarkMode()
+        modeViewModel.isDarkMode.observe(this) { isDarkMode ->
+            applyTheme(isDarkMode)
+        }
+
         setContentView(R.layout.activity_recipe)
         hideSystemUI()
 
@@ -106,10 +120,10 @@ class RecipeActivity : AppCompatActivity(), OnSignOutClickListener {
 
         noInternet = findViewById(R.id.noInternetTextView)
         internetBack = findViewById(R.id.InternetRestored)
-        checkInternetViewModel.isOnline.observe(this){ isOnline ->
+        checkInternetViewModel.isOnline.observe(this) { isOnline ->
             if (isOnline) {
                 if (!isInitialLoad) {
-                   internetBack.visibility = View.VISIBLE
+                    internetBack.visibility = View.VISIBLE
                     noInternet.visibility = View.GONE
                     Handler(Looper.getMainLooper()).postDelayed({
                         internetBack.visibility = View.GONE
@@ -137,14 +151,23 @@ class RecipeActivity : AppCompatActivity(), OnSignOutClickListener {
                 true
             }
 
+            R.id.mode -> {
+                showModeDialog()
+                true
+            }
+
             else -> {
                 item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
             }
         }
     }
 
+    private fun showModeDialog() {
+        navController.navigate(R.id.modeFragment)
+    }
+
     private fun showSignOutDialog() {
-      navController.navigate(R.id.signOutDialogFragment2)
+        navController.navigate(R.id.signOutDialogFragment2)
     }
 
 
@@ -167,6 +190,26 @@ class RecipeActivity : AppCompatActivity(), OnSignOutClickListener {
         finishAffinity()
 
         // Clear login status
-        AuthSharedPref(this).clearLoginStatus()    }
+        AuthSharedPref(this).clearLoginStatus()
+
+    }
+
+     fun applyTheme(isDarkMode: Boolean) {
+        val mode = if (isDarkMode) {
+            AppCompatDelegate.MODE_NIGHT_YES
+        } else {
+            AppCompatDelegate.MODE_NIGHT_NO
+        }
+        AppCompatDelegate.setDefaultNightMode(mode)
+    }
+
+    private fun gettingViewModelReady() {
+        val modeViewModelFactory = ModeViewModelFactory(
+            ModeRepoImp(
+                settingSharedPref = SettingSharedPref(this)
+            )
+        )
+        modeViewModel = ViewModelProvider(this, modeViewModelFactory)[ModeViewModel::class.java]
+    }
 
 }

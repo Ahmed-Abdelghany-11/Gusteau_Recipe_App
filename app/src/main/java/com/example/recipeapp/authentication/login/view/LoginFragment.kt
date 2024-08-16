@@ -12,7 +12,7 @@ import com.example.recipeapp.R
 import com.example.recipeapp.authentication.login.repo.LoginRepoImp
 import com.example.recipeapp.authentication.login.viewmodel.LoginViewModel
 import com.example.recipeapp.authentication.login.viewmodel.LoginViewModelFactory
-import com.example.recipeapp.data.SharedPreference.AuthSharedPref
+import com.example.recipeapp.data.sharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder

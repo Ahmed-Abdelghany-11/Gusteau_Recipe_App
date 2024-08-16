@@ -1,9 +1,7 @@
 package com.example.recipeapp.recipe.details.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
@@ -18,7 +16,7 @@ import com.example.recipeapp.recipe.deleteMealDialog.view.DeleteFavDialogFragmen
 import com.example.recipeapp.R
 import com.example.recipeapp.recipe.common.CheckInternetViewModel
 import com.example.recipeapp.recipe.common.OnDeleteMealListener
-import com.example.recipeapp.data.SharedPreference.AuthSharedPref
+import com.example.recipeapp.data.sharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
 import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.APIClient
@@ -33,7 +31,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 import kotlinx.coroutines.launch
 
 
-class DetailsFragment : Fragment(), OnDeleteMealListener {
+class DetailsFragment : Fragment(R.layout.fragment_details), OnDeleteMealListener {
 
 
     private val args by navArgs<DetailsFragmentArgs>()
@@ -52,13 +50,7 @@ class DetailsFragment : Fragment(), OnDeleteMealListener {
         ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_details, container, false)
-    }
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

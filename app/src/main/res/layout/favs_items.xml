@@ -18,6 +18,7 @@
         android:layout_marginBottom="20dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="4dp"
+        style="@style/cardBackground"
         app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,7 +46,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="@android:color/white"
                 android:padding="4dp"
                 android:text="@string/meal_name"
                 android:textColor="@android:color/black"

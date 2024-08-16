@@ -58,4 +58,9 @@
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="confirm_signout">Do you really want to sign out?</string>
+    <string name="choose_a_style">Choose a style</string>
+    <string name="dark_or_night">Dark or Night? Customize Your Interface</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="change_mode">Theme</string>
 </resources>

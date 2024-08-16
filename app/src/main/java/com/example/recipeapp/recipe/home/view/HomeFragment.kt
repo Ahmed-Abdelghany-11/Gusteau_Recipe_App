@@ -1,9 +1,7 @@
 package com.example.recipeapp.recipe.home.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -23,7 +21,7 @@ import com.example.recipeapp.recipe.common.CheckInternetViewModel
 import com.example.recipeapp.recipe.common.OnDeleteMealListener
 import com.example.recipeapp.recipe.common.OnFavBtnClickListener
 import com.example.recipeapp.recipe.common.OnMealClickListener
-import com.example.recipeapp.data.SharedPreference.AuthSharedPref
+import com.example.recipeapp.data.sharedPreference.AuthSharedPref
 import com.example.recipeapp.data.local.LocalDataSourceImpl
 import com.example.recipeapp.data.local.model.UserMealCrossRef
 import com.example.recipeapp.data.remote.APIClient
@@ -35,7 +33,7 @@ import com.example.recipeapp.recipe.home.repo.RetrofitRepoImp
 import com.example.recipeapp.recipe.home.viewModel.HomeViewModel
 import com.example.recipeapp.recipe.home.viewModel.ViewModelFactory
 
-class HomeFragment : Fragment(), OnCategoryClickListener, OnMealClickListener,
+class HomeFragment : Fragment(R.layout.fragment_home), OnCategoryClickListener, OnMealClickListener,
     OnFavBtnClickListener, ChangeFavBtn, OnDeleteMealListener {
     private lateinit var viewModel: HomeViewModel
     private lateinit var recipesAdapter: RecipeAdapter
@@ -47,13 +45,6 @@ private lateinit var btnToUpdate:ImageView
 
     private lateinit var authSharedPref: AuthSharedPref
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -24,14 +24,12 @@
         android:id="@+id/bottomNav"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/bottomGuideLine"
+        app:menu="@menu/app_menu"
+        app:layout_constraintTop_toBottomOf="@id/bottomGuideLine"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:menu="@menu/app_menu"
-        android:background="@color/white"
-        app:itemIconTint="@color/lightGreen"
-        app:itemTextColor="@color/black"
+        style="@style/NavTheme"
         app:itemActiveIndicatorStyle="@style/Indicator"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
