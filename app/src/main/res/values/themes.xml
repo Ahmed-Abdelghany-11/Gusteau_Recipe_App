@@ -13,7 +13,7 @@
 
 
     <style name="textColor" >
-        <item name="color">@color/light_gray</item>
+        <item name="textFillColor">@color/black</item>
     </style>
     <style name="Theme.RecipeApp" parent="Base.Theme.RecipeApp" />
 
@@ -21,10 +21,10 @@
         <item name="backgroundTint">@color/white</item>
     </style>
 
-    <style name="NavTheme" parent="Widget.MaterialComponents.BottomNavigationView">
+    <style name="NavTheme">
         <item name="backgroundTint">@color/white</item>
         <item name="itemIconTint">@color/lightGreen</item> // icon color
-        <item name="itemTextColor">@color/gray</item> // text color
+        <item name="itemTextColor">@color/black</item> // text color
     </style>
 
     <style name="FloatTheme" parent="Widget.MaterialComponents.FloatingActionButton">
