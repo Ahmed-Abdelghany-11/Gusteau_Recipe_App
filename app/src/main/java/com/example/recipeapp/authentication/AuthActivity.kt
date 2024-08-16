@@ -32,7 +32,6 @@ class AuthActivity : AppCompatActivity() {
         modeViewModel.initializeDarkMode()
         modeViewModel.isDarkMode.observe(this) { isDarkMode ->
             lifecycleScope.launch {
-                delay(500)
                 applyTheme(isDarkMode)
             }
         }

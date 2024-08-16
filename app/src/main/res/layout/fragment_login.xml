@@ -68,7 +68,6 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
-            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -102,7 +101,6 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
-            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -123,8 +121,10 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:text="@string/sign_in"
+        android:textColor="@color/white"
         android:textAllCaps="false"
         app:icon="@drawable/img"
+        app:iconTint="@color/white"
         app:iconGravity="textEnd"
         app:iconPadding="30dp"
         app:iconSize="30dp"
