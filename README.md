@@ -94,7 +94,7 @@ Contributions are welcome! Please follow these steps:
 - **Asynchronous Programming:** Coroutines
 - **Local Storage:** SharedPreferences
 - **Video Player:** [YouTubePlayerView](https://github.com/PierfrancescoSoffritti/android-youtube-player)
-- **Expandable Text View:** [ReadMoreTextView](https://github.com/ms-square/readmoretextview)
+- **Expandable Text View:** [ReadMoreTextView](https://github.com/colourmoon/readmore-textview)
 
 ## Team Members
 
