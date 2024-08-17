@@ -30,6 +30,10 @@ Gusteau Recipe App is an Android application that allows users to explore a vari
 
 Watch the demo video of the Gusteau Recipe App below:
 
+https://github.com/user-attachments/assets/4b3455dc-9063-4367-aa40-5f91b12066d3
+
+
+
 
 ## Screens
 
